@@ -16,6 +16,7 @@ import	{request}									from	'graphql-request';
 const CurrenciesContext = createContext();
 
 async function	fetchCryptoPrice(nonce) {
+	const	to = ['eur', 'usd']
 	const	from = [
 		'bitcoin',
 		'ethereum',
@@ -38,10 +39,9 @@ async function	fetchCryptoPrice(nonce) {
 		'tether',
 		'aave',
 		'alchemix',
-
 	]
 	const	result = await performGet(
-		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${'eur'}&n=${nonce}`
+		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${to}&n=${nonce}`
 	);
 
 	if (result) {
