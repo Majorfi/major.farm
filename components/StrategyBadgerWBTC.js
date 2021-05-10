@@ -1,0 +1,198 @@
+/******************************************************************************
+**	@Author:				Thomas Bouder <Tbouder>
+**	@Email:					Tbouder@protonmail.com
+**	@Date:					Friday April 23rd 2021
+**	@Filename:				StrategyBadgerWBTC.js
+******************************************************************************/
+
+import	{useState, useEffect}		from	'react';
+import	useCurrencies				from	'contexts/useCurrencies';
+import	{toAddress, bigNumber}		from	'utils';
+import	{ethers}					from	'ethers';
+import	axios						from	'axios';
+import	SectionRemove				from	'components/Strategies/SectionRemove'
+import	SectionHead					from	'components/Strategies/SectionHead'
+import	SectionFoot					from	'components/Strategies/SectionFoot'
+import	Group, {GroupElement}		from	'components/Strategies/Group'
+import	{retreiveTxFromEtherscan, retreiveErc20TxFromEtherscan} from 'utils/API';
+
+async function	PrepareStrategyBadgerWBTC(address) {
+	let	timestamp = undefined;
+	const	normalTx = await retreiveTxFromEtherscan(address);
+	const	erc20Tx = await retreiveErc20TxFromEtherscan(address);
+
+	async function	computeFees() {
+		const	cumulativeFees = (
+			normalTx
+			.filter(tx => (
+				(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
+				||
+				(
+					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
+					&& tx.input.startsWith(`0x095ea7b3`)
+					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
+				)
+			)).reduce((accumulator, tx) => {
+				const	gasUsed = bigNumber.from(tx.gasUsed);
+				const	gasPrice = bigNumber.from(tx.gasPrice);
+				const	gasUsedPrice = gasUsed.mul(gasPrice);
+				return bigNumber.from(accumulator).add(gasUsedPrice);
+			}, bigNumber.from(0))
+		);
+		return (Number(ethers.utils.formatUnits(cumulativeFees, `ether`)));
+	}
+
+	async function	computeDeposit() {
+		const	cumulativeDeposits = (
+			erc20Tx
+			.filter(tx => (
+				(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
+				||
+				(
+					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
+					&& tx.input.startsWith(`0x35ac79c3`)
+					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
+				)
+			)).reduce((accumulator, tx) => {
+				if (timestamp === undefined) {
+					timestamp = tx.timeStamp;
+				}
+				return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
+			}, bigNumber.from(0))
+		);
+		return (Number(ethers.utils.formatUnits(cumulativeDeposits, 8)));
+	}
+
+	async function	computeYieldToken() {
+		const	cumulativeYieldToken = (
+			erc20Tx
+			.filter(tx => (
+				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				&&
+				(toAddress(tx.contractAddress) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
+				&&
+				(tx.tokenSymbol === 'byvWBTC')
+			)).reduce((accumulator, tx) => {
+				return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
+			}, bigNumber.from(0))
+		);
+
+		return (Number(ethers.utils.formatUnits(cumulativeYieldToken, 8)));
+	}
+
+	return {
+		fees: await computeFees(),
+		initialDeposit: await computeDeposit(),
+		initialYield: await computeYieldToken(),
+		timestamp,
+	}
+}
+
+function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, date}) {
+	const	{newCurrencies, currencyNonce} = useCurrencies();
+
+	const	[APY, set_APY] = useState(0);
+	const	[result, set_result] = useState(0);
+	const	[wbtcEarned, set_wbtcEarned] = useState(0);
+	const	[badgerEarned, set_badgerEarned] = useState(0);
+
+	const	[ethToEuro, set_ethToEuro] = useState(newCurrencies['eth']?.price || 0);
+	const	[btcToEuro, set_btcToEuro] = useState(newCurrencies['btc']?.price || 0);
+	const	[badgerToEuro, set_badgerToEuro] = useState(newCurrencies['badger-dao']?.price || 0);
+
+	const	[totalFeesEth] = useState(fees);
+	const	[wBTCDeposit] = useState(initialDeposit);
+	const	[byvWBTCDeposit] = useState(initialYield);
+	
+	async function	retrieveShare() {
+		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		const	ABI = ['function totalWrapperBalance(address account) public view returns (uint256 balance)']
+		const	smartContract = new ethers.Contract('0x4b92d19c11435614CD49Af1b589001b7c08cD4D5', ABI, provider)
+		const	totalWrapperBalance = await smartContract.totalWrapperBalance(address);
+		set_wbtcEarned((totalWrapperBalance / 100000000) - wBTCDeposit)
+	}
+
+	async function retrieveBadgers() {
+		const	{data} = await axios.get(`https://api.badger.finance/v2/reward/tree/${toAddress(address)}`)
+		const	_badger = data.cumulativeAmounts[0];
+		set_badgerEarned(_badger / 1e18)
+	}
+
+	useEffect(() => {
+		retrieveShare()
+		retrieveBadgers()
+		set_ethToEuro(newCurrencies['eth']?.price || 0);
+		set_btcToEuro(newCurrencies['btc']?.price || 0);
+		set_badgerToEuro(newCurrencies['badger-dao']?.price || 0)
+	}, [currencyNonce]);
+
+	useEffect(() => {
+		const	_result = (wbtcEarned * btcToEuro) + (badgerEarned * badgerToEuro) - (totalFeesEth * ethToEuro);
+		set_result(_result);
+	}, [btcToEuro, ethToEuro, badgerToEuro, badgerEarned, wbtcEarned])
+
+	useEffect(() => {
+		const	feesCost = totalFeesEth * ethToEuro;
+		const	vi = wBTCDeposit * btcToEuro;
+		const	vf = (((wBTCDeposit + wbtcEarned) * btcToEuro) + (badgerEarned * badgerToEuro)) - feesCost;
+
+		set_APY((vf - vi) / vi * 100)
+	}, [btcToEuro, ethToEuro, badgerToEuro, badgerEarned, wbtcEarned])
+
+	return (
+		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
+			<SectionRemove uuid={uuid} />
+			<SectionHead
+				title={'BADGER WBTC'}
+				href={'https://app.badger.finance/'}
+				address={address}
+				date={date}
+				APY={APY} />
+
+			<div className={'space-y-8'}>
+				<Group title={'Fertilizer'}>
+					<GroupElement
+						image={'/btc.svg'}
+						label={'wBTC'}
+						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
+						amount={wBTCDeposit.toFixed(8)}
+						value={(wBTCDeposit * btcToEuro).toFixed(2)} />
+				</Group>
+
+				<Group title={'Seeds'}>
+					<GroupElement
+						image={'/byvwbtc.png'}
+						label={'byvWBTC'}
+						address={'0x4b92d19c11435614cd49af1b589001b7c08cd4d5'}
+						amount={byvWBTCDeposit.toFixed(8)}
+						value={'---'} />
+				</Group>
+
+				<Group title={'Yield'}>
+					<GroupElement
+						image={'/btc.svg'}
+						label={'wBTC earned'}
+						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
+						amount={wbtcEarned.toFixed(8)}
+						value={(wbtcEarned * btcToEuro).toFixed(2)} />
+					<GroupElement
+						image={'/badger.png'}
+						label={'Badger earned'}
+						address={'0x3472A5A71965499acd81997a54BBA8D852C6E53d'}
+						amount={badgerEarned.toFixed(10)}
+						value={(badgerEarned * badgerToEuro).toFixed(2)} />
+					<GroupElement
+						image={'⛽️'}
+						label={'Fees'}
+						amount={totalFeesEth.toFixed(10)}
+						value={-(totalFeesEth * ethToEuro).toFixed(2)} />
+				</Group>
+			</div>
+
+			<SectionFoot result={result} />
+		</div>
+	)
+}
+
+export {PrepareStrategyBadgerWBTC}
+export default StrategyBadgerWBTC;

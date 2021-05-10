@@ -1,0 +1,84 @@
+/******************************************************************************
+**	@Author:				Thomas Bouder <Tbouder>
+**	@Email:					Tbouder@protonmail.com
+**	@Date:					Wednesday August 26th 2020
+**	@Filename:				_app.js
+******************************************************************************/
+
+import	React						from	'react';
+import	NProgress					from	'nprogress';
+import	Router						from	'next/router';
+import	Head						from	'next/head';
+import	{ToastProvider}				from	'react-toast-notifications';
+import	{CurrenciesContextApp}		from	'contexts/useCurrencies';
+import	{StrategiesContextApp}		from	'contexts/useStrategies';
+
+import	'style/Default.css'
+import	'tailwindcss/tailwind.css';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
+
+function	AppWrapper(props) {
+	const	{Component, pageProps, router} = props;
+
+	return (
+		<>
+			<Head>
+				<title>{'Major\'s Farm'}</title>
+				<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>" />
+				<meta httpEquiv={'X-UA-Compatible'} content={'IE=edge'} />
+				<meta name={'viewport'} content={'width=device-width, initial-scale=1'} />
+				<meta name={'description'} content={'Major\'s Farm - Degen yield loss calculator'} />
+				<meta name="msapplication-TileColor" content="#9fcc2e" />
+				<meta name="theme-color" content="#ffffff" />
+				<meta charSet="utf-8" />
+			</Head>
+			<div className={'withAnim transition-opacity bg-dark-900 min-h-screen'}>
+				<div id={'app'} className={'flex'}>
+					<div className={'p-4 md:p-12 w-full'} style={{minHeight: '90vh'}}>
+						<Component
+							key={router.route}
+							element={props.element}
+							router={props.router}
+							{...pageProps} />
+					</div>
+				</div>
+				<div className={'mt-10 space-x-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
+					<a href={'https://twitter.com/MajorTom_eth'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Twitter'}</a>
+					<p>{'-'}</p>
+					<a href={'https://github.com/TBouder/major.farm'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Github'}</a>
+					<p>{'-'}</p>
+					<a href={'mailto:major-tom.eth@pm.me'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Contact'}</a>
+				</div>
+				<div className={'py-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
+					<p>{'Donation : 0x9E63B020ae098E73cF201EE1357EDc72DFEaA518'}</p>
+				</div>
+
+			</div>
+			<div id={'portal-root'} />
+		</>
+	);
+}
+
+function	MyApp(props) {
+	const	{Component, pageProps} = props;
+	
+	return (
+		<CurrenciesContextApp>
+			<StrategiesContextApp>
+				<ToastProvider autoDismiss>
+					<AppWrapper
+						Component={Component}
+						pageProps={pageProps}
+						element={props.element}
+						router={props.router} />
+				</ToastProvider>
+			</StrategiesContextApp>
+		</CurrenciesContextApp>
+	);
+}
+
+
+export default MyApp;

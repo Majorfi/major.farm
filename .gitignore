@@ -1,0 +1,7 @@
+.vercel
+.next
+node_modules
+.env*
+scripts
+yarn.lock
+yarn-error.log
