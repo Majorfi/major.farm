@@ -436,12 +436,12 @@ function	Index() {
 						</div>
 					))}
 				</div>
-			)
+			);
 		}
 		return (
 			<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
 			</div>
-		)
+		);
 	}
 
 	return (
