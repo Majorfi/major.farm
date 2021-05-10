@@ -19,26 +19,26 @@ import	{toAddress}										from	'utils';
 import	{ethers}					from	'ethers';
 
 const	STRATEGIES = {
-	'PoolTogether DAI': {
-		parameters: {
-			title: 'PoolTogether DAI',
-			href: 'https://app.pooltogether.com/pools/mainnet/PT-cDAI',
-			v2Address: `0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958`,
-			v2Underlying: `0x49d716dfe60b37379010a75329ae09428f17118d`,
-			migratorAddress: `0x801b4872a635dccc7e679eeaf04bef08e562972a`,
-			contractAddress: `0x334cBb5858417Aee161B53Ee0D5349cCF54514CF`,
-			yieldContractAddress: `0xF362ce295F2A4eaE4348fFC8cDBCe8d729ccb8Eb`,
-			yieldTokenSymbol: `POOL`,
-			yieldTokenCgID: `pooltogether`,
-			underlyingTokenAddress: `0x06325440d014e39736583c165c2963ba99faf14e`,
-			underlyingTokenSymbol: `DAI`,
-			underlyingTokenCgID: `dai`,
-			underlyingTokenIcon: `/dai.svg`
-		},
-		prepare: (p, a) => PrepareStrategyPool(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyPool
-	},
+	// 'PoolTogether DAI': {
+	// 	parameters: {
+	// 		title: 'PoolTogether DAI',
+	// 		href: 'https://app.pooltogether.com/pools/mainnet/PT-cDAI',
+	// 		v2Address: `0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958`,
+	// 		v2Underlying: `0x49d716dfe60b37379010a75329ae09428f17118d`,
+	// 		migratorAddress: `0x801b4872a635dccc7e679eeaf04bef08e562972a`,
+	// 		contractAddress: `0x334cBb5858417Aee161B53Ee0D5349cCF54514CF`,
+	// 		yieldContractAddress: `0xF362ce295F2A4eaE4348fFC8cDBCe8d729ccb8Eb`,
+	// 		yieldTokenSymbol: `POOL`,
+	// 		yieldTokenCgID: `pooltogether`,
+	// 		underlyingTokenAddress: `0x06325440d014e39736583c165c2963ba99faf14e`,
+	// 		underlyingTokenSymbol: `DAI`,
+	// 		underlyingTokenCgID: `dai`,
+	// 		underlyingTokenIcon: `/dai.svg`
+	// 	},
+	// 	prepare: (p, a) => PrepareStrategyPool(p, a),
+	// 	list: 'ape.tax',
+	// 	Strategy: StrategyPool
+	// },
 	'Badger WBTC': {
 		list: 'yearn',
 		prepare: (a) => PrepareStrategyBadgerWBTC(a),
