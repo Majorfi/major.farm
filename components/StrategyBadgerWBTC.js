@@ -96,9 +96,9 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 	const	[wbtcEarned, set_wbtcEarned] = useState(0);
 	const	[badgerEarned, set_badgerEarned] = useState(0);
 
-	const	[ethToEuro, set_ethToEuro] = useState(newCurrencies['eth']?.price || 0);
-	const	[btcToEuro, set_btcToEuro] = useState(newCurrencies['btc']?.price || 0);
-	const	[badgerToEuro, set_badgerToEuro] = useState(newCurrencies['badger-dao']?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
+	const	[btcToBaseCurrency, set_btcToBaseCurrency] = useState(newCurrencies['btc']?.price || 0);
+	const	[badgerToBaseCurrency, set_badgerToBaseCurrency] = useState(newCurrencies['badger-dao']?.price || 0);
 
 	const	[totalFeesEth] = useState(fees);
 	const	[wBTCDeposit] = useState(initialDeposit);
@@ -121,23 +121,23 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 	useEffect(() => {
 		retrieveShare()
 		retrieveBadgers()
-		set_ethToEuro(newCurrencies['eth']?.price || 0);
-		set_btcToEuro(newCurrencies['btc']?.price || 0);
-		set_badgerToEuro(newCurrencies['badger-dao']?.price || 0)
+		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
+		set_btcToBaseCurrency(newCurrencies['btc']?.price || 0);
+		set_badgerToBaseCurrency(newCurrencies['badger-dao']?.price || 0)
 	}, [currencyNonce]);
 
 	useEffect(() => {
-		const	_result = (wbtcEarned * btcToEuro) + (badgerEarned * badgerToEuro) - (totalFeesEth * ethToEuro);
+		const	_result = (wbtcEarned * btcToBaseCurrency) + (badgerEarned * badgerToBaseCurrency) - (totalFeesEth * ethToBaseCurrency);
 		set_result(_result);
-	}, [btcToEuro, ethToEuro, badgerToEuro, badgerEarned, wbtcEarned])
+	}, [btcToBaseCurrency, ethToBaseCurrency, badgerToBaseCurrency, badgerEarned, wbtcEarned])
 
 	useEffect(() => {
-		const	feesCost = totalFeesEth * ethToEuro;
-		const	vi = wBTCDeposit * btcToEuro;
-		const	vf = (((wBTCDeposit + wbtcEarned) * btcToEuro) + (badgerEarned * badgerToEuro)) - feesCost;
+		const	feesCost = totalFeesEth * ethToBaseCurrency;
+		const	vi = wBTCDeposit * btcToBaseCurrency;
+		const	vf = (((wBTCDeposit + wbtcEarned) * btcToBaseCurrency) + (badgerEarned * badgerToBaseCurrency)) - feesCost;
 
 		set_APY((vf - vi) / vi * 100)
-	}, [btcToEuro, ethToEuro, badgerToEuro, badgerEarned, wbtcEarned])
+	}, [btcToBaseCurrency, ethToBaseCurrency, badgerToBaseCurrency, badgerEarned, wbtcEarned])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
@@ -156,7 +156,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 						label={'wBTC'}
 						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
 						amount={wBTCDeposit.toFixed(8)}
-						value={(wBTCDeposit * btcToEuro).toFixed(2)} />
+						value={(wBTCDeposit * btcToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				<Group title={'Seeds'}>
@@ -174,18 +174,18 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 						label={'wBTC earned'}
 						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
 						amount={wbtcEarned.toFixed(8)}
-						value={(wbtcEarned * btcToEuro).toFixed(2)} />
+						value={(wbtcEarned * btcToBaseCurrency).toFixed(2)} />
 					<GroupElement
 						image={'/badger.png'}
 						label={'Badger earned'}
 						address={'0x3472A5A71965499acd81997a54BBA8D852C6E53d'}
 						amount={badgerEarned.toFixed(10)}
-						value={(badgerEarned * badgerToEuro).toFixed(2)} />
+						value={(badgerEarned * badgerToBaseCurrency).toFixed(2)} />
 					<GroupElement
 						image={'⛽️'}
 						label={'Fees'}
 						amount={totalFeesEth.toFixed(10)}
-						value={-(totalFeesEth * ethToEuro).toFixed(2)} />
+						value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 				</Group>
 			</div>
 

@@ -134,8 +134,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	const	[underlyingEarned, set_underlyingEarned] = useState(0);
 	const	[totalFeesEth] = useState(fees);
 
-	const	[ethToEuro, set_ethToEuro] = useState(newCurrencies['eth']?.price || 0);
-	const	[underlyingToEuro, set_underlyingToEuro] = useState(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
+	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
 		
 	async function	retrieveShareValue() {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
@@ -153,27 +153,27 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	}, [harvest, initialCrops])
 
 	useEffect(() => {
-		set_ethToEuro(newCurrencies['eth']?.price || 0);
-		set_underlyingToEuro(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
+		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
+		set_underlyingToBaseCurrency(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
 	}, [currencyNonce]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
-			set_result(((harvest - initialSeeds) * underlyingToEuro) - (totalFeesEth * ethToEuro));
+			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFeesEth * ethToBaseCurrency));
 		} else {
 			set_result(
-				((underlyingEarned - initialSeeds) * underlyingToEuro) -
-				(totalFeesEth * ethToEuro)
+				((underlyingEarned - initialSeeds) * underlyingToBaseCurrency) -
+				(totalFeesEth * ethToBaseCurrency)
 			);
 		}
-	}, [ethToEuro, underlyingToEuro, underlyingEarned, totalFeesEth])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth])
 
 	useEffect(() => {
-		const	vi = initialSeeds * underlyingToEuro;
+		const	vi = initialSeeds * underlyingToBaseCurrency;
 		const	vf = result + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToEuro, result])
+	}, [ethToBaseCurrency, result])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
@@ -192,7 +192,7 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 						label={parameters.underlyingTokenSymbol}
 						address={parameters.underlyingTokenAddress}
 						amount={parseFloat(initialSeeds.toFixed(10))}
-						value={(initialSeeds * underlyingToEuro).toFixed(2)} />
+						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				<Group title={'Crops'}>
@@ -201,7 +201,7 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 						label={`yv${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(initialCrops.toFixed(10))}
-						value={(initialCrops * underlyingToEuro).toFixed(2)} />
+						value={(initialCrops * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				{isHarvested ?
@@ -212,7 +212,7 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 								label={`yv${parameters.underlyingTokenSymbol}`}
 								address={parameters.contractAddress}
 								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
-								value={((underlyingEarned - initialSeeds) * underlyingToEuro).toFixed(2)} />
+								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						</Group>
 						<Group title={'Harvest'}>
 							<GroupElement
@@ -220,12 +220,12 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 								label={parameters.underlyingTokenSymbol}
 								address={parameters.underlyingTokenAddress}
 								amount={parseFloat(harvest.toFixed(10))}
-								value={(harvest * underlyingToEuro).toFixed(2)} />
+								value={(harvest * underlyingToBaseCurrency).toFixed(2)} />
 							<GroupElement
 								image={'⛽️'}
 								label={'Fees'}
 								amount={parseFloat(totalFeesEth.toFixed(10))}
-								value={-(totalFeesEth * ethToEuro).toFixed(2)} />
+								value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 						</Group>
 					</>
 				: 
@@ -235,12 +235,12 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 							label={`yv${parameters.underlyingTokenSymbol}`}
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
-							value={((underlyingEarned - initialSeeds) * underlyingToEuro).toFixed(2)} />
+							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
 							image={'⛽️'}
 							label={'Fees'}
 							amount={parseFloat(totalFeesEth.toFixed(10))}
-							value={-(totalFeesEth * ethToEuro).toFixed(2)} />
+							value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 					</Group>
 				}
 			</div>

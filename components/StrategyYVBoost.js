@@ -144,9 +144,9 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 	const	[pickleEarned, set_pickleEarned] = useState(0);
 	const	[yvBoostEthEarned, set_yvBoostEthEarned] = useState(0);
 
-	const	[ethToEuro, set_ethToEuro] = useState(newCurrencies['eth']?.price || 0);
-	const	[usdToEuro, set_usdToEuro] = useState(newCurrencies['usd']?.price || 0);
-	const	[pickleToEuro, set_pickleToEuro] = useState(newCurrencies['pickle-finance']?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
+	const	[usdToBaseCurrency, set_usdToBaseCurrency] = useState(newCurrencies['usd']?.price || 0);
+	const	[pickleToBaseCurrency, set_pickleToBaseCurrency] = useState(newCurrencies['pickle-finance']?.price || 0);
 	
 	const	[totalFeesEth] = useState(fees);
 	const	[crops] = useState(initialCrops);
@@ -171,7 +171,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 				initialSeeds?.map(async (f, i) => {
 					if (f.contractAddress === '0') {
 						const	amount = Number(ethers.utils.formatUnits(bigNumber.from(f.value), 18)).toFixed(8); 
-						set_seedsValue(v => v + (amount * ethToEuro));
+						set_seedsValue(v => v + (amount * ethToBaseCurrency));
 						return Promise.resolve(
 							<GroupElement
 								key={`${i}_${f.contractAddress}`}
@@ -179,12 +179,12 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 								label={f.tokenSymbol}
 								address={f.contractAddress}
 								amount={amount}
-								value={(amount * ethToEuro).toFixed(2)} />
+								value={(amount * ethToBaseCurrency).toFixed(2)} />
 						);
 					} else {
 						const	amount = Number(ethers.utils.formatUnits(bigNumber.from(f.value), f.tokenDecimal)).toFixed(f.tokenDecimal > 8 ? 8 : f.tokenDecimal);
-						const	priceToEuro = await etherscan.getQuotePriceEth(f.contractAddress, 'eur');
-						set_seedsValue(v => v + (amount * priceToEuro));
+						const	priceToBaseCurrency = await etherscan.getQuotePriceEth(f.contractAddress, 'eur');
+						set_seedsValue(v => v + (amount * priceToBaseCurrency));
 
 						return Promise.resolve(
 							<GroupElement
@@ -193,7 +193,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 								label={f.tokenSymbol}
 								address={f.contractAddress}
 								amount={amount}
-								value={(amount * priceToEuro).toFixed(2)} />
+								value={(amount * priceToBaseCurrency).toFixed(2)} />
 						);
 					}
 				})
@@ -203,43 +203,43 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 
 	useEffect(async () => {
 		set_seeds(await prepareSeeds())
-	}, [initialSeeds, ethToEuro])
+	}, [initialSeeds, ethToBaseCurrency])
 
 	useEffect(() => {
-		set_usdToEuro(newCurrencies['usdc']?.price || 0);
-		set_ethToEuro(newCurrencies['eth']?.price || 0);
-		set_pickleToEuro(newCurrencies['pickle-finance']?.price || 0);
+		set_usdToBaseCurrency(newCurrencies['usdc']?.price || 0);
+		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
+		set_pickleToBaseCurrency(newCurrencies['pickle-finance']?.price || 0);
 		retrievePickle();
 	}, [currencyNonce]);
 
 	useEffect(() => {
 		retrieveYvBoostLpEth()
-	}, [currencyNonce, usdToEuro]);
+	}, [currencyNonce, usdToBaseCurrency]);
 
 	useEffect(() => {
 		set_result(
-			(pickleEarned * pickleToEuro) +
+			(pickleEarned * pickleToBaseCurrency) +
 			((yvBoostEthEarned * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b'])) -
-			(totalFeesEth * ethToEuro)
+			(totalFeesEth * ethToBaseCurrency)
 		);
 		set_resultImpermanent(
 			(
-				(pickleEarned * pickleToEuro) +
+				(pickleEarned * pickleToBaseCurrency) +
 				((yvBoostEthEarned * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']))
 			) + 
 			(
 				((crops * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']))
 				- seedsValue
 			)
-			- (totalFeesEth * ethToEuro)
+			- (totalFeesEth * ethToBaseCurrency)
 		);
-	}, [ethToEuro, pickleToEuro, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth])
+	}, [ethToBaseCurrency, pickleToBaseCurrency, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth])
 
 	useEffect(() => {
 		const	vi = seedsValue;
 		const	vf = resultImpermanent + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToEuro, resultImpermanent])
+	}, [ethToBaseCurrency, resultImpermanent])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
@@ -273,7 +273,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 						label={'Pickle'}
 						address={'0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5'}
 						amount={pickleEarned.toFixed(10)}
-						value={(pickleEarned * pickleToEuro).toFixed(2)} />
+						value={(pickleEarned * pickleToBaseCurrency).toFixed(2)} />
 					<GroupElement
 						image={'/yvboost.png'}
 						label={'yvBoost-ETH'}
@@ -284,7 +284,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 						image={'⛽️'}
 						label={'Fees'}
 						amount={totalFeesEth.toFixed(10)}
-						value={-(totalFeesEth * ethToEuro).toFixed(2)} />
+						value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 				</Group>
 			</div>
 
