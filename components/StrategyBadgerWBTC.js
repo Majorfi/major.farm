@@ -89,16 +89,16 @@ async function	PrepareStrategyBadgerWBTC(address) {
 }
 
 function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, date}) {
-	const	{newCurrencies, currencyNonce} = useCurrencies();
+	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
 	const	[wbtcEarned, set_wbtcEarned] = useState(0);
 	const	[badgerEarned, set_badgerEarned] = useState(0);
 
-	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
-	const	[btcToBaseCurrency, set_btcToBaseCurrency] = useState(newCurrencies['btc']?.price || 0);
-	const	[badgerToBaseCurrency, set_badgerToBaseCurrency] = useState(newCurrencies['badger-dao']?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
+	const	[btcToBaseCurrency, set_btcToBaseCurrency] = useState(tokenPrices['btc']?.price || 0);
+	const	[badgerToBaseCurrency, set_badgerToBaseCurrency] = useState(tokenPrices['badger-dao']?.price || 0);
 
 	const	[totalFeesEth] = useState(fees);
 	const	[wBTCDeposit] = useState(initialDeposit);
@@ -121,9 +121,9 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 	useEffect(() => {
 		retrieveShare()
 		retrieveBadgers()
-		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
-		set_btcToBaseCurrency(newCurrencies['btc']?.price || 0);
-		set_badgerToBaseCurrency(newCurrencies['badger-dao']?.price || 0)
+		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
+		set_btcToBaseCurrency(tokenPrices['btc']?.price || 0);
+		set_badgerToBaseCurrency(tokenPrices['badger-dao']?.price || 0)
 	}, [currencyNonce]);
 
 	useEffect(() => {

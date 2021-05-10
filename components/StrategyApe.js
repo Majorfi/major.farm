@@ -125,7 +125,7 @@ async function	PrepareStrategyApe(parameters, address) {
 }
 
 function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
-	const	{newCurrencies, currencyNonce} = useCurrencies();
+	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);
 
@@ -134,8 +134,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	const	[underlyingEarned, set_underlyingEarned] = useState(0);
 	const	[totalFeesEth] = useState(fees);
 
-	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
-	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
+	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
 	async function	retrieveShareValue() {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
@@ -153,8 +153,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	}, [harvest, initialCrops])
 
 	useEffect(() => {
-		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
-		set_underlyingToBaseCurrency(newCurrencies[parameters.underlyingTokenCgID]?.price || 0);
+		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
+		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
 	}, [currencyNonce]);
 

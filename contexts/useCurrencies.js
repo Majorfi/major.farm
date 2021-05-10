@@ -70,7 +70,7 @@ async function	getPriceFromSushiPair(pair, overwrite = {}) {
 }
 
 export const CurrenciesContextApp = ({children}) => {
-	const	[newCurrencies, set_newCurrencies] = useState({});
+	const	[tokenPrices, set_tokenPrices] = useState({});
 	const	[sushiPairs, set_sushiPairs] = useState({});
 	const	[rowUpdate, set_rowUpdate] = useState(0);
 
@@ -113,7 +113,7 @@ export const CurrenciesContextApp = ({children}) => {
 				token1Price: cryptoListObj['eth'].price
 			}
 		)
-		set_newCurrencies(cryptoListObj);
+		set_tokenPrices(cryptoListObj);
 		set_sushiPairs({'0x9461173740d27311b176476fa27e94c681b1ea6b': yvBoostEth})
 
 		set_rowUpdate(u => u + 1);
@@ -129,7 +129,7 @@ export const CurrenciesContextApp = ({children}) => {
 			children={children}
 			value={{
 				currencyNonce: rowUpdate,
-				newCurrencies: newCurrencies,
+				tokenPrices: tokenPrices,
 				sushiPairs
 			}} />
 	)

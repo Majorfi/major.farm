@@ -132,7 +132,7 @@ async function	PrepareStrategyYVBoost(address) {
 }
 
 function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}) {
-	const	{newCurrencies, sushiPairs, currencyNonce} = useCurrencies();
+	const	{tokenPrices, sushiPairs, currencyNonce} = useCurrencies();
 
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
@@ -144,9 +144,9 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 	const	[pickleEarned, set_pickleEarned] = useState(0);
 	const	[yvBoostEthEarned, set_yvBoostEthEarned] = useState(0);
 
-	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(newCurrencies['eth']?.price || 0);
-	const	[usdToBaseCurrency, set_usdToBaseCurrency] = useState(newCurrencies['usd']?.price || 0);
-	const	[pickleToBaseCurrency, set_pickleToBaseCurrency] = useState(newCurrencies['pickle-finance']?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
+	const	[usdToBaseCurrency, set_usdToBaseCurrency] = useState(tokenPrices['usd']?.price || 0);
+	const	[pickleToBaseCurrency, set_pickleToBaseCurrency] = useState(tokenPrices['pickle-finance']?.price || 0);
 	
 	const	[totalFeesEth] = useState(fees);
 	const	[crops] = useState(initialCrops);
@@ -206,9 +206,9 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 	}, [initialSeeds, ethToBaseCurrency])
 
 	useEffect(() => {
-		set_usdToBaseCurrency(newCurrencies['usdc']?.price || 0);
-		set_ethToBaseCurrency(newCurrencies['eth']?.price || 0);
-		set_pickleToBaseCurrency(newCurrencies['pickle-finance']?.price || 0);
+		set_usdToBaseCurrency(tokenPrices['usdc']?.price || 0);
+		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
+		set_pickleToBaseCurrency(tokenPrices['pickle-finance']?.price || 0);
 		retrievePickle();
 	}, [currencyNonce]);
 
