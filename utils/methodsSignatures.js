@@ -10,7 +10,11 @@ export default {
 
 	YV_DEPOSIT: '0xd0e30db0',
 	YV_DEPOSIT_VOWID: '0xb6b55f25',
-
 	YV_WITHDRAW: '0x3ccfd60b',
+
+	POOL_DEPOSIT_V2: '0x23440944',
+	POOL_TRANSFER: '0xa9059cbb',
+	POOL_DEPOSIT: '0xe323f825',
+	POOL_WITHDRAW: '0xa016240b'
 
 }

@@ -5,18 +5,40 @@
 **	@Filename:				index.js
 ******************************************************************************/
 
-import	{useEffect, Fragment, useRef, useState}						from	'react';
-import	{Dialog, Transition}										from	'@headlessui/react';
-import	{useToasts}													from	'react-toast-notifications';
-import	{v4 as uuidv4}												from	'uuid';
-import	useCurrencies												from	'contexts/useCurrencies';
-import	useStrategies												from	'contexts/useStrategies';
-import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}				from	'components/StrategyBadgerWBTC';
-import	StrategyYVBoost, {PrepareStrategyYVBoost}					from	'components/StrategyYVBoost';
-import	StrategyApe, {PrepareStrategyApe}							from	'components/StrategyApe';
-import	{toAddress}													from	'utils';
+import	{useEffect, Fragment, useRef, useState}			from	'react';
+import	{Dialog, Transition}							from	'@headlessui/react';
+import	{useToasts}										from	'react-toast-notifications';
+import	{v4 as uuidv4}									from	'uuid';
+import	useCurrencies									from	'contexts/useCurrencies';
+import	useStrategies									from	'contexts/useStrategies';
+import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/StrategyBadgerWBTC';
+import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/StrategyYVBoost';
+import	StrategyApe, {PrepareStrategyApe}				from	'components/StrategyApe';
+import	StrategyPool, {PrepareStrategyPool}				from	'components/StrategyPool';
+import	{toAddress}										from	'utils';
+import	{ethers}					from	'ethers';
 
 const	STRATEGIES = {
+	'PoolTogether DAI': {
+		parameters: {
+			title: 'PoolTogether DAI',
+			href: 'https://app.pooltogether.com/pools/mainnet/PT-cDAI',
+			v2Address: `0x29fe7d60ddf151e5b52e5fab4f1325da6b2bd958`,
+			v2Underlying: `0x49d716dfe60b37379010a75329ae09428f17118d`,
+			migratorAddress: `0x801b4872a635dccc7e679eeaf04bef08e562972a`,
+			contractAddress: `0x334cBb5858417Aee161B53Ee0D5349cCF54514CF`,
+			yieldContractAddress: `0xF362ce295F2A4eaE4348fFC8cDBCe8d729ccb8Eb`,
+			yieldTokenSymbol: `POOL`,
+			yieldTokenCgID: `pooltogether`,
+			underlyingTokenAddress: `0x06325440d014e39736583c165c2963ba99faf14e`,
+			underlyingTokenSymbol: `DAI`,
+			underlyingTokenCgID: `dai`,
+			underlyingTokenIcon: `/dai.svg`
+		},
+		prepare: (p, a) => PrepareStrategyPool(p, a),
+		list: 'ape.tax',
+		Strategy: StrategyPool
+	},
 	'Badger WBTC': {
 		list: 'yearn',
 		prepare: (a) => PrepareStrategyBadgerWBTC(a),
@@ -411,6 +433,19 @@ function	Index() {
 	const	{strategies} = useStrategies();
 	const	[currentTab, set_currentTab] = useState(0);
 	const	[strategyModal, set_strategyModal] = useState(false);
+
+
+	async function	computeCrops() {
+		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		const	ABI = ['function claim(address user) external returns (uint256)']
+		const	smartContract = new ethers.Contract('0xf362ce295f2a4eae4348ffc8cdbce8d729ccb8eb', ABI, provider)
+		const	claim = await smartContract.callStatic.claim('0x9e63b020ae098e73cf201ee1357edc72dfeaa518');
+		console.log(claim)
+		console.log (Number(ethers.utils.formatUnits(claim, 18)));
+	}
+	useEffect(() => {
+		computeCrops()
+	}, [])
 
 	function	renderStrategy(strategy, s) {
 		const	CurrentStrategy = STRATEGIES[strategy];

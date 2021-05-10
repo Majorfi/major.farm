@@ -1,11 +1,9 @@
-/*******************************************************************************
-** @Author:					Thomas Bouder <Tbouder>
-** @Email:					Tbouder@protonmail.com
-** @Date:					Saturday 26 October 1985 - 09:15:00
-** @Filename:				AppContext.js
-**
-** @Last modified by:		Tbouder
-*******************************************************************************/
+/******************************************************************************
+**	@Author:				Thomas Bouder <Tbouder>
+**	@Email:					Tbouder@protonmail.com
+**	@Date:					Saturday May 8th 2021
+**	@Filename:				useCurrencies.js
+******************************************************************************/
 
 import	{useState, useContext, createContext}		from	'react';
 import	NProgress									from	'nprogress';
@@ -39,6 +37,7 @@ async function	fetchCryptoPrice(nonce) {
 		'tether',
 		'aave',
 		'alchemix',
+		'pooltogether'
 	]
 	const	result = await performGet(
 		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${to}&n=${nonce}`
@@ -100,6 +99,7 @@ export const CurrenciesContextApp = ({children}) => {
 			'tether': {price: 1, fetchID: 'tether'},
 			'aave': {price: 1, fetchID: 'aave'},
 			'alchemix': {price: 1, fetchID: 'alchemix'},
+			'pooltogether': {price: 1, fetchID: 'pooltogether'},
 		}
 
 		const	fetchedCryptoPrices = await fetchCryptoPrice(currencyNonce);
