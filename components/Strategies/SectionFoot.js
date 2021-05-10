@@ -5,13 +5,17 @@
 **	@Filename:				SectionFoot.js
 ******************************************************************************/
 
+import	useCurrencies		from	'contexts/useCurrencies';
+
 function	SectionFoot({result, children}) {
+	const	{baseCurrency} = useCurrencies();
+	
 	return (
 		<section
 			aria-label={'foot'}
 			className={'w-full mt-auto pt-12'}>
 				<p className={`text-opacity-80 font-medium text-center text-2xl ${result > 0 ? 'text-green-400' : result < 0 ? 'text-red-400' : 'text-white'}`}>
-					{`${(result).toFixed(4)} €`}
+					{`${(result).toFixed(4)} ${baseCurrency === 'eur' ? '€' : '$'}`}
 				</p>
 				{children ?
 					<div className={`text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2`}>

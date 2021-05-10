@@ -6,8 +6,11 @@
 ******************************************************************************/
 
 import	Image				from	'next/image';
+import	useCurrencies		from	'contexts/useCurrencies';
 
 function	RowElement({image, label, amount, value, address}) {
+	const	{baseCurrency} = useCurrencies();
+
 	return (
 		<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
 			<div className={'w-1/3 font-medium flex flex-row items-center'}>
@@ -28,7 +31,7 @@ function	RowElement({image, label, amount, value, address}) {
 				}
 			</div>
 			<p className={'w-1/3 text-right'}>{amount}</p>
-			<p className={'w-1/3 text-right'}>{`${value} €`}</p>
+			<p className={'w-1/3 text-right'}>{`${value} ${baseCurrency === 'eur' ? '€' : '$'}`}</p>
 		</div>
 	)
 }

@@ -9,6 +9,7 @@ import	{useEffect, Fragment, useRef, useState}						from	'react';
 import	{Dialog, Transition}										from	'@headlessui/react';
 import	{useToasts}													from	'react-toast-notifications';
 import	{v4 as uuidv4}												from	'uuid';
+import	useCurrencies												from	'contexts/useCurrencies';
 import	useStrategies												from	'contexts/useStrategies';
 import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}				from	'components/StrategyBadgerWBTC';
 import	StrategyYVBoost, {PrepareStrategyYVBoost}					from	'components/StrategyYVBoost';
@@ -406,6 +407,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 }
 
 function	Index() {
+	const	{switchCurrency, baseCurrency} = useCurrencies();
 	const	{strategies} = useStrategies();
 	const	[currentTab, set_currentTab] = useState(0);
 	const	[strategyModal, set_strategyModal] = useState(false);
@@ -427,7 +429,9 @@ function	Index() {
 			return (
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
 					{strategies.map((s, i) => (
-						<div key={`${s.strategy}-${s.params?.address}-${s.params?.uuid}-${i}`}>
+						<div
+							key={`${s.strategy}-${s.params?.address}-${s.params?.uuid}-${i}`}
+							style={{display: 'inherit'}}>
 							{renderStrategy(s.strategy, s)}
 						</div>
 					))}
@@ -467,6 +471,11 @@ function	Index() {
 							<path fillRule={'evenodd'} d={'M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'} clipRule={'evenodd'} />
 						</svg>
 						<h2>{'Add strategy'}</h2>
+					</div>
+					<div
+						className={`pl-4 mb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-75`}
+						onClick={() => switchCurrency()}>
+						<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
 					</div>
 				</div>
 			</div>

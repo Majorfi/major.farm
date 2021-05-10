@@ -6,8 +6,11 @@
 ******************************************************************************/
 
 import	Image				from	'next/image';
+import	useCurrencies		from	'contexts/useCurrencies';
 
 function	GroupElement({image, label, amount, value, address, details = undefined}) {
+	const	{baseCurrency} = useCurrencies();
+
 	return (
 		<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full items-baseline'}>
 			<div className={'w-1/3 font-medium flex flex-row items-center'}>
@@ -29,7 +32,7 @@ function	GroupElement({image, label, amount, value, address, details = undefined
 			</div>
 			<p className={'w-1/3 text-right'}>{amount}</p>
 			<div className={'w-1/3 text-right'}>
-				<p>{`${value} €`}</p>
+				<p>{`${value} ${baseCurrency === 'eur' ? '€' : '$'}`}</p>
 				{details ? <p className={'font-light italic text-xs text-dark-100'}>
 					{details}
 				</p> : null}

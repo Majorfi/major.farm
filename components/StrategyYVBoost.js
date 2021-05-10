@@ -5,24 +5,24 @@
 **	@Filename:				StrategyYVBoost.js
 ******************************************************************************/
 
-import	{useState, useEffect}	from	'react';
-import	useCurrencies			from	'contexts/useCurrencies';
-import	{toAddress, bigNumber}	from	'utils';
-import	{ethers}				from	'ethers';
-import	axios					from	'axios';
+import	{useState, useEffect}		from	'react';
+import	useCurrencies				from	'contexts/useCurrencies';
+import	{ethers}					from	'ethers';
+import	axios						from	'axios';
 
 import	SectionRemove				from	'components/Strategies/SectionRemove'
 import	SectionHead					from	'components/Strategies/SectionHead'
 import	SectionFoot					from	'components/Strategies/SectionFoot'
 import	Group, {GroupElement}		from	'components/Strategies/Group'
-import	* as etherscan from 'utils/API';
+import	{toAddress, bigNumber}		from	'utils';
+import	* as API					from	'utils/API';
 
 async function	PrepareStrategyYVBoost(address) {
 	let		timestamp = undefined;
 
 	const	initialSeeds = [];
-	const	normalTx = await etherscan.retreiveTxFromEtherscan(address);
-	const	erc20Tx = await etherscan.retreiveErc20TxFromEtherscan(address);
+	const	normalTx = await API.retreiveTxFromEtherscan(address);
+	const	erc20Tx = await API.retreiveErc20TxFromEtherscan(address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (
@@ -132,7 +132,7 @@ async function	PrepareStrategyYVBoost(address) {
 }
 
 function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}) {
-	const	{tokenPrices, sushiPairs, currencyNonce} = useCurrencies();
+	const	{tokenPrices, sushiPairs, currencyNonce, baseCurrency} = useCurrencies();
 
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
@@ -183,7 +183,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 						);
 					} else {
 						const	amount = Number(ethers.utils.formatUnits(bigNumber.from(f.value), f.tokenDecimal)).toFixed(f.tokenDecimal > 8 ? 8 : f.tokenDecimal);
-						const	priceToBaseCurrency = await etherscan.getQuotePriceEth(f.contractAddress, 'eur');
+						const	priceToBaseCurrency = await API.getQuotePriceEth(f.contractAddress, baseCurrency);
 						set_seedsValue(v => v + (amount * priceToBaseCurrency));
 
 						return Promise.resolve(
@@ -263,7 +263,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 						address={'0xced67a187b923f0e5ebcc77c7f2f7da20099e378'}
 						amount={crops.toFixed(8)}
 						value={(crops * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']).toFixed(2)}
-						details={`${((crops * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']) - seedsValue).toFixed(2)} €`} />
+						details={`${((crops * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']) - seedsValue).toFixed(2)} ${baseCurrency === 'eur' ? '€' : '$'}`} />
 				</Group>
 
 
@@ -292,7 +292,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 				<div
 					className={`text-opacity-60 font-light italic text-center text-xs ${resultImpermanent > 0 ? 'text-green-400' : resultImpermanent < 0 ? 'text-red-400' : 'text-white'}`}>
 					<p className={'text-dark-100 text-opacity-100 inline'}>{'With impermanent : '}</p>
-					{`${(resultImpermanent).toFixed(4)} €`}
+					{`${(resultImpermanent).toFixed(4)} ${baseCurrency === 'eur' ? '€' : '$'}`}
 				</div>
 			</SectionFoot>
 		</div>

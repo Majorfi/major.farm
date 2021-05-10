@@ -70,11 +70,12 @@ async function	getPriceFromSushiPair(pair, overwrite = {}) {
 }
 
 export const CurrenciesContextApp = ({children}) => {
+	const	[baseCurrency, set_baseCurrency] = useState('eur');
 	const	[tokenPrices, set_tokenPrices] = useState({});
 	const	[sushiPairs, set_sushiPairs] = useState({});
-	const	[rowUpdate, set_rowUpdate] = useState(0);
+	const	[currencyNonce, set_currencyNonce] = useState(0);
 
-	const updateCurrency = async () => {
+	const updateCurrency = async (_baseCurrency) => {
 		NProgress.start();
 
 		const	cryptoListObj = {
@@ -101,9 +102,9 @@ export const CurrenciesContextApp = ({children}) => {
 			'alchemix': {price: 1, fetchID: 'alchemix'},
 		}
 
-		const	fetchedCryptoPrices = await fetchCryptoPrice(rowUpdate);
+		const	fetchedCryptoPrices = await fetchCryptoPrice(currencyNonce);
 		Object.entries(cryptoListObj).forEach(([key, value]) => {
-			cryptoListObj[key].price = fetchedCryptoPrices?.[value.fetchID]['eur'] || 0
+			cryptoListObj[key].price = fetchedCryptoPrices?.[value.fetchID][_baseCurrency] || 0
 		});
 
 		const	yvBoostEth = await getPriceFromSushiPair(
@@ -115,20 +116,29 @@ export const CurrenciesContextApp = ({children}) => {
 		)
 		set_tokenPrices(cryptoListObj);
 		set_sushiPairs({'0x9461173740d27311b176476fa27e94c681b1ea6b': yvBoostEth})
-
-		set_rowUpdate(u => u + 1);
+		set_currencyNonce(u => u + 1);
 		NProgress.done();
 	};
 
 	useInterval(() => {
-		updateCurrency()
-	}, 1000 * 45, true, [])
+		updateCurrency(baseCurrency)
+	}, 1000 * 45, true, [baseCurrency])
+
+	function	switchCurrency() {
+		if (baseCurrency === 'eur') {
+			set_baseCurrency('usd');
+		} else {
+			set_baseCurrency('eur');
+		}
+	}
 
 	return (
 		<CurrenciesContext.Provider
 			children={children}
 			value={{
-				currencyNonce: rowUpdate,
+				baseCurrency,
+				switchCurrency,
+				currencyNonce,
 				tokenPrices: tokenPrices,
 				sushiPairs
 			}} />
