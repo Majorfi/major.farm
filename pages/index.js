@@ -484,7 +484,7 @@ function	Index() {
 			</div>
 			<StrategySelectorModal strategyModal={strategyModal} set_strategyModal={set_strategyModal} />
 		</div>
-	)
+	);
 }
 
 export default Index;
