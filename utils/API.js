@@ -60,3 +60,21 @@ export async function getQuotePriceEth(tokenAddress, coin = 'eth') {
 	const	price = market_data?.current_price[coin] || 0
 	return price;
 }
+
+export async function getTokenInfo(tokenAddress) {
+	try {
+		const	data = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenAddress}`).then(e => e.data)
+		return	data;		
+	} catch (error) {
+		return	{};
+	}
+}
+
+export async function retrieveTokenDecimalByTokenAddress(tokenAddress) {
+	const	{result} = await axios.get(`https://api.etherscan.io/api?module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=1&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+	return {
+		decimals: result?.[0]?.tokenDecimal || 18,
+		name: result?.[0]?.tokenName || '',
+		symbol: result?.[0]?.tokenSymbol || '',
+	};
+}

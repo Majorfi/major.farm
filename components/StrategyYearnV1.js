@@ -1,8 +1,8 @@
 /******************************************************************************
 **	@Author:				Thomas Bouder <Tbouder>
 **	@Email:					Tbouder@protonmail.com
-**	@Date:					Monday May 10th 2021
-**	@Filename:				StrategyPool.js
+**	@Date:					Friday April 23rd 2021
+**	@Filename:				StrategyYVBoost.js
 ******************************************************************************/
 
 import	{useState, useEffect}		from	'react';
@@ -16,7 +16,7 @@ import	Group, {GroupElement}		from	'components/Strategies/Group'
 import	* as api					from	'utils/API';
 import	methods						from	'utils/methodsSignatures';
 
-async function	PrepareStrategyPool(parameters, address) {
+async function	PrepareStrategyYearnV1(parameters, address) {
 	let		timestamp = undefined;
 	const	normalTx = await api.retreiveTxFromEtherscan(address);
 	const	erc20Tx = await api.retreiveErc20TxFromEtherscan(address);
@@ -25,37 +25,21 @@ async function	PrepareStrategyPool(parameters, address) {
 		const	cumulativeFees = (
 			normalTx
 			.filter(tx => (
-				( // MIGRATE FROM V2 to V3
-					toAddress(tx.from) === toAddress(address) &&
-					toAddress(tx.to) === toAddress(parameters.v2Underlying) &&
-					tx.input.startsWith(methods.POOL_TRANSFER)
-				)
-				||
-				( // DEPOSIT V2
-					toAddress(tx.from) === toAddress(address) &&
-					toAddress(tx.to) === toAddress(parameters.v2Address) &&
-					tx.input.startsWith(methods.POOL_DEPOSIT_V2)
-				)
-				||
-				( // DEPOSIT V3
+				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.POOL_DEPOSIT)
+					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
 				)
 				||
-				( // WITHDRAW
+				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.POOL_WITHDRAW)
+					tx.input.startsWith(methods.YEARNV1_WITHDRAW)
 				)
 				||
-				( // APPROVES
+				(
 					tx.input.startsWith(methods.STANDARD_APPROVE) &&
-					(
-						(tx.input.toLowerCase()).includes((parameters.v2Address.slice(2)).toLowerCase())
-						||
-						(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
-					)
+					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
 				)
 			)).reduce((accumulator, tx) => {
 				const	gasUsed = bigNumber.from(tx.gasUsed);
@@ -71,21 +55,10 @@ async function	PrepareStrategyPool(parameters, address) {
 		const	cumulativeSeeds = (
 			erc20Tx
 			.filter(tx => (
-				(
-					toAddress(tx.to) === toAddress(parameters.contractAddress)
-					&&
-					tx.tokenSymbol === parameters.underlyingTokenSymbol
-				)
-				||
-				(
-					toAddress(tx.from) === toAddress(parameters.migratorAddress)
-					&&
-					toAddress(tx.to) === toAddress(address)
-					&&
-					toAddress(tx.contractAddress) === toAddress(parameters.contractAddress)
-				)
+				(toAddress(tx.to) === toAddress(parameters.contractAddress))
+				&&
+				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 			)).reduce((accumulator, tx) => {
-				console.log(tx)
 				if (timestamp === undefined || timestamp > tx.timeStamp) {
 					timestamp = tx.timeStamp;
 				}
@@ -96,19 +69,27 @@ async function	PrepareStrategyPool(parameters, address) {
 	}
 
 	async function	computeCrops() {
-		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		const	ABI = ['function balanceOf(address) external view returns (uint256)']
-		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	balanceOf = await smartContract.balanceOf(address);
-		return (Number(ethers.utils.formatUnits(balanceOf, parameters.underlyingTokenDecimal || 18)));
+		const	cumulativeCrops = (
+			erc20Tx
+			.filter(tx => (
+				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				&&
+				(toAddress(tx.to) === toAddress(address))
+				&&
+				(tx.tokenSymbol === `y${parameters.underlyingTokenSymbol}`)
+			)).reduce((accumulator, tx) => {
+				return bigNumber.from(accumulator).add(tx.value);
+			}, bigNumber.from(0))
+		);
+		return Number(ethers.utils.formatUnits(cumulativeCrops, parameters.underlyingTokenDecimal || 18));
 	}
 
 	async function	computeHarvest() {
 		const	cumulativeHarvest = (
 			erc20Tx
 			.filter(tx => (
-				(toAddress(tx.from) === toAddress(parameters.contractAddress)) && (toAddress(tx.to) === toAddress(address))
-				&&
+				(toAddress(tx.from) === toAddress(parameters.contractAddress)) &&
+				(toAddress(tx.to) === toAddress(address)) &&
 				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 			)).reduce((accumulator, tx) => {
 				return bigNumber.from(accumulator).add(tx.value);
@@ -132,49 +113,38 @@ async function	PrepareStrategyPool(parameters, address) {
 	}
 }
 
-function	StrategyPool({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);
 
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
-	const	[yieldEarned, set_yieldEarned] = useState(0);
-	const	[prizeEarned, set_prizeEarned] = useState(0);
+	const	[underlyingEarned, set_underlyingEarned] = useState(0);
 	const	[totalFeesEth] = useState(fees);
 
 	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
-	const	[yieldToBaseCurrency, set_yieldToBaseCurrency] = useState(tokenPrices[parameters.yieldTokenCgID]?.price || 0);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
-	async function	retrievePools() {
+	async function	retrieveShareValue() {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		const	ABI = ['function claim(address user) external returns (uint256)']
-		const	smartContract = new ethers.Contract(parameters.yieldContractAddress, ABI, provider)
-		const	claim = await smartContract.callStatic.claim(address);
-		set_yieldEarned(Number(ethers.utils.formatUnits(claim, parameters.yieldTokenDecimal || 18)))
-	}
-
-	async function	retrievePrize() {
-		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		const	ABI = ['function balanceOf(address user) external view returns (uint256)']
+		const	ABI = ['function getPricePerFullShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	balanceOf = await smartContract.balanceOf(address);
-		set_prizeEarned(Number(ethers.utils.formatUnits(balanceOf, parameters.underlyingTokenDecimal || 18)))
+		const	getPricePerFullShare = await smartContract.getPricePerFullShare();
+		const	share = initialCrops * (getPricePerFullShare / 1e18)
+		set_underlyingEarned(share)
 	}
 
 	useEffect(() => {
-		if (harvest > 0 && initialCrops === 0) {
+		if (harvest > 0 && underlyingEarned === 0) {
 			set_isHarvested(true);
 		}
-	}, [harvest, initialCrops])
+	}, [harvest, underlyingEarned])
 
 	useEffect(() => {
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
-		set_yieldToBaseCurrency(tokenPrices[parameters.yieldTokenCgID]?.price || 0);
-		retrievePools();
-		retrievePrize();
+		retrieveShareValue();
 	}, [currencyNonce]);
 
 	useEffect(() => {
@@ -182,11 +152,11 @@ function	StrategyPool({parameters, address, uuid, fees, initialSeeds, initialCro
 			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFeesEth * ethToBaseCurrency));
 		} else {
 			set_result(
-				((yieldEarned - initialSeeds) * underlyingToBaseCurrency) -
+				((underlyingEarned - initialSeeds) * underlyingToBaseCurrency) -
 				(totalFeesEth * ethToBaseCurrency)
 			);
 		}
-	}, [ethToBaseCurrency, underlyingToBaseCurrency, yieldEarned, totalFeesEth])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth])
 
 	useEffect(() => {
 		const	vi = initialSeeds * underlyingToBaseCurrency;
@@ -216,22 +186,22 @@ function	StrategyPool({parameters, address, uuid, fees, initialSeeds, initialCro
 
 				<Group title={'Crops'}>
 					<GroupElement
-						image={'/pldai.png'}
-						label={`pl-${parameters.underlyingTokenSymbol}`}
+						image={parameters.tokenIcon}
+						label={`y${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(initialCrops.toFixed(10))}
-						value={(initialCrops * underlyingToBaseCurrency).toFixed(2)} />
+						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				{isHarvested ?
 					<>
 						<Group title={'Yield'}>
 							<GroupElement
-								image={'/pool.png'}
-								label={`Pool`}
-								address={parameters.yieldContractAddress}
-								amount={parseFloat((yieldEarned).toFixed(10))}
-								value={(yieldEarned * yieldToBaseCurrency).toFixed(2)} />
+								image={parameters.underlyingTokenIcon}
+								label={parameters.underlyingTokenSymbol}
+								address={parameters.contractAddress}
+								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
+								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						</Group>
 						<Group title={'Harvest'}>
 							<GroupElement
@@ -250,17 +220,11 @@ function	StrategyPool({parameters, address, uuid, fees, initialSeeds, initialCro
 				: 
 					<Group title={'Yield'}>
 						<GroupElement
-							image={'/pool.png'}
-							label={`POOL`}
-							address={parameters.yieldContractAddress}
-							amount={parseFloat(yieldEarned.toFixed(10))}
-							value={(yieldEarned * yieldToBaseCurrency).toFixed(2)} />
-						<GroupElement
-							image={'/pldai.png'}
-							label={`pl-${parameters.underlyingTokenSymbol} Prize`}
+							image={parameters.underlyingTokenIcon}
+							label={parameters.underlyingTokenSymbol}
 							address={parameters.contractAddress}
-							amount={parseFloat((prizeEarned - initialCrops).toFixed(10))}
-							value={((prizeEarned - initialCrops) * yieldToBaseCurrency).toFixed(2)} />
+							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
+							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
 							image={'⛽️'}
 							label={'Fees'}
@@ -275,5 +239,5 @@ function	StrategyPool({parameters, address, uuid, fees, initialSeeds, initialCro
 	)
 }
 
-export {PrepareStrategyPool};
-export default StrategyPool;
+export {PrepareStrategyYearnV1};
+export default StrategyYearnV1;

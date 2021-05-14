@@ -5,29 +5,41 @@
 **	@Filename:				GroupLabel.js
 ******************************************************************************/
 
-import	Image				from	'next/image';
-import	useCurrencies		from	'contexts/useCurrencies';
+import	React, {useState, useEffect}	from	'react';
+import	Image							from	'next/image';
+import	useCurrencies					from	'contexts/useCurrencies';
 
 function	GroupElement({image, label, amount, value, address, details = undefined}) {
+	const	[currentImage, set_currentImage] = useState(image)
 	const	{baseCurrency} = useCurrencies();
+
+	useEffect(() => {
+		set_currentImage(image);
+	}, [image])
 
 	return (
 		<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full items-baseline'}>
 			<div className={'w-1/3 font-medium flex flex-row items-center'}>
 				{
-					image.startsWith('/') || image.startsWith('http') ?
+					currentImage.startsWith('/') || currentImage.startsWith('http') ?
 					<>
-						<Image src={image} width={16} height={16} quality={100} loading={'eager'} />
+						<Image
+							onError={() => set_currentImage('/yGeneric.svg')}
+							src={currentImage}
+							width={16}
+							height={16}
+							quality={100}
+							loading={'eager'} />
 						&nbsp;&nbsp;
 						<a
 							target={'_blank'}
 							href={`https://etherscan.io/token/${address}`}
-							className={'hover:text-accent-900 hover:underline transition-color'}>
+							className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
 							{`${label} :`}
 						</a>
 					</>
 					:
-					<p>{`${image}  ${label} :`}</p>
+					<p>{`${currentImage}  ${label} :`}</p>
 				}
 			</div>
 			<p className={'w-1/3 text-right'}>{amount}</p>

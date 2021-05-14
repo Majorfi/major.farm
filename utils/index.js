@@ -52,7 +52,7 @@ export function truncateAddress(address) {
 	if (address !== undefined) {
 		return `${address.slice(0, 4)}...${address.slice(-4)}`;
 	}
-	return `0x000...0000`;
+	return '0x000...0000';
 }
 
 export function datediff(first, end) {
@@ -61,4 +61,13 @@ export function datediff(first, end) {
 	const differenceInTime = date2.getTime() - date1.getTime();
 	const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 	return differenceInDays.toFixed(0)
+}
+
+export async function asyncForEach(array, callback) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array);
+	}
+}
+export async function asyncFilter(arr, predicate) {
+	return Promise.all(arr.map(predicate)).then((results) => arr.filter((_v, index) => results[index]))
 }

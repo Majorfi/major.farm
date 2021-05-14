@@ -5,16 +5,16 @@
 **	@Filename:				StrategyYVBoost.js
 ******************************************************************************/
 
-import	{useState, useEffect}		from	'react';
-import	useCurrencies				from	'contexts/useCurrencies';
-import	{toAddress, bigNumber}		from	'utils';
-import	{ethers}					from	'ethers';
-import	SectionRemove				from	'components/Strategies/SectionRemove'
-import	SectionHead					from	'components/Strategies/SectionHead'
-import	SectionFoot					from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}		from	'components/Strategies/Group'
-import	* as api					from	'utils/API';
-import	methods						from	'utils/methodsSignatures';
+import	React, {useState, useEffect, useCallback}	from	'react';
+import	useCurrencies								from	'contexts/useCurrencies';
+import	{toAddress, bigNumber}						from	'utils';
+import	{ethers}									from	'ethers';
+import	SectionRemove								from	'components/Strategies/SectionRemove'
+import	SectionHead									from	'components/Strategies/SectionHead'
+import	SectionFoot									from	'components/Strategies/SectionFoot'
+import	Group, {GroupElement}						from	'components/Strategies/Group'
+import	* as api									from	'utils/API';
+import	methods										from	'utils/methodsSignatures';
 
 async function	PrepareStrategyApe(parameters, address) {
 	let		timestamp = undefined;
@@ -71,22 +71,6 @@ async function	PrepareStrategyApe(parameters, address) {
 		return Number(ethers.utils.formatUnits(cumulativeSeeds, parameters.underlyingTokenDecimal || 18));
 	}
 
-	async function	computeCropsAlt() {
-		const	cumulativeCrops = (
-			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
-				&&
-				(toAddress(tx.to) === toAddress(address))
-				&&
-				(tx.tokenSymbol === `yv${parameters.underlyingTokenSymbol}`)
-			)).reduce((accumulator, tx) => {
-				return bigNumber.from(accumulator).add(tx.value);
-			}, bigNumber.from(0))
-		);
-		return Number(ethers.utils.formatUnits(cumulativeCrops, parameters.underlyingTokenDecimal || 18));
-	}
-
 	async function	computeCrops() {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
 		const	ABI = ['function balanceOf(address) external view returns (uint256)']
@@ -137,14 +121,14 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
-	async function	retrieveShareValue() {
+	const retrieveShareValue = useCallback(async () => {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
 		const	ABI = ['function pricePerShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	pricePerShare = await smartContract.pricePerShare();
 		const	share = initialCrops * (pricePerShare / 1e18)
 		set_underlyingEarned(share)
-	}
+	}, [initialCrops, parameters.contractAddress]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
@@ -156,7 +140,7 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
-	}, [currencyNonce]);
+	}, [currencyNonce, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
@@ -167,13 +151,13 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 				(totalFeesEth * ethToBaseCurrency)
 			);
 		}
-	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth, harvest, initialCrops, initialSeeds])
 
 	useEffect(() => {
 		const	vi = initialSeeds * underlyingToBaseCurrency;
 		const	vf = result + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToBaseCurrency, result])
+	}, [ethToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>

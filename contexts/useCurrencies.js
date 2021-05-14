@@ -5,11 +5,12 @@
 **	@Filename:				useCurrencies.js
 ******************************************************************************/
 
-import	{useState, useContext, createContext}		from	'react';
-import	NProgress									from	'nprogress';
-import	useInterval									from	'hook/useInterval';
-import	{performGet}								from	'utils/API';
-import	{request}									from	'graphql-request';
+import	React, {useState, useContext, createContext}	from	'react';
+import	NProgress										from	'nprogress';
+import	useInterval										from	'hook/useInterval';
+import	{performGet}									from	'utils/API';
+import	{request}										from	'graphql-request';
+import	{ethers}										from	'ethers';
 
 const CurrenciesContext = createContext();
 
@@ -51,7 +52,7 @@ async function	fetchCryptoPrice(nonce) {
 
 async function	getPriceFromSushiPair(pair, overwrite = {}) {
 	const	graphResp = await request(
-		`https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork`,
+		'https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork',
 		`{
 			pair(id: "${pair}") {
 				totalSupply
@@ -71,8 +72,18 @@ async function	getPriceFromSushiPair(pair, overwrite = {}) {
 export const CurrenciesContextApp = ({children}) => {
 	const	[baseCurrency, set_baseCurrency] = useState('eur');
 	const	[tokenPrices, set_tokenPrices] = useState({});
+	const	[crvPrices, set_crvPrices] = useState({});
 	const	[sushiPairs, set_sushiPairs] = useState({});
 	const	[currencyNonce, set_currencyNonce] = useState(0);
+
+	async function	retrieveCurveLPVirtualPrice(lpTokenAddress) {
+		const	CURVE_LP_REGISTRY = '0x7D86446dDb609eD0F5f8684AcF30380a356b2B4c';
+		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		const	ABI = ['function get_virtual_price_from_lp_token(address) external view returns (uint256)']
+		const	smartContract = new ethers.Contract(CURVE_LP_REGISTRY, ABI, provider)
+		const	virtualPrice = await smartContract.get_virtual_price_from_lp_token(lpTokenAddress);
+		return	Number(ethers.utils.formatUnits(virtualPrice, 18));
+	}
 
 	const updateCurrency = async (_baseCurrency) => {
 		NProgress.start();
@@ -120,6 +131,21 @@ export const CurrenciesContextApp = ({children}) => {
 		NProgress.done();
 	};
 
+	const	updateCrvLPTokenPrice = async () => {
+		const	mapping = {
+			'eursCRV': '0x194ebd173f6cdace046c53eacce9b953f28411d1'
+		};
+		Object.entries(mapping).forEach(async ([k, v]) => {
+			const	price = await retrieveCurveLPVirtualPrice(v);
+			set_crvPrices(v => ({...v, [k]: {price}}));
+			set_currencyNonce(u => u + 1);
+		})
+	}
+
+	useInterval(() => {
+		updateCrvLPTokenPrice(baseCurrency)
+	}, 1000 * 60 * 1, true, [baseCurrency])
+
 	useInterval(() => {
 		updateCurrency(baseCurrency)
 	}, 1000 * 45, true, [baseCurrency])
@@ -134,14 +160,16 @@ export const CurrenciesContextApp = ({children}) => {
 
 	return (
 		<CurrenciesContext.Provider
-			children={children}
 			value={{
 				baseCurrency,
 				switchCurrency,
 				currencyNonce,
-				tokenPrices: tokenPrices,
+				tokenPrices,
+				crvPrices,
 				sushiPairs
-			}} />
+			}}>
+			{children}
+		</CurrenciesContext.Provider>
 	)
 }
 

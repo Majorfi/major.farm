@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 function useLocalStorage(key, initialValue) {
   // State to store our value
@@ -14,7 +14,7 @@ function useLocalStorage(key, initialValue) {
       return item !== null ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
-      console.log(error);
+      console.warn(error);
       return initialValue;
     }
   });
@@ -30,7 +30,7 @@ function useLocalStorage(key, initialValue) {
       // Save to local storage
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   };
 
@@ -38,21 +38,3 @@ function useLocalStorage(key, initialValue) {
 }
 
 export default useLocalStorage;
-
-// Usage
-
-// function App() {
-//   // Similar to useState but first arg is key to the value in local storage.
-//   const [name, setName] = useLocalStorage('name', 'Bob');
-
-//   return (
-//     <div>
-//       <input
-//         type="text"
-//         placeholder="Enter your name"
-//         value={name}
-//         onChange={e => setName(e.target.value)}
-//       />
-//     </div>
-//   );
-// }
