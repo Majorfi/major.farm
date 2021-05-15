@@ -16,7 +16,7 @@ import	Group, {GroupElement}						from	'components/Strategies/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 
-async function	PrepareStrategyApe(parameters, address) {
+async function	PrepareStrategyYearnV1(parameters, address) {
 	let		timestamp = undefined;
 	const	normalTx = await api.retreiveTxFromEtherscan(address);
 	const	erc20Tx = await api.retreiveErc20TxFromEtherscan(address);
@@ -28,16 +28,13 @@ async function	PrepareStrategyApe(parameters, address) {
 				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					(
-						tx.input.startsWith(methods.YV_DEPOSIT) ||
-						tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
-					)
+					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
 				)
 				||
 				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YV_WITHDRAW)
+					tx.input.startsWith(methods.YEARNV1_WITHDRAW)
 				)
 				||
 				(
@@ -72,19 +69,27 @@ async function	PrepareStrategyApe(parameters, address) {
 	}
 
 	async function	computeCrops() {
-		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		const	ABI = ['function balanceOf(address) external view returns (uint256)']
-		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	balanceOf = await smartContract.balanceOf(address);
-		return (Number(ethers.utils.formatUnits(balanceOf, parameters.underlyingTokenDecimal || 18)));
+		const	cumulativeCrops = (
+			erc20Tx
+			.filter(tx => (
+				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				&&
+				(toAddress(tx.to) === toAddress(address))
+				&&
+				(tx.tokenSymbol === `y${parameters.underlyingTokenSymbol}`)
+			)).reduce((accumulator, tx) => {
+				return bigNumber.from(accumulator).add(tx.value);
+			}, bigNumber.from(0))
+		);
+		return Number(ethers.utils.formatUnits(cumulativeCrops, parameters.underlyingTokenDecimal || 18));
 	}
 
 	async function	computeHarvest() {
 		const	cumulativeHarvest = (
 			erc20Tx
 			.filter(tx => (
-				(toAddress(tx.from) === toAddress(parameters.contractAddress)) && (toAddress(tx.to) === toAddress(address))
-				&&
+				(toAddress(tx.from) === toAddress(parameters.contractAddress)) &&
+				(toAddress(tx.to) === toAddress(address)) &&
 				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 			)).reduce((accumulator, tx) => {
 				return bigNumber.from(accumulator).add(tx.value);
@@ -108,7 +113,7 @@ async function	PrepareStrategyApe(parameters, address) {
 	}
 }
 
-function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);
@@ -123,18 +128,18 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 		
 	const retrieveShareValue = useCallback(async () => {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		const	ABI = ['function pricePerShare() external view returns (uint256)']
+		const	ABI = ['function getPricePerFullShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	pricePerShare = await smartContract.pricePerShare();
-		const	share = initialCrops * (pricePerShare / 1e18)
+		const	getPricePerFullShare = await smartContract.getPricePerFullShare();
+		const	share = initialCrops * (getPricePerFullShare / 1e18)
 		set_underlyingEarned(share)
 	}, [initialCrops, parameters.contractAddress]);
 
 	useEffect(() => {
-		if (harvest > 0 && initialCrops === 0) {
+		if (harvest > 0 && underlyingEarned === 0) {
 			set_isHarvested(true);
 		}
-	}, [harvest, initialCrops])
+	}, [harvest, underlyingEarned])
 
 	useEffect(() => {
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
@@ -181,19 +186,19 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 
 				<Group title={'Crops'}>
 					<GroupElement
-						image={'/yGeneric.svg'}
-						label={`yv${parameters.underlyingTokenSymbol}`}
+						image={parameters.tokenIcon}
+						label={`y${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(initialCrops.toFixed(10))}
-						value={(initialCrops * underlyingToBaseCurrency).toFixed(2)} />
+						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				{isHarvested ?
 					<>
 						<Group title={'Yield'}>
 							<GroupElement
-								image={'/yGeneric.svg'}
-								label={`yv${parameters.underlyingTokenSymbol}`}
+								image={parameters.underlyingTokenIcon}
+								label={parameters.underlyingTokenSymbol}
 								address={parameters.contractAddress}
 								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
 								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
@@ -215,8 +220,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 				: 
 					<Group title={'Yield'}>
 						<GroupElement
-							image={'/yGeneric.svg'}
-							label={`yv${parameters.underlyingTokenSymbol}`}
+							image={parameters.underlyingTokenIcon}
+							label={parameters.underlyingTokenSymbol}
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
 							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
@@ -234,5 +239,5 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	)
 }
 
-export {PrepareStrategyApe};
-export default StrategyApe;
+export {PrepareStrategyYearnV1};
+export default StrategyYearnV1;

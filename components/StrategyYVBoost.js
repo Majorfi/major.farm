@@ -5,17 +5,16 @@
 **	@Filename:				StrategyYVBoost.js
 ******************************************************************************/
 
-import	{useState, useEffect}		from	'react';
-import	useCurrencies				from	'contexts/useCurrencies';
-import	{ethers}					from	'ethers';
-import	axios						from	'axios';
-
-import	SectionRemove				from	'components/Strategies/SectionRemove'
-import	SectionHead					from	'components/Strategies/SectionHead'
-import	SectionFoot					from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}		from	'components/Strategies/Group'
-import	{toAddress, bigNumber}		from	'utils';
-import	* as API					from	'utils/API';
+import	React, {useState, useEffect}	from	'react';
+import	useCurrencies					from	'contexts/useCurrencies';
+import	{ethers}						from	'ethers';
+import	axios							from	'axios';
+import	SectionRemove					from	'components/Strategies/SectionRemove'
+import	SectionHead						from	'components/Strategies/SectionHead'
+import	SectionFoot						from	'components/Strategies/SectionFoot'
+import	Group, {GroupElement}			from	'components/Strategies/Group'
+import	{toAddress, bigNumber}			from	'utils';
+import	* as API						from	'utils/API';
 
 async function	PrepareStrategyYVBoost(address) {
 	let		timestamp = undefined;
@@ -31,7 +30,7 @@ async function	PrepareStrategyYVBoost(address) {
 				(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983')) //DEPOSIT IN VAULT
 				||
 				(
-					tx.input.startsWith(`0x095ea7b3`)
+					tx.input.startsWith('0x095ea7b3')
 					&& tx.input.includes('c695f73c1862e050059367b2e64489e66c525983') //APPROVE VAULT
 				)
 				||
@@ -39,7 +38,7 @@ async function	PrepareStrategyYVBoost(address) {
 				||
 				(
 					toAddress(tx.to) === toAddress('0xced67a187b923f0e5ebcc77c7f2f7da20099e378')
-					&& tx.input.startsWith(`0x095ea7b3`)
+					&& tx.input.startsWith('0x095ea7b3')
 					&& tx.input.includes('da481b277dce305b97f4091bd66595d57cf31634') //APPROVE JAR
 				)
 			)).reduce((accumulator, tx) => {
@@ -49,7 +48,7 @@ async function	PrepareStrategyYVBoost(address) {
 				return bigNumber.from(accumulator).add(gasUsedPrice);
 			}, bigNumber.from(0))
 		);
-		return (Number(ethers.utils.formatUnits(cumulativeFees, `ether`)));
+		return (Number(ethers.utils.formatUnits(cumulativeFees, 'ether')));
 	}
 
 	async function	computeDepositERC20() {
@@ -58,7 +57,7 @@ async function	PrepareStrategyYVBoost(address) {
 			(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367b2e64489e66c525983'))
 			||
 			(
-				tx.input.startsWith(`0x28932094`)
+				tx.input.startsWith('0x28932094')
 				&& tx.input.includes('ced67a187b923f0e5ebcc77c7f2f7da20099e378')
 			)
 		)).forEach((tx) => {
@@ -81,7 +80,7 @@ async function	PrepareStrategyYVBoost(address) {
 			(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983'))
 			||
 			(
-				tx.input.startsWith(`0x28932094`)
+				tx.input.startsWith('0x28932094')
 				&& tx.input.includes('ced67a187b923f0e5ebcc77c7f2f7da20099e378')
 			)
 		)).forEach((tx) => {
@@ -203,18 +202,18 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 
 	useEffect(async () => {
 		set_seeds(await prepareSeeds())
-	}, [initialSeeds, ethToBaseCurrency])
+	}, [initialSeeds, ethToBaseCurrency, prepareSeeds])
 
 	useEffect(() => {
-		set_usdToBaseCurrency(tokenPrices['usdc']?.price || 0);
+		set_usdToBaseCurrency(tokenPrices['usd-coin']?.price || 0);
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_pickleToBaseCurrency(tokenPrices['pickle-finance']?.price || 0);
 		retrievePickle();
-	}, [currencyNonce]);
+	}, [currencyNonce, retrievePickle, tokenPrices]);
 
 	useEffect(() => {
 		retrieveYvBoostLpEth()
-	}, [currencyNonce, usdToBaseCurrency]);
+	}, [currencyNonce, retrieveYvBoostLpEth, usdToBaseCurrency]);
 
 	useEffect(() => {
 		set_result(
@@ -233,13 +232,13 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 			)
 			- (totalFeesEth * ethToBaseCurrency)
 		);
-	}, [ethToBaseCurrency, pickleToBaseCurrency, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth])
+	}, [ethToBaseCurrency, pickleToBaseCurrency, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth, sushiPairs])
 
 	useEffect(() => {
 		const	vi = seedsValue;
 		const	vf = resultImpermanent + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToBaseCurrency, resultImpermanent])
+	}, [ethToBaseCurrency, resultImpermanent, seedsValue])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>

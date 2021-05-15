@@ -1,17 +1,16 @@
-/*******************************************************************************
-** @Author:					Thomas Bouder <Tbouder>
-** @Email:					Tbouder@protonmail.com
-** @Date:					Saturday 26 October 1985 - 09:15:00
-** @Filename:				AppContext.js
-**
-** @Last modified by:		Tbouder
-*******************************************************************************/
+/******************************************************************************
+**	@Author:				Thomas Bouder <Tbouder>
+**	@Email:					Tbouder@protonmail.com
+**	@Date:					Saturday May 8th 2021
+**	@Filename:				useCurrencies.js
+******************************************************************************/
 
-import	{useState, useContext, createContext}		from	'react';
-import	NProgress									from	'nprogress';
-import	useInterval									from	'hook/useInterval';
-import	{performGet}								from	'utils/API';
-import	{request}									from	'graphql-request';
+import	React, {useState, useContext, createContext}	from	'react';
+import	NProgress										from	'nprogress';
+import	useInterval										from	'hook/useInterval';
+import	{performGet}									from	'utils/API';
+import	{request}										from	'graphql-request';
+import	{ethers}										from	'ethers';
 
 const CurrenciesContext = createContext();
 
@@ -39,6 +38,8 @@ async function	fetchCryptoPrice(nonce) {
 		'tether',
 		'aave',
 		'alchemix',
+		'pooltogether',
+		'usdp'
 	]
 	const	result = await performGet(
 		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${to}&n=${nonce}`
@@ -52,7 +53,7 @@ async function	fetchCryptoPrice(nonce) {
 
 async function	getPriceFromSushiPair(pair, overwrite = {}) {
 	const	graphResp = await request(
-		`https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork`,
+		'https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork',
 		`{
 			pair(id: "${pair}") {
 				totalSupply
@@ -72,8 +73,18 @@ async function	getPriceFromSushiPair(pair, overwrite = {}) {
 export const CurrenciesContextApp = ({children}) => {
 	const	[baseCurrency, set_baseCurrency] = useState('eur');
 	const	[tokenPrices, set_tokenPrices] = useState({});
+	const	[crvPrices, set_crvPrices] = useState({});
 	const	[sushiPairs, set_sushiPairs] = useState({});
 	const	[currencyNonce, set_currencyNonce] = useState(0);
+
+	async function	retrieveCurveLPVirtualPrice(lpTokenAddress) {
+		const	CURVE_LP_REGISTRY = '0x7D86446dDb609eD0F5f8684AcF30380a356b2B4c';
+		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		const	ABI = ['function get_virtual_price_from_lp_token(address) external view returns (uint256)']
+		const	smartContract = new ethers.Contract(CURVE_LP_REGISTRY, ABI, provider)
+		const	virtualPrice = await smartContract.get_virtual_price_from_lp_token(lpTokenAddress);
+		return	Number(ethers.utils.formatUnits(virtualPrice, 18));
+	}
 
 	const updateCurrency = async (_baseCurrency) => {
 		NProgress.start();
@@ -82,9 +93,9 @@ export const CurrenciesContextApp = ({children}) => {
 			'btc': {price: 0, fetchID: 'bitcoin'},
 			'eth': {price: 0, fetchID: 'ethereum'},
 			'yearn-lazy-ape': {price: 1, fetchID: 'yearn-lazy-ape'},
-			'assy': {price: 1, fetchID: 'assy-index'},
-			'cvp': {price: 1, fetchID: 'concentrated-voting-power'},
-			'usdc': {price: 1, fetchID: 'usd-coin'},
+			'assy-index': {price: 1, fetchID: 'assy-index'},
+			'concentrated-voting-power': {price: 1, fetchID: 'concentrated-voting-power'},
+			'usd-coin': {price: 1, fetchID: 'usd-coin'},
 			'bag': {price: 1, fetchID: 'blockchain-adventurers-guild'},
 			'pickle-finance': {price: 1, fetchID: 'pickle-finance'},
 			'yvboost': {price: 1, fetchID: 'yvboost'},
@@ -100,6 +111,8 @@ export const CurrenciesContextApp = ({children}) => {
 			'tether': {price: 1, fetchID: 'tether'},
 			'aave': {price: 1, fetchID: 'aave'},
 			'alchemix': {price: 1, fetchID: 'alchemix'},
+			'pooltogether': {price: 1, fetchID: 'pooltogether'},
+			'usdp': {price: 1, fetchID: 'usdp'},
 		}
 
 		const	fetchedCryptoPrices = await fetchCryptoPrice(currencyNonce);
@@ -120,6 +133,31 @@ export const CurrenciesContextApp = ({children}) => {
 		NProgress.done();
 	};
 
+	const	updateCrvLPTokenPrice = async () => {
+		const	mapping = {
+			'eursCRV': '0x194ebd173f6cdace046c53eacce9b953f28411d1',
+			'linkCRV': '0xcee60cfa923170e4f8204ae08b4fa6a3f5656f3a',
+			'musd3CRV': '0x1aef73d49dedc4b1778d0706583995958dc862e6',
+			'usdn3CRV': '0x4f3e8f405cf5afc05d68142f3783bdfe13811522',
+			'ust3CRV': '0x94e131324b6054c0d789b190b2dac504e4361b53',
+			'crvPlain3andSUSD': '0xc25a3a3b969415c80451098fa907ec722572917f',
+			'husd3CRV': '0x5b5cfe992adac0c9d48e05854b2d91c73a003858',
+			'a3CRV': '0xfd2a8fa60abd58efe3eee34dd494cd491dc14900',
+			'usdp3CRV': '0x7eb40e450b9655f4b3cc4259bcc731c63ff55ae6',
+			'ankrCRV': '0xaa17a236f2badc98ddc0cf999abb47d47fc0a6cf'
+		};
+		Object.entries(mapping).forEach(async ([k, v]) => {
+			const	price = await retrieveCurveLPVirtualPrice(v);
+			const	priceToCurrency = baseCurrency === 'eur' ? price * tokenPrices['usdt']?.price || 1 : price
+			set_crvPrices(v => ({...v, [k]: {price: priceToCurrency}}));
+			set_currencyNonce(u => u + 1);
+		})
+	}
+
+	useInterval(() => {
+		updateCrvLPTokenPrice(baseCurrency)
+	}, 1000 * 60 * 1, true, [baseCurrency])
+
 	useInterval(() => {
 		updateCurrency(baseCurrency)
 	}, 1000 * 45, true, [baseCurrency])
@@ -134,14 +172,16 @@ export const CurrenciesContextApp = ({children}) => {
 
 	return (
 		<CurrenciesContext.Provider
-			children={children}
 			value={{
 				baseCurrency,
 				switchCurrency,
 				currencyNonce,
-				tokenPrices: tokenPrices,
+				tokenPrices,
+				crvPrices,
 				sushiPairs
-			}} />
+			}}>
+			{children}
+		</CurrenciesContext.Provider>
 	)
 }
 

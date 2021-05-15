@@ -5,248 +5,16 @@
 **	@Filename:				index.js
 ******************************************************************************/
 
-import	{useEffect, Fragment, useRef, useState}						from	'react';
-import	{Dialog, Transition}										from	'@headlessui/react';
-import	{useToasts}													from	'react-toast-notifications';
-import	{v4 as uuidv4}												from	'uuid';
-import	useCurrencies												from	'contexts/useCurrencies';
-import	useStrategies												from	'contexts/useStrategies';
-import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}				from	'components/StrategyBadgerWBTC';
-import	StrategyYVBoost, {PrepareStrategyYVBoost}					from	'components/StrategyYVBoost';
-import	StrategyApe, {PrepareStrategyApe}							from	'components/StrategyApe';
-import	{toAddress}													from	'utils';
-
-const	STRATEGIES = {
-	'Badger WBTC': {
-		list: 'yearn',
-		prepare: (a) => PrepareStrategyBadgerWBTC(a),
-		Strategy: StrategyBadgerWBTC
-	},
-	'yvBoost': {
-		list: 'yearn',
-		prepare: (a) => PrepareStrategyYVBoost(a),
-		Strategy: StrategyYVBoost
-	},
-	'Reflex me 📷💚': {
-		parameters: {
-			title: 'Reflex me 📷💚',
-			href: 'https://ape.tax/rai',
-			contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-			underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-			underlyingTokenSymbol: `RAI`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `rai`,
-			underlyingTokenIcon: `/rai.png`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Old Grandmaster\'s DAI ♟👴': {
-		parameters: {
-			title: 'Old Grandmaster\'s DAI ♟👴',
-			href: 'https://ape.tax/grandmastersdai',
-			contractAddress: `0xB98Df7163E61bf053564bde010985f67279BBCEC`,
-			underlyingTokenAddress: `0x6b175474e89094c44da98b954eedeac495271d0f`,
-			underlyingTokenSymbol: `DAI`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `dai`,
-			underlyingTokenIcon: `/dai.svg`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Spartan Bank ⚔️🏦': {
-		parameters: {
-			title: 'Spartan Bank ⚔️🏦',
-			href: 'https://ape.tax/spartanbank',
-			contractAddress: `0xF29AE508698bDeF169B89834F76704C3B205aedf`,
-			underlyingTokenAddress: `0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f`,
-			underlyingTokenSymbol: `SNX`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `havven`,
-			underlyingTokenIcon: `/snx.png`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'ETH\'s Ape Ape Baby 🧊👶': {
-		parameters: {
-			title: 'ETH\'s Ape Ape Baby 🧊👶',
-			href: 'https://ape.tax/ethbaby',
-			contractAddress: `0xD2C65E20C3fDE3F18097e7414e65596e0C83B1a9`,
-			underlyingTokenAddress: `0xf16e81dce15b08f326220742020379b855b87df9`,
-			underlyingTokenSymbol: `ICE`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `ice-token`,
-			underlyingTokenIcon: `/ice.png`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Bank Sushi 🏦🍣': {
-		parameters: {
-			title: 'Bank Sushi 🏦🍣',
-			href: 'https://ape.tax/sushibank',
-			contractAddress: `0xb32747b4045479b77a8b8eb44029ba12580214f8`,
-			underlyingTokenAddress: `0x6b3595068778dd592e39a122f4f5a5cf09c90fe2`,
-			underlyingTokenSymbol: `SUSHI`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `sushi`,
-			underlyingTokenIcon: `/sushi.png`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Ghosty Dollar 𓀀💵': {
-		parameters: {
-			title: 'Ghosty Dollar 𓀀💵',
-			href: 'https://ape.tax/ghostysusd',
-			contractAddress: `0xa5cA62D95D24A4a350983D5B8ac4EB8638887396`,
-			underlyingTokenAddress: `0x57ab1ec28d129707052df4df418d58a2d46d5f51`,
-			underlyingTokenSymbol: `sUSD`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `nusd`,
-			underlyingTokenIcon: `/susd.png`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧': {
-		parameters: {
-			title: 'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧',
-			href: 'https://ape.tax/poolwithus',
-			contractAddress: `0x2F194Da57aa855CAa02Ea3Ab991fa5d38178B9e6`,
-			underlyingTokenAddress: `0x1f9840a85d5af5bf1d1762f925bdaddc4201f984`,
-			underlyingTokenSymbol: `UNI`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `uniswap`,
-			underlyingTokenIcon: `/uni.svg`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'True Idle T🛌': {
-		parameters: {
-			title: 'True Idle T🛌',
-			href: 'https://ape.tax/trueidle',
-			contractAddress: `0x49b3E44e54b6220aF892DbA48ae45F1Ea6bC4aE9`,
-			underlyingTokenAddress: `0x0000000000085d4780b73119b644ae5ecd22b376`,
-			underlyingTokenSymbol: `TUSD`,
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: `true-usd`,
-			underlyingTokenIcon: `/tusd.svg`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Idle Tether 🛌T': {
-		parameters: {
-			title: 'Idle Tether 🛌T',
-			href: 'https://ape.tax/idletether',
-			contractAddress: `0xAf322a2eDf31490250fdEb0D712621484b09aBB6`,
-			underlyingTokenAddress: `0xdac17f958d2ee523a2206206994597c13d831ec7`,
-			underlyingTokenSymbol: `USDT`,
-			underlyingTokenDecimal: 6,
-			underlyingTokenCgID: `tether`,
-			underlyingTokenIcon: `/usdt.svg`,
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		Strategy: StrategyApe
-	},
-	'Data AAVE 💿🕊': {
-		parameters: {
-			title: 'Data AAVE 💿🕊',
-			href: 'https://ape.tax/dataaave',
-			contractAddress: `0xAc1C90b9c76d56BA2e24F3995F7671c745f8f308`,
-			underlyingTokenAddress: `0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9`,
-			underlyingTokenSymbol: `AAVE`,
-			underlyingTokenCgID: `aave`,
-			underlyingTokenIcon: `/aave.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-	'Full Metal Farmer 🧙‍♂️🧪': {
-		parameters: {
-			title: 'Full Metal Farmer 🧙‍♂️🧪',
-			href: 'https://ape.tax/fullmetalfarmer',
-			contractAddress: `0x56A5Fd5104a4956898753dfb060ff32882Ae0eb4`,
-			underlyingTokenAddress: `0xdbdb4d16eda451d0503b854cf79d55697f90c8df`,
-			underlyingTokenSymbol: `ALCX`,
-			underlyingTokenCgID: `alchemix`,
-			underlyingTokenIcon: `/alcx.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-	'sUSD Idle 🏆⚔️': {
-		parameters: {
-			title: 'sUSD Idle 🏆⚔️',
-			href: 'https://ape.tax/susdidle',
-			contractAddress: `0x3466c90017F82DDA939B01E8DBd9b0f97AEF8DfC`,
-			underlyingTokenAddress: `0x57ab1ec28d129707052df4df418d58a2d46d5f51`,
-			underlyingTokenSymbol: `sUSD`,
-			underlyingTokenCgID: `nusd`,
-			underlyingTokenIcon: `/susd.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-	'WETH Gen Lender 🧬💰': {
-		parameters: {
-			title: 'WETH Gen Lender 🧬💰',
-			href: 'https://ape.tax/wethgenlender',
-			contractAddress: `0xac333895ce1a73875cf7b4ecdc5a743c12f3d82b`,
-			underlyingTokenAddress: `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`,
-			underlyingTokenSymbol: `WETH`,
-			underlyingTokenCgID: `eth`,
-			underlyingTokenIcon: `/weth.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-	'WETH Iron Lender 🦾💰': {
-		parameters: {
-			title: 'WETH Iron Lender 🦾💰',
-			href: 'https://ape.tax/ironlender',
-			contractAddress: `0xED0244B688cF059f32f45E38A6ac6E479D6755f6`,
-			underlyingTokenAddress: `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`,
-			underlyingTokenSymbol: `WETH`,
-			underlyingTokenCgID: `eth`,
-			underlyingTokenIcon: `/weth.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-	'st. Ether-ETH Pool 💧🎱': {
-		parameters: {
-			title: 'st. Ether-ETH Pool 💧🎱',
-			href: 'https://ape.tax/stecrv',
-			contractAddress: `0xdCD90C7f6324cfa40d7169ef80b12031770B4325`,
-			underlyingTokenAddress: `0x06325440d014e39736583c165c2963ba99faf14e`,
-			underlyingTokenSymbol: `steCRV`,
-			underlyingTokenCgID: `eth`,
-			underlyingTokenIcon: `/stecrv.png`,
-		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
-		list: 'ape.tax',
-		Strategy: StrategyApe
-	},
-}
+import	React, {useEffect, Fragment, useRef, useState}	from	'react';
+import	{Dialog, Transition}							from	'@headlessui/react';
+import	{useToasts}										from	'react-toast-notifications';
+import	{v4 as uuidv4}									from	'uuid';
+import	useCurrencies									from	'contexts/useCurrencies';
+import	useStrategies									from	'contexts/useStrategies';
+import	{PrepareStrategyBadgerWBTC}						from	'components/StrategyBadgerWBTC';
+import	{PrepareStrategyYVBoost}						from	'components/StrategyYVBoost';
+import	{toAddress}										from	'utils';
+import	STRATEGIES										from	'utils/strategies';
 
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	const	{set_strategies} = useStrategies();
@@ -257,13 +25,13 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	const	{addToast} = useToasts();
 
 	useEffect(() => {
-		set_strategy(Object.entries(STRATEGIES).filter(([key, value]) => value.list === list)[0][0])
+		set_strategy(Object.entries(STRATEGIES).filter(([, value]) => value.list === list)[0][0])
 	}, [list])
 
 	async function	prepareStrategy() {
 		const	_address = toAddress(address)
 		if (!_address) {
-			return {status: 'KO', result: `invalidAddress`}
+			return {status: 'KO', result: 'invalidAddress'}
 		}
 
 		let		result = undefined;
@@ -279,7 +47,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 		}
 	
 		if (!result) {
-			return {status: 'KO', result: `error`}
+			return {status: 'KO', result: 'error'}
 		}
 		return {status: 'OK', result: {
 			...result,
@@ -328,13 +96,25 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 											onClick={() => set_list('ape.tax')}
 											type={'button'}
 											className={`${list === 'ape.tax' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											{'🦍 Ape.tax'}
+											🦍&nbsp;&nbsp;{'Ape.tax'}
 										</button>
 										<button
-											onClick={() => set_list('yearn')}
+											onClick={() => set_list('yearn-v1')}
 											type={'button'}
-											className={`${list === 'yearn' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											{'🌾 Yearn'}
+											className={`${list === 'yearn-v1' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											🔷&nbsp;&nbsp;{'Yearn V1'}
+										</button>
+										<button
+											onClick={() => set_list('yearn-v1-crv')}
+											type={'button'}
+											className={`${list === 'yearn-v1-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											🌈&nbsp;&nbsp;{'YearnCrv V1'}
+										</button>
+										<button
+											onClick={() => set_list('misc')}
+											type={'button'}
+											className={`${list === 'misc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											🌾&nbsp;&nbsp;{'Misc'}
 										</button>
 									</span>
 								</div>
@@ -350,7 +130,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 										value={strategy}
 										onChange={e => set_strategy(e.target.value)}
 										className={'mt-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm rounded-md'}>
-										{Object.entries(STRATEGIES).filter(([key, value]) => value.list === list).map(e => (
+										{Object.entries(STRATEGIES).filter(([, value]) => value.list === list).map(e => (
 											<option key={e[0]}>{e[0]}</option>	
 										))}
 									</select>
@@ -377,7 +157,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 										onClick={async () => {
 											addToast('Preparing strategy', {appearance: 'info'});
 											const res = await prepareStrategy()
-											if (res.status === `KO`) {
+											if (res.status === 'KO') {
 												return addToast(`Error : ${res.result}`, {appearance: 'error'});
 											}
 											const	populator = res.result;
@@ -449,22 +229,17 @@ function	Index() {
 			<div className={'w-full border-b border-dark-600 mb-6'}>
 				<span className={'text-3xl md:text-3xl font-medium text-white text-opacity-80 flex flex-row justify-center items-center'}>
 					<h1>{'🌾'}</h1>
-					<h1 className={'mx-2 md:mx-4 text-center'}>{` A degen loss calculator `}</h1>
+					<h1 className={'mx-2 md:mx-4 text-center'}>{' A degen loss calculator '}</h1>
 					<h1 style={{transform: 'rotateY(-180deg)'}}>{'🌾'}</h1>
 				</span>
 				<div className={'mt-6 flex flex-row space-x-4 items-center'}>
 					<div className={`border-b pb-4 ${currentTab === 0 ? 'border-accent-900' : 'border-dark-600'} transition-colors`} onClick={() => set_currentTab(0)}>
 						<h2 className={`${currentTab === 0 ? 'text-white' : 'text-dark-100 hover:text-white hover:text-opacity-60'} transition-colors cursor-pointer font-medium text-md`}>
-							{'Current Strategies'}
-						</h2>
-					</div>
-					<div className={`border-b pb-4 ${currentTab === 1 ? 'border-accent-900' : 'border-dark-600'} transition-colors`} onClick={() => set_currentTab(1)}>
-						<h2 className={`${currentTab === 1 ? 'text-white' : 'text-dark-100 hover:text-white hover:text-opacity-60'} transition-colors cursor-pointer font-medium text-md`}>
-							{'Old Strategies'}
+							{'Strategies'}
 						</h2>
 					</div>
 					<div
-						className={`pb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center`}
+						className={'pb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center'}
 						style={{marginLeft: 'auto'}}
 						onClick={() => set_strategyModal(true)}>
 						<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
@@ -473,7 +248,7 @@ function	Index() {
 						<h2>{'Add strategy'}</h2>
 					</div>
 					<div
-						className={`pl-4 mb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-75`}
+						className={'pl-4 mb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-75'}
 						onClick={() => switchCurrency()}>
 						<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
 					</div>

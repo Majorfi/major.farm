@@ -46,14 +46,14 @@ function	AppWrapper(props) {
 					</div>
 				</div>
 				<div className={'mt-10 space-x-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
-					<a href={'https://twitter.com/MajorTom_eth'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Twitter'}</a>
+					<a href={'https://twitter.com/MajorTom_eth'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Twitter'}</a>
 					<p>{'-'}</p>
-					<a href={'https://github.com/TBouder/major.farm'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Github'}</a>
+					<a href={'https://github.com/TBouder/major.farm'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Github'}</a>
 					<p>{'-'}</p>
-					<a href={'mailto:major-tom.eth@pm.me'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Contact'}</a>
+					<a href={'mailto:major-tom.eth@pm.me'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Contact'}</a>
 				</div>
 				<div className={'py-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
-					<p>{'Donation : 0x9E63B020ae098E73cF201EE1357EDc72DFEaA518'}</p>
+					<p>{'Donation : 0xc599d862Aa595244b585ad839839d3f3f6d35f30'}</p>
 				</div>
 
 			</div>

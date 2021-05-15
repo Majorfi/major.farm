@@ -5,6 +5,7 @@
 **	@Filename:				SectionRemove.js
 ******************************************************************************/
 
+import	React				from	'react';
 import	useStrategies		from	'contexts/useStrategies';
 import	{removeFromArray}	from	'utils';
 
