@@ -17,34 +17,60 @@ function	GroupElement({image, label, amount, value, address, details = undefined
 		set_currentImage(image);
 	}, [image])
 
+	function	renderValue() {
+		if (baseCurrency === 'eur') {
+			return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(value))
+		}
+		return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(value))
+	}
+
+	function	renderAmount() {
+		if (baseCurrency === 'eur') {
+			return (new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
+		}
+		return (new Intl.NumberFormat('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
+	}
+
 	return (
 		<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full items-baseline'}>
 			<div className={'w-1/3 font-medium flex flex-row items-center'}>
 				{
 					currentImage.startsWith('/') || currentImage.startsWith('http') ?
-					<>
-						<Image
-							onError={() => set_currentImage('/yGeneric.svg')}
-							src={currentImage}
-							width={16}
-							height={16}
-							quality={100}
-							loading={'eager'} />
+					<div className={'flex flex-row items-center'}>
+						<div className={'w-4'} style={{minWidth: 16}}>
+							<Image
+								onError={() => set_currentImage('/yGeneric.svg')}
+								src={currentImage}
+								width={16}
+								height={16}
+								quality={100}
+								loading={'eager'} />
+						</div>
 						&nbsp;&nbsp;
-						<a
-							target={'_blank'}
-							href={`https://etherscan.io/token/${address}`}
-							className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
-							{`${label} :`}
-						</a>
-					</>
+						<div>
+							<a
+								target={'_blank'}
+								href={`https://etherscan.io/token/${address}`}
+								className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
+								{`${label}`}
+							</a>
+						</div>
+					</div>
 					:
-					<p>{`${currentImage}  ${label} :`}</p>
+					<div className={'flex flex-row items-center'}>
+						<div className={'w-4'} style={{minWidth: 16}}>
+							<p>{currentImage}</p>
+						</div>
+						&nbsp;&nbsp;
+						<div>
+							<p>{label}</p>
+						</div>
+					</div>
 				}
 			</div>
-			<p className={'w-1/3 text-right'}>{amount}</p>
+			<p className={'w-1/3 text-right'}>{renderAmount()}</p>
 			<div className={'w-1/3 text-right'}>
-				<p>{`${value} ${baseCurrency === 'eur' ? '€' : '$'}`}</p>
+				<p>{renderValue()}</p>
 				{details ? <p className={'font-light italic text-xs text-dark-100'}>
 					{details}
 				</p> : null}

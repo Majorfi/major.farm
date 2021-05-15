@@ -273,7 +273,7 @@ const	STRATEGIES_YEARN_V1 = {
 			underlyingTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
 			underlyingTokenSymbol: 'USDC',
 			underlyingTokenDecimal: 6,
-			underlyingTokenCgID: 'usdc',
+			underlyingTokenCgID: 'usd-coin',
 			underlyingTokenIcon: '/usdc.svg',
 		},
 		list: 'yearn-v1',
@@ -329,173 +329,193 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenCgID: 'eursCRV',
 			underlyingTokenIcon: '/curve.png',
 		},
-		list: 'yearn-v1',
+		list: 'yearn-v1-crv',
 		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
 		Strategy: StrategyYearnCrvV1
 	},
+	'Yearn V1 - crvLINK': {
+		parameters: {
+			title: 'Yearn V1 - crvLINK',
+			href: 'https://yearn.fi/invest/0x96Ea6AF74Af09522fCB4c28C269C26F59a31ced6',
+			contractAddress: '0x96Ea6AF74Af09522fCB4c28C269C26F59a31ced6',
+			tokenIcon: '/yvlinkCRV.png',
+			tokenSymbol: 'yvlinkCRV',
+			underlyingTokenAddress: '0xcee60cfa923170e4f8204ae08b4fa6a3f5656f3a',
+			underlyingTokenSymbol: 'linkCRV',
+			underlyingTokenName: 'Curve.fi LINK/sLINK',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'linkCRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvMUSD': {
+		parameters: {
+			title: 'Yearn V1 - crvMUSD',
+			href: 'https://yearn.fi/invest/0x0fcdaedfb8a7dfda2e9838564c5a1665d856afdf',
+			contractAddress: '0x0fcdaedfb8a7dfda2e9838564c5a1665d856afdf',
+			tokenIcon: '/yvmusdCRV.png',
+			tokenSymbol: 'yvmusd3CRV',
+			underlyingTokenAddress: '0x1aef73d49dedc4b1778d0706583995958dc862e6',
+			underlyingTokenSymbol: 'musd3CRV',
+			underlyingTokenName: 'Curve.fi MUSD/3Crv',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'musd3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvUSDN': {
+		parameters: {
+			title: 'Yearn V1 - crvUSDN',
+			href: 'https://yearn.fi/invest/0xfe39ce91437c76178665d64d7a2694b0f6f17fe3',
+			contractAddress: '0xfe39ce91437c76178665d64d7a2694b0f6f17fe3',
+			tokenIcon: '/yvusdn3CRV.png',
+			tokenSymbol: 'yvusdn3CRV',
+			underlyingTokenAddress: '0x4f3e8f405cf5afc05d68142f3783bdfe13811522',
+			underlyingTokenSymbol: 'usdn3CRV',
+			underlyingTokenName: 'Curve.fi USDN/3Crv',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'usdn3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvUST': {
+		parameters: {
+			title: 'Yearn V1 - crvUST',
+			href: 'https://yearn.fi/invest/0xf6c9e9af314982a4b38366f4abfaa00595c5a6fc',
+			contractAddress: '0xf6c9e9af314982a4b38366f4abfaa00595c5a6fc',
+			tokenIcon: '/yvust3CRV.png',
+			tokenSymbol: 'yvust3CRV',
+			underlyingTokenAddress: '0x94e131324b6054c0d789b190b2dac504e4361b53',
+			underlyingTokenSymbol: 'ust3CRV',
+			underlyingTokenName: 'Curve.fi UST/3Crv',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'ust3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvSUSD': {
+		parameters: {
+			title: 'Yearn V1 - crvSUSD',
+			href: 'https://yearn.fi/invest/0x5533ed0a3b83f70c3c4a1f69ef5546d3d4713e44',
+			contractAddress: '0x5533ed0a3b83f70c3c4a1f69ef5546d3d4713e44',
+			tokenIcon: '/yvcrvPlain3andSUSD.png',
+			tokenSymbol: 'yvcrvPlain3andSUSD',
+			underlyingTokenAddress: '0xc25a3a3b969415c80451098fa907ec722572917f',
+			underlyingTokenSymbol: 'crvPlain3andSUSD',
+			underlyingTokenName: 'Curve.fi DAI/USDC/USDT/sUSD',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'crvPlain3andSUSD',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvHUSD': {
+		parameters: {
+			title: 'Yearn V1 - crvHUSD',
+			href: 'https://yearn.fi/invest/0x39546945695dcb1c037c836925b355262f551f55',
+			contractAddress: '0x39546945695dcb1c037c836925b355262f551f55',
+			tokenIcon: '/yvhusd3CRV.png',
+			tokenSymbol: 'yvhusd3CRV',
+			underlyingTokenAddress: '0x5b5cfe992adac0c9d48e05854b2d91c73a003858',
+			underlyingTokenSymbol: 'husd3CRV',
+			underlyingTokenName: 'Curve.fi HUSD/3Crv',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'husd3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvAAVE': {
+		parameters: {
+			title: 'Yearn V1 - crvDUSD',
+			href: 'https://yearn.fi/invest/0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
+			contractAddress: '0x03403154afc09ce8e44c3b185c82c6ad5f86b9ab',
+			tokenIcon: '/yva3CRV.png',
+			tokenSymbol: 'yva3CRV',
+			underlyingTokenAddress: '0xfd2a8fa60abd58efe3eee34dd494cd491dc14900',
+			underlyingTokenSymbol: 'a3CRV',
+			underlyingTokenName: 'Curve.fi aDAI/aUSDC/aUSDT',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'a3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'Yearn V1 - crvUSDP': {
+		parameters: {
+			title: 'yearn V1 - crvUSDP',
+			href: 'https://yearn.fi/invest/0x1b5eb1173d2bf770e50f10410c9a96f7a8eb6e75',
+			contractAddress: '0x1b5eb1173d2bf770e50f10410c9a96f7a8eb6e75',
+			tokenIcon: '/yvusdp3CRV.png',
+			tokenSymbol: 'yvusdp3CRV',
+			underlyingTokenAddress: '0x7eb40e450b9655f4b3cc4259bcc731c63ff55ae6',
+			underlyingTokenSymbol: 'usdp3CRV',
+			underlyingTokenName: 'Curve.fi USDP/3Crv',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'usdp3CRV',
+			underlyingTokenIcon: '/curve.png',
+
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},
+	'yearn V1 - crvAETH': {
+		parameters: {
+			title: 'yearn V1 - crvAETH',
+			href: 'https://yearn.fi/invest/0xe625f5923303f1ce7a43acfefd11fd12f30dbca4',
+			contractAddress: '0xe625f5923303f1ce7a43acfefd11fd12f30dbca4',
+			tokenIcon: '/yvankrCRV.png',
+			tokenSymbol: 'yvankrCRV',
+			underlyingTokenAddress: '0xaa17a236f2badc98ddc0cf999abb47d47fc0a6cf',
+			underlyingTokenSymbol: 'ankrCRV',
+			underlyingTokenName: 'Curve.fi ETH/aETH',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'ankrCRV',
+			underlyingTokenIcon: '/curve.png',
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	},	
 }
 
 const	STRATEGIES_MISC = {
 	'Badger WBTC': {
-		list: 'yearn',
+		list: 'misc',
 		prepare: (a) => PrepareStrategyBadgerWBTC(a),
 		Strategy: StrategyBadgerWBTC
 	},
 	'yvBoost': {
-		list: 'yearn',
+		list: 'misc',
 		prepare: (a) => PrepareStrategyYVBoost(a),
 		Strategy: StrategyYVBoost
 	},
-	// 'Yearn V1 - crvLINK': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvLINK',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvMUSD': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvMUSD',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvUSDN': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvUSDN',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvUST': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvUST',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvSUSD': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvSUSD',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvHUSD': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvHUSD',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvDUSD': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvDUSD',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvAAVE': {
-	// 	parameters: {
-	// 		title: 'Yearn V1 - crvAAVE',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'Yearn V1 - crvUSDP': {
-	// 	parameters: {
-	// 		title: 'yearn V1 - crvUSDP',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },
-	// 'yearn V1 - crvAETH': {
-	// 	parameters: {
-	// 		title: 'yearn V1 - crvAETH',
-	// 		href: 'https://ape.tax/rai',
-	// 		contractAddress: `0x4856a7efbbfcae92ab13c5e2e322fc77647bb856`,
-	// 		underlyingTokenAddress: `0x03ab458634910aad20ef5f1c8ee96f1d6ac54919`,
-	// 		underlyingTokenSymbol: `RAI`,
-	// 		underlyingTokenDecimal: 18,
-	// 		underlyingTokenCgID: `rai`,
-	// 		underlyingTokenIcon: `/rai.png`,
-	// 	},
-	// 	list: 'yearn',
-	// 	prepare: (p, a) => PrepareStrategyApe(p, a),
-	// 	Strategy: StrategyApe
-	// },	
 }
 
-export default [...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC];
+export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};

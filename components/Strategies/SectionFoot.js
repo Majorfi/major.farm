@@ -5,6 +5,7 @@
 **	@Filename:				SectionFoot.js
 ******************************************************************************/
 
+import	React				from	'react';
 import	useCurrencies		from	'contexts/useCurrencies';
 
 function	SectionFoot({result, children}) {
@@ -18,11 +19,11 @@ function	SectionFoot({result, children}) {
 					{`${(result).toFixed(4)} ${baseCurrency === 'eur' ? '€' : '$'}`}
 				</p>
 				{children ?
-					<div className={`text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2`}>
+					<div className={'text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2'}>
 						{children}
 					</div>
 					:
-					<p className={`text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2`}>&nbsp;</p>
+					<p className={'text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2'}>&nbsp;</p>
 				}
 		</section>
 	)

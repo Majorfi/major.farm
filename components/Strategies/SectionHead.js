@@ -5,6 +5,7 @@
 **	@Filename:				SectionHead.js
 ******************************************************************************/
 
+import	React					from	'react';
 import	{useState, useEffect}	from	'react';
 import	{ethers}				from	'ethers';
 import	{datediff}				from	'utils';
@@ -15,7 +16,7 @@ function	SectionHead({title, href, address, date, APY}) {
 	useEffect(async () => {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
 		set_ethAddress(await provider.lookupAddress(address) || address);
-	}, [])
+	}, [address])
 
 	return (
 		<section
@@ -26,14 +27,16 @@ function	SectionHead({title, href, address, date, APY}) {
 					<a
 						target={'_blank'}
 						href={href}
-						className={'font-medium text-2xl text-white text-opacity-30 transition-opacity hover:text-opacity-100'}>
+						className={'font-medium text-2xl text-white text-opacity-30 transition-opacity hover:text-opacity-100'}
+						rel={'noreferrer'}>
 						{title}
 					</a>
 				</div>
 				<a
 					target={'_blank'}
 					href={`https://etherscan.io/address/${address}`}
-					className={'text-xs text-white text-opacity-30 transition-all hover:text-accent-900 hover:text-opacity-100 hover:underline'}>
+					className={'text-xs text-white text-opacity-30 transition-all hover:text-accent-900 hover:text-opacity-100 hover:underline'}
+					rel={'noreferrer'}>
 					{ethAddress}
 				</a>
 			</div>

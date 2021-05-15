@@ -5,16 +5,16 @@
 **	@Filename:				StrategyYVBoost.js
 ******************************************************************************/
 
-import	{useState, useEffect}		from	'react';
-import	useCurrencies				from	'contexts/useCurrencies';
-import	{toAddress, bigNumber}		from	'utils';
-import	{ethers}					from	'ethers';
-import	SectionRemove				from	'components/Strategies/SectionRemove'
-import	SectionHead					from	'components/Strategies/SectionHead'
-import	SectionFoot					from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}		from	'components/Strategies/Group'
-import	* as api					from	'utils/API';
-import	methods						from	'utils/methodsSignatures';
+import	React, {useState, useEffect, useCallback}	from	'react';
+import	useCurrencies								from	'contexts/useCurrencies';
+import	{toAddress, bigNumber}						from	'utils';
+import	{ethers}									from	'ethers';
+import	SectionRemove								from	'components/Strategies/SectionRemove'
+import	SectionHead									from	'components/Strategies/SectionHead'
+import	SectionFoot									from	'components/Strategies/SectionFoot'
+import	Group, {GroupElement}						from	'components/Strategies/Group'
+import	* as api									from	'utils/API';
+import	methods										from	'utils/methodsSignatures';
 
 async function	PrepareStrategyYearnV1(parameters, address) {
 	let		timestamp = undefined;
@@ -126,14 +126,14 @@ function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initial
 	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
-	async function	retrieveShareValue() {
+	const retrieveShareValue = useCallback(async () => {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
 		const	ABI = ['function getPricePerFullShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	getPricePerFullShare = await smartContract.getPricePerFullShare();
 		const	share = initialCrops * (getPricePerFullShare / 1e18)
 		set_underlyingEarned(share)
-	}
+	}, [initialCrops, parameters.contractAddress]);
 
 	useEffect(() => {
 		if (harvest > 0 && underlyingEarned === 0) {
@@ -145,7 +145,7 @@ function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initial
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
-	}, [currencyNonce]);
+	}, [currencyNonce, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
@@ -156,13 +156,13 @@ function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initial
 				(totalFeesEth * ethToBaseCurrency)
 			);
 		}
-	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth, harvest, initialCrops, initialSeeds])
 
 	useEffect(() => {
 		const	vi = initialSeeds * underlyingToBaseCurrency;
 		const	vf = result + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToBaseCurrency, result])
+	}, [ethToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>

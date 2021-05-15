@@ -16,7 +16,6 @@ import	{PrepareStrategyYVBoost}						from	'components/StrategyYVBoost';
 import	{toAddress}										from	'utils';
 import	STRATEGIES										from	'utils/strategies';
 
-
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	const	{set_strategies} = useStrategies();
 	const	[address, set_address] = useState('');
@@ -97,19 +96,25 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 											onClick={() => set_list('ape.tax')}
 											type={'button'}
 											className={`${list === 'ape.tax' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											{'🦍 Ape.tax'}
+											🦍&nbsp;&nbsp;{'Ape.tax'}
 										</button>
 										<button
 											onClick={() => set_list('yearn-v1')}
 											type={'button'}
 											className={`${list === 'yearn-v1' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											{'🔷 Yearn V1'}
+											🔷&nbsp;&nbsp;{'Yearn V1'}
 										</button>
 										<button
-											onClick={() => set_list('yearn')}
+											onClick={() => set_list('yearn-v1-crv')}
 											type={'button'}
-											className={`${list === 'yearn' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											{'🌾 Yearn'}
+											className={`${list === 'yearn-v1-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											🌈&nbsp;&nbsp;{'YearnCrv V1'}
+										</button>
+										<button
+											onClick={() => set_list('misc')}
+											type={'button'}
+											className={`${list === 'misc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											🌾&nbsp;&nbsp;{'Misc'}
 										</button>
 									</span>
 								</div>
@@ -230,12 +235,7 @@ function	Index() {
 				<div className={'mt-6 flex flex-row space-x-4 items-center'}>
 					<div className={`border-b pb-4 ${currentTab === 0 ? 'border-accent-900' : 'border-dark-600'} transition-colors`} onClick={() => set_currentTab(0)}>
 						<h2 className={`${currentTab === 0 ? 'text-white' : 'text-dark-100 hover:text-white hover:text-opacity-60'} transition-colors cursor-pointer font-medium text-md`}>
-							{'Current Strategies'}
-						</h2>
-					</div>
-					<div className={`border-b pb-4 ${currentTab === 1 ? 'border-accent-900' : 'border-dark-600'} transition-colors`} onClick={() => set_currentTab(1)}>
-						<h2 className={`${currentTab === 1 ? 'text-white' : 'text-dark-100 hover:text-white hover:text-opacity-60'} transition-colors cursor-pointer font-medium text-md`}>
-							{'Old Strategies'}
+							{'Strategies'}
 						</h2>
 					</div>
 					<div

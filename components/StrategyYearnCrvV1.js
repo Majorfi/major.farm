@@ -194,7 +194,7 @@ async function	PrepareStrategyYearnCrvV1(parameters, address) {
 }
 
 function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harvest, date}) {
-	const	{tokenPrices, crvPrices, currencyNonce, baseCurrency} = useCurrencies();
+	const	{tokenPrices, crvPrices, currencyNonce} = useCurrencies();
 
 	const	[preRenderStep, set_preRenderStep] = useState({
 		seedPrice: false,
@@ -214,7 +214,6 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
-	const	[resultImpermanent, set_resultImpermanent] = useState(0);
 
 	const	[isHarvested, set_isHarvested] = useState(false);
 
@@ -239,12 +238,6 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 
 		return _actualCrops;
 	}, [address, parameters.contractAddress, parameters.underlyingTokenDecimal]);
-
-	const computeTotalCropsOf = useCallback(() => {
-		let		total = bigNumber.from(0);
-		crops.forEach((crop) => {total = total.add(bigNumber.from(crop.valueRaw))})
-		return Number(ethers.utils.formatUnits(total, parameters.underlyingTokenDecimal || 18));
-	}, [crops, parameters.underlyingTokenDecimal]);
 
 	/**************************************************************************
 	**	Update the prices & get the data from the related smartContracts
@@ -305,18 +298,19 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 			const	_cumulativeHarvestPrice = harvested * underlyingToBaseCurrency;
 			set_cumulativeHarvestPrice(_cumulativeHarvestPrice);
 
-			if (actualCrops === 0 || isHarvested) {
-				const	_cumulativeCrops = await computeTotalCropsOf();
-				const	_cumulativeCropsPrice = _cumulativeCrops * underlyingToBaseCurrency;
+			if ((actualCrops === 0 || isHarvested) && harvest.length > 0) {
+				set_isHarvested(true);
+
+				const	_remainingCrops =  await retrieveBalanceOf();
+				const	_cumulativeCropsPrice = _remainingCrops * underlyingToBaseCurrency;
 				set_cumulativeCropsPrice(_cumulativeCropsPrice);
 	
-				const	_cumulativeYield = _cumulativeCrops * (cropsShare / 1e18);
+				const	_cumulativeYield = _remainingCrops * (cropsShare / 1e18);
 				const	_cumulativeFarmPrice = _cumulativeYield * underlyingToBaseCurrency;
 				set_cumulativeFarmPrice(_cumulativeFarmPrice);
 
-				set_isHarvested(true);
-				set_yieldEarnedPrice(0);
-				set_yieldEarned(0);
+				set_yieldEarned((actualCrops * (cropsShare / 1e18)) - actualCrops);
+				set_yieldEarnedPrice(((actualCrops * (cropsShare / 1e18)) - actualCrops) * underlyingToBaseCurrency);
 			} else {
 				const	_cumulativeCrops = await retrieveBalanceOf();
 				const	_cumulativeCropsPrice = _cumulativeCrops * underlyingToBaseCurrency;
@@ -333,7 +327,7 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 			}
 			set_preRenderStep(v => ({...v, prices: true}))
 		}
-	}, [underlyingToBaseCurrency, cropsShare, harvested, actualCrops, isHarvested, computeTotalCropsOf, retrieveBalanceOf]);
+	}, [underlyingToBaseCurrency, cropsShare, harvested, actualCrops, isHarvested, retrieveBalanceOf, harvest]);
 	useEffect(() => {computeGroupPrices()}, [computeGroupPrices])
 
 	/**************************************************************************
@@ -347,15 +341,10 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 	**************************************************************************/
 	useEffect(() => {
 		const	feesPrice = (fees * ethToBaseCurrency);
-		if (isHarvested) {
-			set_result(harvested - feesPrice);
-			set_resultImpermanent(cumulativeHarvestPrice - cumulativeSeedsPrice - feesPrice);
-			set_APY(((cumulativeHarvestPrice - feesPrice) - cumulativeCropsPrice) / cumulativeCropsPrice * 100)
-		} else {
-			set_result(yieldEarnedPrice - feesPrice);
-			set_resultImpermanent(cumulativeFarmPrice - cumulativeSeedsPrice - feesPrice);
-			set_APY(((cumulativeFarmPrice - feesPrice) - cumulativeCropsPrice) / cumulativeCropsPrice * 100)
-		}
+		const	vf = (cumulativeHarvestPrice + yieldEarnedPrice + cumulativeCropsPrice) - feesPrice;
+		const	vi = cumulativeSeedsPrice;
+		set_result((cumulativeHarvestPrice + yieldEarnedPrice + cumulativeCropsPrice) - feesPrice - cumulativeSeedsPrice);
+		set_APY((vf - vi) / vi * 100)
 		set_preRenderStep(v => ({...v, result: true}))
 	}, [yieldEarnedPrice, fees, ethToBaseCurrency, isHarvested, harvested, cumulativeHarvestPrice, cumulativeSeedsPrice, cumulativeFarmPrice, cumulativeCropsPrice])
 
@@ -382,8 +371,8 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 					image={parameters.tokenIcon}
 					label={crop.name}
 					address={crop.address}
-					amount={parseFloat(crop.value.toFixed(10))}
-					value={(crop.value * underlyingToBaseCurrency).toFixed(2)} />
+					amount={parseFloat(actualCrops.toFixed(10))}
+					value={(actualCrops * underlyingToBaseCurrency).toFixed(2)} />
 			})
 		)
 	}
@@ -436,7 +425,7 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 
 	const	isPreRenderOK = preRenderStep.seedPrice && preRenderStep.harvest && preRenderStep.prices && preRenderStep.result;
 	return (
-		<div className={`flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative ${isPreRenderOK ? 'opacity-100' : 'opacity-0'}`}>
+		<div className={`flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative transition-opacity ${isPreRenderOK ? 'opacity-100' : 'opacity-0'}`}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
 				title={parameters.title}
@@ -457,13 +446,7 @@ function	StrategyYearnCrvV1({parameters, address, uuid, fees, seeds, crops, harv
 				{isHarvested ? renderYieldAndHarvest() : renderYield()}
 			</div>
 
-			<SectionFoot result={result}>
-				<div
-					className={`text-opacity-60 font-light italic text-center text-xs ${resultImpermanent > 0 ? 'text-green-400' : resultImpermanent < 0 ? 'text-red-400' : 'text-white'}`}>
-					<p className={'text-dark-100 text-opacity-100 inline'}>{'With impermanent : '}</p>
-					{`${(resultImpermanent).toFixed(4)} ${baseCurrency === 'eur' ? '€' : '$'}`}
-				</div>
-			</SectionFoot>
+			<SectionFoot result={result} />
 		</div>
 	)
 }
