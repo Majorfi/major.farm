@@ -15,7 +15,7 @@ module.exports = ({
 		ALCHEMY_KEY: process.env.ALCHEMY_KEY,
 		ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY
 	},
-  	optimization: {
+	optimization: {
 		minimize: true,
 		splitChunks: {
 			chunks: 'all',

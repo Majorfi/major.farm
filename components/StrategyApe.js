@@ -126,9 +126,9 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 		const	ABI = ['function pricePerShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	pricePerShare = await smartContract.pricePerShare();
-		const	share = initialCrops * (pricePerShare / 1e18)
+		const	share = initialCrops * (pricePerShare / (10**(parameters.underlyingTokenDecimal || 18)))
 		set_underlyingEarned(share)
-	}, [initialCrops, parameters.contractAddress]);
+	}, [initialCrops, parameters.contractAddress, parameters.underlyingTokenDecimal]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {

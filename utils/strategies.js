@@ -10,8 +10,24 @@ import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/StrategyYVBoo
 import	StrategyApe, {PrepareStrategyApe}				from	'components/StrategyApe';
 import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/StrategyYearnV1';
 import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/StrategyYearnCrvV1';
+import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX = {
+	'Comfi Carousel 🛋🎠': {
+		parameters: {
+			title: 'Comfi Carousel 🛋🎠',
+			href: 'https://ape.tax/complifiusdc',
+			contractAddress: '0x71955515ADF20cBDC699B8bC556Fc7Fd726B31B0',
+			underlyingTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+			underlyingTokenSymbol: 'USDC',
+			underlyingTokenDecimal: 6,
+			underlyingTokenCgID: 'usd-coin',
+			underlyingTokenIcon: '/usdc.svg',
+		},
+		list: 'ape.tax',
+		prepare: (p, a) => PrepareStrategyApe(p, a),
+		Strategy: StrategyApe
+	},
 	'Reflex me 📷💚': {
 		parameters: {
 			title: 'Reflex me 📷💚',
@@ -315,6 +331,25 @@ const	STRATEGIES_YEARN_V1 = {
 }
 
 const	STRATEGIES_YEARN_V1_CRV = {
+	'Yearn V2 - crvSTETH': {
+		parameters: {
+			title: 'Yearn V2 - crvSTETH',
+			href: 'https://yearn.fi/invest/0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
+			contractAddress: '0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
+			tokenIcon: '/yvCurve-stETH.png',
+			tokenSymbol: 'yvCurve-stETH',
+			underlyingTokenAddress: '0x06325440d014e39736583c165c2963ba99faf14e',
+			underlyingTokenSymbol: 'steCRV',
+			underlyingTokenName: 'Curve.fi ETH/stETH',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'steCRV',
+			underlyingTokenIcon: '/curve.png',
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
+		Strategy: StrategyYearnCrvV2
+	},
+
 	'Yearn V1 - crvEURS': {
 		parameters: {
 			title: 'Yearn V1 - crvEURS',

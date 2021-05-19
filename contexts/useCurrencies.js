@@ -144,7 +144,8 @@ export const CurrenciesContextApp = ({children}) => {
 			'husd3CRV': '0x5b5cfe992adac0c9d48e05854b2d91c73a003858',
 			'a3CRV': '0xfd2a8fa60abd58efe3eee34dd494cd491dc14900',
 			'usdp3CRV': '0x7eb40e450b9655f4b3cc4259bcc731c63ff55ae6',
-			'ankrCRV': '0xaa17a236f2badc98ddc0cf999abb47d47fc0a6cf'
+			'ankrCRV': '0xaa17a236f2badc98ddc0cf999abb47d47fc0a6cf',
+			'steCRV': '0x06325440d014e39736583c165c2963ba99faf14e'
 		};
 		Object.entries(mapping).forEach(async ([k, v]) => {
 			const	price = await retrieveCurveLPVirtualPrice(v);
