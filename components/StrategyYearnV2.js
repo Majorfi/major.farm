@@ -380,7 +380,7 @@ function	StrategyYearnV2({parameters, address, uuid, fees, seeds, crops, harvest
 			<Group title={'Yield'}>
 				<GroupElement
 					image={parameters.tokenIcon}
-					label={parameters.underlyingTokenName}
+					label={parameters.tokenName}
 					address={parameters.contractAddress}
 					amount={parseFloat(yieldEarned.toFixed(10))}
 					value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />

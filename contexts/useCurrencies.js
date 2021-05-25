@@ -40,7 +40,9 @@ async function	fetchCryptoPrice(nonce) {
 		'alchemix',
 		'pooltogether',
 		'usdp',
-		'chainlink'
+		'link',
+		'yearn-finance',
+		'1inch',
 	]
 	const	result = await performGet(
 		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${to}&n=${nonce}`
@@ -114,7 +116,9 @@ export const CurrenciesContextApp = ({children}) => {
 			'alchemix': {price: 1, fetchID: 'alchemix'},
 			'pooltogether': {price: 1, fetchID: 'pooltogether'},
 			'usdp': {price: 1, fetchID: 'usdp'},
-			'chainlink': {price: 1, fetchID: 'chainlink'},
+			'link': {price: 1, fetchID: 'link'},
+			'yearn-finance': {price: 1, fetchID: 'yearn-finance'},
+			'1inch': {price: 1, fetchID: '1inch'},
 		}
 
 		const	fetchedCryptoPrices = await fetchCryptoPrice(currencyNonce);
