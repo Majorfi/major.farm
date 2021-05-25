@@ -30,7 +30,7 @@ function	Index() {
 						<div className={'mt-10 sm:flex sm:justify-center lg:justify-start'}>
 							<div className={'rounded-md shadow'}>
 								<Link passHref href={'/app'}>
-									<div className={'w-full flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-white bg-accent-900 hover:bg-accent-800 md:py-4 md:text-lg md:px-10'}>
+									<div className={'w-full flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-white bg-accent-900 hover:bg-accent-800 md:py-4 md:text-lg md:px-10 cursor-pointer'}>
 										{'Visit my farm'}
 									</div>
 								</Link>
@@ -45,7 +45,7 @@ function	Index() {
 						loop
 						mode={'normal'}
 						src={'/grow.json'}
-						className={'absolute inset-0 w-full h-full object-cover cursor-pointer'} />
+						className={'absolute inset-0 w-full h-full object-cover'} />
 				</div>
 			</main>
 
