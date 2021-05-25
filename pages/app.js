@@ -15,6 +15,8 @@ import	{PrepareStrategyBadgerWBTC}						from	'components/StrategyBadgerWBTC';
 import	{PrepareStrategyYVBoost}						from	'components/StrategyYVBoost';
 import	{toAddress}										from	'utils';
 import	STRATEGIES										from	'utils/strategies';
+import Image from 'next/image';
+import Link from 'next/link';
 
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	const	{set_strategies} = useStrategies();
@@ -65,7 +67,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 				initialFocus={initialFocus}
 				open={strategyModal}
 				onClose={set_strategyModal}>
-				<div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
+				<div className={'flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'}>
 					<Transition.Child
 						as={Fragment}
 						enter={'ease-out duration-300'} enterFrom={'opacity-0'} enterTo={'opacity-100'}
@@ -91,30 +93,30 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 									<label htmlFor={'list'} className={'ml-0.5 mb-2 block text-sm font-medium text-white text-opacity-75'}>
 										{'List'}
 									</label>
-									<span className="relative z-0 inline-flex shadow-sm rounded-md">
+									<span className={'relative z-0 inline-flex shadow-sm rounded-md'}>
 										<button
 											onClick={() => set_list('ape.tax')}
 											type={'button'}
 											className={`${list === 'ape.tax' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											🦍&nbsp;&nbsp;{'Ape.tax'}
+											{'🦍'}&nbsp;&nbsp;{'Ape.tax'}
 										</button>
 										<button
 											onClick={() => set_list('yearn-v1')}
 											type={'button'}
 											className={`${list === 'yearn-v1' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											🔷&nbsp;&nbsp;{'Yearn V1'}
+											{'🔷'}&nbsp;&nbsp;{'Yearn V1'}
 										</button>
 										<button
 											onClick={() => set_list('yearn-v1-crv')}
 											type={'button'}
 											className={`${list === 'yearn-v1-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											🌈&nbsp;&nbsp;{'YearnCrv V1'}
+											{'🌈'}&nbsp;&nbsp;{'YearnCrv V1'}
 										</button>
 										<button
 											onClick={() => set_list('misc')}
 											type={'button'}
 											className={`${list === 'misc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
-											🌾&nbsp;&nbsp;{'Misc'}
+											{'🌾'}&nbsp;&nbsp;{'Misc'}
 										</button>
 									</span>
 								</div>
@@ -186,10 +188,19 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	)
 }
 
-function	Index() {
+function	Currency() {
 	const	{switchCurrency, baseCurrency} = useCurrencies();
+	return (
+		<div
+			className={'ml-4 pl-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-100'}
+			onClick={() => switchCurrency()}>
+			<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
+		</div>
+	)
+}
+
+function	Index() {
 	const	{strategies} = useStrategies();
-	const	[currentTab, set_currentTab] = useState(0);
 	const	[strategyModal, set_strategyModal] = useState(false);
 
 	function	renderStrategy(strategy, s) {
@@ -204,9 +215,42 @@ function	Index() {
 		)
 	}
 
-	function	renderStrategies() {
-		if (currentTab === 0) {
-			return (
+	function	Header() {
+		return (
+			<div className={'bg-dark-600 py-6 -mx-12 -mt-12 px-12 bg-opacity-30'}>
+				<div className={'flex flex-row justify-between items-center'}>
+					<Link href={'/'}>
+						<div className={'flex flex-row items-center text-white cursor-pointer'}>
+							<div>
+								<Image src={'/sprout.svg'} width={30} height={30} />
+							</div>
+							<div className={'ml-4'}>
+								<p className={'font-semibold text-xl text-white'}>{'Major\'s Farm'}</p>
+								<p className={'font-normal text-sm text-white text-opacity-60'}>{'A degen loss calculator'}</p>
+							</div>
+						</div>
+					</Link>
+					<div className={'flex flex-row items-center'}>
+						<div
+							className={'text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center'}
+							style={{marginLeft: 'auto'}}
+							onClick={() => set_strategyModal(true)}>
+							<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
+								<path fillRule={'evenodd'} d={'M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'} clipRule={'evenodd'} />
+							</svg>
+							<h2>{'Add strategy'}</h2>
+						</div>
+						<Currency />
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	return (
+		<div>
+			<Header />
+			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row mt-12'}>
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
 					{strategies.map((s, i) => (
 						<div
@@ -216,46 +260,6 @@ function	Index() {
 						</div>
 					))}
 				</div>
-			);
-		}
-		return (
-			<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
-			</div>
-		);
-	}
-
-	return (
-		<div>
-			<div className={'w-full border-b border-dark-600 mb-6'}>
-				<span className={'text-3xl md:text-3xl font-medium text-white text-opacity-80 flex flex-row justify-center items-center'}>
-					<h1>{'🌾'}</h1>
-					<h1 className={'mx-2 md:mx-4 text-center'}>{' A degen loss calculator '}</h1>
-					<h1 style={{transform: 'rotateY(-180deg)'}}>{'🌾'}</h1>
-				</span>
-				<div className={'mt-6 flex flex-row space-x-4 items-center'}>
-					<div className={`border-b pb-4 ${currentTab === 0 ? 'border-accent-900' : 'border-dark-600'} transition-colors`} onClick={() => set_currentTab(0)}>
-						<h2 className={`${currentTab === 0 ? 'text-white' : 'text-dark-100 hover:text-white hover:text-opacity-60'} transition-colors cursor-pointer font-medium text-md`}>
-							{'Strategies'}
-						</h2>
-					</div>
-					<div
-						className={'pb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center'}
-						style={{marginLeft: 'auto'}}
-						onClick={() => set_strategyModal(true)}>
-						<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
-							<path fillRule={'evenodd'} d={'M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'} clipRule={'evenodd'} />
-						</svg>
-						<h2>{'Add strategy'}</h2>
-					</div>
-					<div
-						className={'pl-4 mb-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-75'}
-						onClick={() => switchCurrency()}>
-						<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
-					</div>
-				</div>
-			</div>
-			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row'}>
-				{renderStrategies()}
 			</div>
 			<StrategySelectorModal strategyModal={strategyModal} set_strategyModal={set_strategyModal} />
 		</div>

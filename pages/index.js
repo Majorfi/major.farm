@@ -7,7 +7,6 @@
 
 import	React, {useEffect, useRef}	from	'react';
 import	Link						from	'next/link';
-import	Image						from	'next/image';
 
 function Protocols() {
 	return (
@@ -15,7 +14,7 @@ function Protocols() {
 			<div className={'max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'}>
 				<div className={'grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-4'}>
 					<a href={'https://yearn.finance/'} target={'_blank'} rel={'noreferrer'}>
-						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 cursor-pointer'}>
+						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
 							<img className={'h-12'} src={'/protocols/yearn.svg'} alt={'Yearn Finance'} />
 						</div>
 					</a>
@@ -25,12 +24,12 @@ function Protocols() {
 						</div>
 					</a>
 					<a href={'https://aave.com/'} target={'_blank'} rel={'noreferrer'}>
-						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 cursor-pointer'}>
+						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
 							<img className={'h-12'} src={'/protocols/compound.svg'} alt={'Compound'} />
 						</div>
 					</a>
 					<a href={'https://compound.finance/'} target={'_blank'} rel={'noreferrer'}>
-						<div className={'col-span-1 flex justify-center md:col-span-3 lg:col-span-1 items-center opacity-60 hover:opacity-100 cursor-pointer'}>
+						<div className={'col-span-1 flex justify-center md:col-span-3 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
 							<img className={'h-10'} src={'/protocols/aave.svg'} alt={'AAVE'} />
 						</div>
 					</a>
@@ -40,13 +39,7 @@ function Protocols() {
 	)
 }
 
-function	Index() {
-	const	lottieRef = useRef(null);
-
-	useEffect(() => {
-		import('@lottiefiles/lottie-player');
-	});
-
+function Features() {
 	const features = [
 		{
 			title: 'The Farming Landscape is Changing',
@@ -64,7 +57,36 @@ function	Index() {
 			desc: 'Allocating seeds across different fields and soil – from Loam soil to Silty Clay soil to dirt – allows farmers to diversify their yields. In turn, this can help farmers lower their risk and generate higher returns.',
 		}
 	]
- 
+
+	return (
+		<div className={'max-w-screen-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-12'}>
+			<ul className={'space-y-12 sm:grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-12'}>
+				{features.map((feature) => (
+					<li key={feature.title}>
+						<div className={'space-y-4'}>
+							<div className={'aspect-w-4 aspect-h-2'}>
+								<img className={'object-cover shadow-lg rounded-lg'} src={feature.illustration} alt={''} />
+							</div>
+							<div className={'leading-6'}>
+								<h3 className={'text-white text-opacity-80 text-3xl font-bold'}>{feature.title}</h3>
+							</div>
+							<div className={'text-xl'}>
+								<p className={'text-gray-400'}>{feature.desc}</p>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		</div>
+	)
+}
+
+function	Index() {
+	const	lottieRef = useRef(null);
+
+	useEffect(() => {
+		import('@lottiefiles/lottie-player');
+	});
 
 	return (
 		<div>
@@ -105,25 +127,7 @@ function	Index() {
 
 			<Protocols />
 
-			<div className={'max-w-screen-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-12'}>
-				<ul className={'space-y-12 sm:grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-12'}>
-					{features.map((feature) => (
-						<li key={feature.title}>
-							<div className={'space-y-4'}>
-								<div className={'aspect-w-4 aspect-h-2'}>
-									<img className={'object-cover shadow-lg rounded-lg'} src={feature.illustration} alt={''} />
-								</div>
-								<div className={'leading-6'}>
-									<h3 className={'text-white text-opacity-80 text-3xl font-bold'}>{feature.title}</h3>
-								</div>
-								<div className={'text-xl'}>
-									<p className={'text-gray-400'}>{feature.desc}</p>
-								</div>
-							</div>
-						</li>
-					))}
-				</ul>
-			</div>
+			<Features />
 		</div>
 	);
 }

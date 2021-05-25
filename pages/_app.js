@@ -27,17 +27,17 @@ function	AppWrapper(props) {
 		<>
 			<Head>
 				<title>{'Major\'s Farm'}</title>
-				<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>" />
+				<link rel={'icon'} href={'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>'} />
 				<meta httpEquiv={'X-UA-Compatible'} content={'IE=edge'} />
 				<meta name={'viewport'} content={'width=device-width, initial-scale=1'} />
 				<meta name={'description'} content={'Major\'s Farm - Degen yield loss calculator'} />
-				<meta name="msapplication-TileColor" content="#9fcc2e" />
-				<meta name="theme-color" content="#ffffff" />
-				<meta charSet="utf-8" />
+				<meta name={'msapplication-TileColor'} content={'#9fcc2e'} />
+				<meta name={'theme-color'} content={'#ffffff'} />
+				<meta charSet={'utf-8'} />
 			</Head>
 			<div className={'withAnim transition-opacity bg-dark-900 min-h-screen'}>
 				<div id={'app'} className={'flex'}>
-					<div className={'p-4 md:p-12 w-full'} style={{minHeight: '90vh'}}>
+					<div className={'p-12 w-full'} style={{minHeight: '90vh'}}>
 						<Component
 							key={router.route}
 							element={props.element}
