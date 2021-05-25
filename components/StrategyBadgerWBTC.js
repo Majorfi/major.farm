@@ -5,15 +5,15 @@
 **	@Filename:				StrategyBadgerWBTC.js
 ******************************************************************************/
 
-import	{useState, useEffect}		from	'react';
-import	useCurrencies				from	'contexts/useCurrencies';
-import	{toAddress, bigNumber}		from	'utils';
-import	{ethers}					from	'ethers';
-import	axios						from	'axios';
-import	SectionRemove				from	'components/Strategies/SectionRemove'
-import	SectionHead					from	'components/Strategies/SectionHead'
-import	SectionFoot					from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}		from	'components/Strategies/Group'
+import	React, {useState, useEffect}		from	'react';
+import	useCurrencies						from	'contexts/useCurrencies';
+import	{toAddress, bigNumber}				from	'utils';
+import	{ethers}							from	'ethers';
+import	axios								from	'axios';
+import	SectionRemove						from	'components/Strategies/SectionRemove'
+import	SectionHead							from	'components/Strategies/SectionHead'
+import	SectionFoot							from	'components/Strategies/SectionFoot'
+import	Group, {GroupElement}				from	'components/Strategies/Group'
 import	{retreiveTxFromEtherscan, retreiveErc20TxFromEtherscan} from 'utils/API';
 
 async function	PrepareStrategyBadgerWBTC(address) {
@@ -29,7 +29,7 @@ async function	PrepareStrategyBadgerWBTC(address) {
 				||
 				(
 					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
-					&& tx.input.startsWith(`0x095ea7b3`)
+					&& tx.input.startsWith('0x095ea7b3')
 					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
 				)
 			)).reduce((accumulator, tx) => {
@@ -39,7 +39,7 @@ async function	PrepareStrategyBadgerWBTC(address) {
 				return bigNumber.from(accumulator).add(gasUsedPrice);
 			}, bigNumber.from(0))
 		);
-		return (Number(ethers.utils.formatUnits(cumulativeFees, `ether`)));
+		return (Number(ethers.utils.formatUnits(cumulativeFees, 'ether')));
 	}
 
 	async function	computeDeposit() {
@@ -50,7 +50,7 @@ async function	PrepareStrategyBadgerWBTC(address) {
 				||
 				(
 					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
-					&& tx.input.startsWith(`0x35ac79c3`)
+					&& tx.input.startsWith('0x35ac79c3')
 					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
 				)
 			)).reduce((accumulator, tx) => {
