@@ -94,32 +94,47 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 									<label htmlFor={'list'} className={'ml-0.5 mb-2 block text-sm font-medium text-white text-opacity-75'}>
 										{'List'}
 									</label>
-									<span className={'relative z-0 inline-flex shadow-sm rounded-md'}>
+									<div className={'relative z-0 inline-flex shadow-sm rounded-md w-full'}>
 										<button
 											onClick={() => set_list('ape.tax')}
 											type={'button'}
-											className={`${list === 'ape.tax' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											className={`${list === 'ape.tax' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
 											{'🦍'}&nbsp;&nbsp;{'Ape.tax'}
 										</button>
 										<button
 											onClick={() => set_list('yearn-v1')}
 											type={'button'}
-											className={`${list === 'yearn-v1' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											className={`${list === 'yearn-v1' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
 											{'🔷'}&nbsp;&nbsp;{'Yearn V1'}
 										</button>
 										<button
 											onClick={() => set_list('yearn-v1-crv')}
 											type={'button'}
-											className={`${list === 'yearn-v1-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											className={`${list === 'yearn-v1-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
 											{'🌈'}&nbsp;&nbsp;{'YearnCrv V1'}
+										</button>
+									</div>
+
+									<div className={'relative z-0 inline-flex shadow-sm rounded-md mt-2 w-full'}>
+										<button
+											onClick={() => set_list('yearn-v2')}
+											type={'button'}
+											className={`${list === 'yearn-v2' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
+											{'🔷'}&nbsp;&nbsp;{'Yearn V2'}
+										</button>
+										<button
+											onClick={() => set_list('yearn-v2-crv')}
+											type={'button'}
+											className={`${list === 'yearn-v2-crv' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative inline-flex items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
+											{'🌈'}&nbsp;&nbsp;{'YearnCrv V2'}
 										</button>
 										<button
 											onClick={() => set_list('misc')}
 											type={'button'}
-											className={`${list === 'misc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors`}>
+											className={`${list === 'misc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-1/3 text-center`}>
 											{'🌾'}&nbsp;&nbsp;{'Misc'}
 										</button>
-									</span>
+									</div>
 								</div>
 
 								<div>

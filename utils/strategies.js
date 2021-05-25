@@ -9,6 +9,7 @@ import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategy
 import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/StrategyYVBoost';
 import	StrategyApe, {PrepareStrategyApe}				from	'components/StrategyApe';
 import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/StrategyYearnV1';
+import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/StrategyYearnV2';
 import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/StrategyYearnCrvV1';
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
@@ -264,6 +265,24 @@ const	STRATEGIES_APE_TAX = {
 	}
 }
 
+const	STRATEGIES_YEARN_V1_DEPRECIED = {
+	'Yearn V1 - mUSD': {
+		parameters: {
+			title: 'Yearn V1 - mUSD',
+			href: 'https://yearn.finance/vaults/0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
+			contractAddress: '0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
+			tokenIcon: '/ymusd.png',
+			underlyingTokenAddress: '0xe2f2a5c287993345a840db3b0845fbc70f5935a5',
+			underlyingTokenSymbol: 'mUSD',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'mstable-usd',
+			underlyingTokenIcon: '/musd.png',
+		},
+		list: 'yearn-v1',
+		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		Strategy: StrategyYearnV1
+	},
+}
 const	STRATEGIES_YEARN_V1 = {
 	'Yearn V1 - DAI': {
 		parameters: {
@@ -326,63 +345,10 @@ const	STRATEGIES_YEARN_V1 = {
 		list: 'yearn-v1',
 		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
 		Strategy: StrategyYearnV1
-	},
-	'Yearn V1 - mUSD': {
-		parameters: {
-			title: 'Yearn V1 - mUSD',
-			href: 'https://yearn.finance/vaults/0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
-			contractAddress: '0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
-			tokenIcon: '/ymusd.png',
-			underlyingTokenAddress: '0xe2f2a5c287993345a840db3b0845fbc70f5935a5',
-			underlyingTokenSymbol: 'mUSD',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'mstable-usd',
-			underlyingTokenIcon: '/musd.png',
-		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
-		Strategy: StrategyYearnV1
-	},
+	}
 }
 
-const	STRATEGIES_YEARN_V1_CRV = {
-	'Yearn V2 - crvSTETH': {
-		parameters: {
-			title: 'Yearn V2 - crvSTETH',
-			href: 'https://yearn.fi/invest/0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
-			contractAddress: '0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
-			tokenIcon: '/yvCurve-stETH.png',
-			tokenSymbol: 'yvCurve-stETH',
-			underlyingTokenAddress: '0x06325440d014e39736583c165c2963ba99faf14e',
-			underlyingTokenSymbol: 'steCRV',
-			underlyingTokenName: 'Curve.fi ETH/stETH',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'steCRV',
-			underlyingTokenIcon: '/curve.png',
-		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
-		Strategy: StrategyYearnCrvV2
-	},
-
-	'Yearn V1 - crvEURS': {
-		parameters: {
-			title: 'Yearn V1 - crvEURS',
-			href: 'https://yearn.fi/invest/0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
-			contractAddress: '0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
-			tokenIcon: '/yveursCRV.png',
-			tokenSymbol: 'yveursCRV',
-			underlyingTokenAddress: '0x194ebd173f6cdace046c53eacce9b953f28411d1',
-			underlyingTokenSymbol: 'eursCRV',
-			underlyingTokenName: 'Curve.fi EURS/sEUR',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'eursCRV',
-			underlyingTokenIcon: '/curve.png',
-		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
-		Strategy: StrategyYearnCrvV1
-	},
+const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 	'Yearn V1 - crvLINK': {
 		parameters: {
 			title: 'Yearn V1 - crvLINK',
@@ -454,6 +420,26 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenCgID: 'ust3CRV',
 			underlyingTokenIcon: '/curve.png',
 
+		},
+		list: 'yearn-v1-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		Strategy: StrategyYearnCrvV1
+	}
+}
+const	STRATEGIES_YEARN_V1_CRV = {
+	'Yearn V1 - crvEURS': {
+		parameters: {
+			title: 'Yearn V1 - crvEURS',
+			href: 'https://yearn.fi/invest/0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
+			contractAddress: '0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
+			tokenIcon: '/yveursCRV.png',
+			tokenSymbol: 'yveursCRV',
+			underlyingTokenAddress: '0x194ebd173f6cdace046c53eacce9b953f28411d1',
+			underlyingTokenSymbol: 'eursCRV',
+			underlyingTokenName: 'Curve.fi EURS/sEUR',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'eursCRV',
+			underlyingTokenIcon: '/curve.png',
 		},
 		list: 'yearn-v1-crv',
 		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
@@ -555,6 +541,49 @@ const	STRATEGIES_YEARN_V1_CRV = {
 	},	
 }
 
+const	STRATEGIES_YEARN_V2 = {
+	'Yearn V2 - wBTC': {
+		parameters: {
+			title: 'Yearn V2 - wBTC',
+			href: 'https://yearn.fi/invest/0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+			contractAddress: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+			tokenIcon: '/ywbtc.png',
+			tokenSymbol: 'yvWBTC',
+			tokenName: 'WBTC yVault',
+			tokenDecimal: 8,
+			underlyingTokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+			underlyingTokenSymbol: 'WBTC',
+			underlyingTokenName: 'Wrapped BTC',
+			underlyingTokenDecimal: 8,
+			underlyingTokenCgID: 'btc',
+			underlyingTokenIcon: '/btc.svg',
+		},
+		list: 'yearn-v2',
+		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		Strategy: StrategyYearnV2
+	}
+}
+const	STRATEGIES_YEARN_V2_CRV = {
+	'Yearn V2 - crvSTETH': {
+		parameters: {
+			title: 'Yearn V2 - crvSTETH',
+			href: 'https://yearn.fi/invest/0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
+			contractAddress: '0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
+			tokenIcon: '/yvCurve-stETH.png',
+			tokenSymbol: 'yvCurve-stETH',
+			underlyingTokenAddress: '0x06325440d014e39736583c165c2963ba99faf14e',
+			underlyingTokenSymbol: 'steCRV',
+			underlyingTokenName: 'Curve.fi ETH/stETH',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'steCRV',
+			underlyingTokenIcon: '/curve.png',
+		},
+		list: 'yearn-v2-crv',
+		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
+		Strategy: StrategyYearnCrvV2
+	}
+}
+
 const	STRATEGIES_MISC = {
 	'Yearn YVBoost': {
 		parameters: {
@@ -586,4 +615,4 @@ const	STRATEGIES_MISC = {
 	},
 }
 
-export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};
+export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};
