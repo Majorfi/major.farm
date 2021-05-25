@@ -10,13 +10,13 @@ import	axios			from	'axios';
 export const	performGet = (url) => {
 	return (
 		axios.get(url)
-		.then(function (response) {
-			return response.data
-		})
-		.catch(function (error) {
-			console.warn(error)
-			return null
-		})
+			.then(function (response) {
+				return response.data
+			})
+			.catch(function (error) {
+				console.warn(error)
+				return null
+			})
 	);
 };
 

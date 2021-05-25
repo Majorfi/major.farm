@@ -36,36 +36,36 @@ function	GroupElement({image, label, amount, value, address, details = undefined
 			<div className={'w-1/3 font-medium flex flex-row items-center'}>
 				{
 					currentImage.startsWith('/') || currentImage.startsWith('http') ?
-					<div className={'flex flex-row items-center'}>
-						<div className={'w-4'} style={{minWidth: 16}}>
-							<Image
-								onError={() => set_currentImage('/yGeneric.svg')}
-								src={currentImage}
-								width={16}
-								height={16}
-								quality={100}
-								loading={'eager'} />
-						</div>
+						<div className={'flex flex-row items-center'}>
+							<div className={'w-4'} style={{minWidth: 16}}>
+								<Image
+									onError={() => set_currentImage('/yGeneric.svg')}
+									src={currentImage}
+									width={16}
+									height={16}
+									quality={100}
+									loading={'eager'} />
+							</div>
 						&nbsp;&nbsp;
-						<div>
-							<a
-								target={'_blank'}
-								href={`https://etherscan.io/token/${address}`}
-								className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
-								{`${label}`}
-							</a>
+							<div>
+								<a
+									target={'_blank'}
+									href={`https://etherscan.io/token/${address}`}
+									className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
+									{`${label}`}
+								</a>
+							</div>
 						</div>
-					</div>
-					:
-					<div className={'flex flex-row items-center'}>
-						<div className={'w-4'} style={{minWidth: 16}}>
-							<p>{currentImage}</p>
-						</div>
+						:
+						<div className={'flex flex-row items-center'}>
+							<div className={'w-4'} style={{minWidth: 16}}>
+								<p>{currentImage}</p>
+							</div>
 						&nbsp;&nbsp;
-						<div>
-							<p>{label}</p>
+							<div>
+								<p>{label}</p>
+							</div>
 						</div>
-					</div>
 				}
 			</div>
 			<p className={'w-1/3 text-right'}>{renderAmount()}</p>

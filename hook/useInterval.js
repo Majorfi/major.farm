@@ -1,27 +1,27 @@
 // _inspired by_ https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 function useInterval(callback, delay, runOnLoad = false, effectDependencies = []) {
-  const savedCallback = useRef();
+	const savedCallback = useRef();
 
-  useEffect(() => {
-    if (runOnLoad) {
-      callback();
-    }
-  }, [...effectDependencies]);
+	useEffect(() => {
+		if (runOnLoad) {
+			callback();
+		}
+	}, [...effectDependencies]);
 
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
+	// Remember the latest callback.
+	useEffect(() => {
+		savedCallback.current = callback;
+	}, [callback]);
 
-  // Set up the interval.
-  useEffect(() => {
-    if (delay !== null) {
-      const id = setInterval(() => savedCallback.current(), delay);
-      return () => clearInterval(id);
-    }
-  }, [delay, ...effectDependencies]);
+	// Set up the interval.
+	useEffect(() => {
+		if (delay !== null) {
+			const id = setInterval(() => savedCallback.current(), delay);
+			return () => clearInterval(id);
+		}
+	}, [delay, ...effectDependencies]);
 }
 
 export default useInterval;

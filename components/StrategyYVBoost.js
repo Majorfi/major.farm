@@ -26,8 +26,8 @@ async function	PrepareStrategyYVBoost(address) {
 	async function	computeFees() {
 		const	cumulativeFees = (
 			normalTx
-			.filter(tx => (
-				(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983')) //DEPOSIT IN VAULT
+				.filter(tx => (
+					(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983')) //DEPOSIT IN VAULT
 				||
 				(
 					tx.input.startsWith('0x095ea7b3')
@@ -41,76 +41,76 @@ async function	PrepareStrategyYVBoost(address) {
 					&& tx.input.startsWith('0x095ea7b3')
 					&& tx.input.includes('da481b277dce305b97f4091bd66595d57cf31634') //APPROVE JAR
 				)
-			)).reduce((accumulator, tx) => {
-				const	gasUsed = bigNumber.from(tx.gasUsed);
-				const	gasPrice = bigNumber.from(tx.gasPrice);
-				const	gasUsedPrice = gasUsed.mul(gasPrice);
-				return bigNumber.from(accumulator).add(gasUsedPrice);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					const	gasUsed = bigNumber.from(tx.gasUsed);
+					const	gasPrice = bigNumber.from(tx.gasPrice);
+					const	gasUsedPrice = gasUsed.mul(gasPrice);
+					return bigNumber.from(accumulator).add(gasUsedPrice);
+				}, bigNumber.from(0))
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeFees, 'ether')));
 	}
 
 	async function	computeDepositERC20() {
 		erc20Tx
-		.filter(tx => (
-			(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367b2e64489e66c525983'))
+			.filter(tx => (
+				(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367b2e64489e66c525983'))
 			||
 			(
 				tx.input.startsWith('0x28932094')
 				&& tx.input.includes('ced67a187b923f0e5ebcc77c7f2f7da20099e378')
 			)
-		)).forEach((tx) => {
-			if (timestamp === undefined || timestamp < tx.timeStamp) {
-				timestamp = tx.timeStamp;
-			}
-			initialSeeds.push({
-				contractAddress: tx.contractAddress,
-				hash: tx.hash,
-				tokenDecimal: tx.tokenDecimal,
-				tokenSymbol: tx.tokenSymbol,
-				value: tx.value
+			)).forEach((tx) => {
+				if (timestamp === undefined || timestamp < tx.timeStamp) {
+					timestamp = tx.timeStamp;
+				}
+				initialSeeds.push({
+					contractAddress: tx.contractAddress,
+					hash: tx.hash,
+					tokenDecimal: tx.tokenDecimal,
+					tokenSymbol: tx.tokenSymbol,
+					value: tx.value
+				})
 			})
-		})
 	}
 
 	async function	computeDepositEth() {
 		normalTx
-		.filter(tx => (
-			(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983'))
+			.filter(tx => (
+				(toAddress(tx.to) === toAddress('0xc695f73c1862e050059367B2E64489E66c525983'))
 			||
 			(
 				tx.input.startsWith('0x28932094')
 				&& tx.input.includes('ced67a187b923f0e5ebcc77c7f2f7da20099e378')
 			)
-		)).forEach((tx) => {
-			if (tx.isError === '0' && tx.value !== '0') {
-				if (timestamp === undefined) {
-					timestamp = tx.timeStamp;
+			)).forEach((tx) => {
+				if (tx.isError === '0' && tx.value !== '0') {
+					if (timestamp === undefined) {
+						timestamp = tx.timeStamp;
+					}
+					initialSeeds.push({
+						contractAddress: '0',
+						hash: tx.hash,
+						tokenDecimal: 18,
+						tokenSymbol: 'ETH',
+						value: tx.value
+					})
 				}
-				initialSeeds.push({
-					contractAddress: '0',
-					hash: tx.hash,
-					tokenDecimal: 18,
-					tokenSymbol: 'ETH',
-					value: tx.value
-				})
-			}
-		})
+			})
 	}
 
 	async function	computeYieldToken() {
 		const	cumulativeYieldToken = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.from) === toAddress('0xc695f73c1862e050059367b2e64489e66c525983'))
+				.filter(tx => (
+					(toAddress(tx.from) === toAddress('0xc695f73c1862e050059367b2e64489e66c525983'))
 				&&
 				(toAddress(tx.contractAddress) === toAddress('0xced67a187b923f0e5ebcc77c7f2f7da20099e378'))
 				&&
 				(tx.tokenSymbol === 'pSLP')
-			)).reduce((accumulator, tx) => {
-				return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
+				}, bigNumber.from(0))
 		);
 
 		return (Number(ethers.utils.formatUnits(cumulativeYieldToken, 18)));

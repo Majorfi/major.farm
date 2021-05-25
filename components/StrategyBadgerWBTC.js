@@ -24,20 +24,20 @@ async function	PrepareStrategyBadgerWBTC(address) {
 	async function	computeFees() {
 		const	cumulativeFees = (
 			normalTx
-			.filter(tx => (
-				(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
+				.filter(tx => (
+					(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
 				||
 				(
 					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
 					&& tx.input.startsWith('0x095ea7b3')
 					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
 				)
-			)).reduce((accumulator, tx) => {
-				const	gasUsed = bigNumber.from(tx.gasUsed);
-				const	gasPrice = bigNumber.from(tx.gasPrice);
-				const	gasUsedPrice = gasUsed.mul(gasPrice);
-				return bigNumber.from(accumulator).add(gasUsedPrice);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					const	gasUsed = bigNumber.from(tx.gasUsed);
+					const	gasPrice = bigNumber.from(tx.gasPrice);
+					const	gasUsedPrice = gasUsed.mul(gasPrice);
+					return bigNumber.from(accumulator).add(gasUsedPrice);
+				}, bigNumber.from(0))
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeFees, 'ether')));
 	}
@@ -45,20 +45,20 @@ async function	PrepareStrategyBadgerWBTC(address) {
 	async function	computeDeposit() {
 		const	cumulativeDeposits = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
+				.filter(tx => (
+					(toAddress(tx.to) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
 				||
 				(
 					toAddress(tx.to) === toAddress('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599')
 					&& tx.input.startsWith('0x35ac79c3')
 					&& tx.input.includes('4b92d19c11435614cd49af1b589001b7c08cd4d5')
 				)
-			)).reduce((accumulator, tx) => {
-				if (timestamp === undefined) {
-					timestamp = tx.timeStamp;
-				}
-				return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					if (timestamp === undefined) {
+						timestamp = tx.timeStamp;
+					}
+					return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
+				}, bigNumber.from(0))
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeDeposits, 8)));
 	}
@@ -66,15 +66,15 @@ async function	PrepareStrategyBadgerWBTC(address) {
 	async function	computeYieldToken() {
 		const	cumulativeYieldToken = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				.filter(tx => (
+					(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
 				&&
 				(toAddress(tx.contractAddress) === toAddress('0x4b92d19c11435614cd49af1b589001b7c08cd4d5'))
 				&&
 				(tx.tokenSymbol === 'byvWBTC')
-			)).reduce((accumulator, tx) => {
-				return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					return bigNumber.from(accumulator).add(bigNumber.from(tx.value));
+				}, bigNumber.from(0))
 		);
 
 		return (Number(ethers.utils.formatUnits(cumulativeYieldToken, 8)));

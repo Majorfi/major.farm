@@ -24,12 +24,12 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 	async function	computeFees() {
 		const	cumulativeFees = (
 			normalTx
-			.filter(tx => (
-				(
-					toAddress(tx.from) === toAddress(address) &&
+				.filter(tx => (
+					(
+						toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
 					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
-				)
+					)
 				||
 				(
 					toAddress(tx.from) === toAddress(address) &&
@@ -41,12 +41,12 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 					tx.input.startsWith(methods.STANDARD_APPROVE) &&
 					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
 				)
-			)).reduce((accumulator, tx) => {
-				const	gasUsed = bigNumber.from(tx.gasUsed);
-				const	gasPrice = bigNumber.from(tx.gasPrice);
-				const	gasUsedPrice = gasUsed.mul(gasPrice);
-				return bigNumber.from(accumulator).add(gasUsedPrice);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					const	gasUsed = bigNumber.from(tx.gasUsed);
+					const	gasPrice = bigNumber.from(tx.gasPrice);
+					const	gasUsedPrice = gasUsed.mul(gasPrice);
+					return bigNumber.from(accumulator).add(gasUsedPrice);
+				}, bigNumber.from(0))
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeFees, 18)));
 	}
@@ -54,16 +54,16 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 	async function	computeSeeds() {
 		const	cumulativeSeeds = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.to) === toAddress(parameters.contractAddress))
+				.filter(tx => (
+					(toAddress(tx.to) === toAddress(parameters.contractAddress))
 				&&
 				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
-			)).reduce((accumulator, tx) => {
-				if (timestamp === undefined || timestamp > tx.timeStamp) {
-					timestamp = tx.timeStamp;
-				}
-				return bigNumber.from(accumulator).add(tx.value);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					if (timestamp === undefined || timestamp > tx.timeStamp) {
+						timestamp = tx.timeStamp;
+					}
+					return bigNumber.from(accumulator).add(tx.value);
+				}, bigNumber.from(0))
 		);
 		return Number(ethers.utils.formatUnits(cumulativeSeeds, parameters.underlyingTokenDecimal || 18));
 	}
@@ -71,15 +71,15 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 	async function	computeCrops() {
 		const	cumulativeCrops = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				.filter(tx => (
+					(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
 				&&
 				(toAddress(tx.to) === toAddress(address))
 				&&
 				(tx.tokenSymbol === `y${parameters.underlyingTokenSymbol}`)
-			)).reduce((accumulator, tx) => {
-				return bigNumber.from(accumulator).add(tx.value);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					return bigNumber.from(accumulator).add(tx.value);
+				}, bigNumber.from(0))
 		);
 		return Number(ethers.utils.formatUnits(cumulativeCrops, parameters.underlyingTokenDecimal || 18));
 	}
@@ -87,13 +87,13 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 	async function	computeHarvest() {
 		const	cumulativeHarvest = (
 			erc20Tx
-			.filter(tx => (
-				(toAddress(tx.from) === toAddress(parameters.contractAddress)) &&
+				.filter(tx => (
+					(toAddress(tx.from) === toAddress(parameters.contractAddress)) &&
 				(toAddress(tx.to) === toAddress(address)) &&
 				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
-			)).reduce((accumulator, tx) => {
-				return bigNumber.from(accumulator).add(tx.value);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					return bigNumber.from(accumulator).add(tx.value);
+				}, bigNumber.from(0))
 		);
 		return Number(ethers.utils.formatUnits(cumulativeHarvest, parameters.underlyingTokenDecimal || 18));
 	}
@@ -217,7 +217,7 @@ function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initial
 								value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 						</Group>
 					</>
-				: 
+					: 
 					<Group title={'Yield'}>
 						<GroupElement
 							image={parameters.underlyingTokenIcon}

@@ -6,29 +6,29 @@
 ******************************************************************************/
 
 const _arrayBufferToBase64 = (buffer) => {
-  let binary = '';
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
+	let binary = '';
+	const bytes = new Uint8Array(buffer);
+	const len = bytes.byteLength;
+	for (let i = 0; i < len; i++) {
+		binary += String.fromCharCode(bytes[i]);
+	}
+	return window.btoa(binary);
 };
 const _base64ToArrayBuffer = (base64) => {
-  const binary_string = window.atob(base64);
-  const len = binary_string.length;
-  const bytes = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    bytes[i] = binary_string.charCodeAt(i);
-  }
-  return bytes.buffer;
+	const binary_string = window.atob(base64);
+	const len = binary_string.length;
+	const bytes = new Uint8Array(len);
+	for (let i = 0; i < len; i++) {
+		bytes[i] = binary_string.charCodeAt(i);
+	}
+	return bytes.buffer;
 };
 
 const digestPassword = async (password) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return _arrayBufferToBase64(hash);
+	const encoder = new TextEncoder();
+	const data = encoder.encode(password);
+	const hash = await crypto.subtle.digest('SHA-256', data);
+	return _arrayBufferToBase64(hash);
 };
 
 /* ************************************************************************
@@ -37,29 +37,29 @@ const digestPassword = async (password) => {
  **	them, no encryption, but also no decryption.
  ************************************************************************ */
 const generatePKI = async () => {
-  const pki = await window.crypto.subtle.generateKey(
-    {
-      name: 'RSA-OAEP',
-      modulusLength: 4096,
-      publicExponent: new Uint8Array([1, 0, 1]),
-      hash: {name: 'SHA-512'},
-    },
-    true,
-    ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey'],
-  );
-  return pki;
+	const pki = await window.crypto.subtle.generateKey(
+		{
+			name: 'RSA-OAEP',
+			modulusLength: 4096,
+			publicExponent: new Uint8Array([1, 0, 1]),
+			hash: {name: 'SHA-512'},
+		},
+		true,
+		['encrypt', 'decrypt', 'wrapKey', 'unwrapKey'],
+	);
+	return pki;
 };
 
 const encryptPKI = async (password, pki) => {
-  const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(password);
-  const IV = new Uint8Array(256);
-  const salt = new Uint8Array(256);
+	const encoder = new TextEncoder();
+	const encodedPassword = encoder.encode(password);
+	const IV = new Uint8Array(256);
+	const salt = new Uint8Array(256);
 
-  window.crypto.getRandomValues(IV);
-  window.crypto.getRandomValues(salt);
+	window.crypto.getRandomValues(IV);
+	window.crypto.getRandomValues(salt);
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	We need to save the keys to the database to get access to them
    **	We cannot (should not, must not) save the plain keys.
    **	We need to encrypt the private key, which will be used for decryption
@@ -68,52 +68,52 @@ const encryptPKI = async (password, pki) => {
    **	derive it from a random salt.
    **	The salt will be stored with the password for session decryption
    ************************************************************************ */
-  const derivedKey = await window.crypto.subtle.importKey(
-    'raw',
-    encodedPassword,
-    {name: 'PBKDF2'},
-    false,
-    ['deriveKey'],
-  );
-  const wrappingKey = await window.crypto.subtle.deriveKey(
-    {name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'},
-    derivedKey,
-    {name: 'AES-GCM', length: 256},
-    true,
-    ['wrapKey', 'unwrapKey'],
-  );
+	const derivedKey = await window.crypto.subtle.importKey(
+		'raw',
+		encodedPassword,
+		{name: 'PBKDF2'},
+		false,
+		['deriveKey'],
+	);
+	const wrappingKey = await window.crypto.subtle.deriveKey(
+		{name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'},
+		derivedKey,
+		{name: 'AES-GCM', length: 256},
+		true,
+		['wrapKey', 'unwrapKey'],
+	);
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	We can now wrap the private key with the key derived from the password
    **	with an IV which will be stored on the server with the salt and the
    **	encrypted private key.
    ************************************************************************ */
-  const encryptedPrivateKey = await window.crypto.subtle.wrapKey(
-    'pkcs8',
-    pki.privateKey,
-    wrappingKey,
-    {name: 'AES-GCM', iv: IV},
-  );
-  const exportedPublicKey = await window.crypto.subtle.exportKey('spki', pki.publicKey);
+	const encryptedPrivateKey = await window.crypto.subtle.wrapKey(
+		'pkcs8',
+		pki.privateKey,
+		wrappingKey,
+		{name: 'AES-GCM', iv: IV},
+	);
+	const exportedPublicKey = await window.crypto.subtle.exportKey('spki', pki.publicKey);
 
-  return {
-    publicKey: _arrayBufferToBase64(exportedPublicKey),
-    encryptedPrivateKey: `${_arrayBufferToBase64(encryptedPrivateKey)},${_arrayBufferToBase64(
-      salt,
-    )},${_arrayBufferToBase64(IV)}`,
-  };
+	return {
+		publicKey: _arrayBufferToBase64(exportedPublicKey),
+		encryptedPrivateKey: `${_arrayBufferToBase64(encryptedPrivateKey)},${_arrayBufferToBase64(
+			salt,
+		)},${_arrayBufferToBase64(IV)}`,
+	};
 };
 
 const encryptPrivateKey = async (password, privateKey) => {
-  const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(password);
-  const IV = new Uint8Array(256);
-  const salt = new Uint8Array(256);
+	const encoder = new TextEncoder();
+	const encodedPassword = encoder.encode(password);
+	const IV = new Uint8Array(256);
+	const salt = new Uint8Array(256);
 
-  window.crypto.getRandomValues(IV);
-  window.crypto.getRandomValues(salt);
+	window.crypto.getRandomValues(IV);
+	window.crypto.getRandomValues(salt);
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	We need to save the keys to the database to get access to them
    **	We cannot (should not, must not) save the plain keys.
    **	We need to encrypt the private key, which will be used for decryption
@@ -122,80 +122,80 @@ const encryptPrivateKey = async (password, privateKey) => {
    **	derive it from a random salt.
    **	The salt will be stored with the password for session decryption
    ************************************************************************ */
-  const derivedKey = await window.crypto.subtle.importKey(
-    'raw',
-    encodedPassword,
-    {name: 'PBKDF2'},
-    false,
-    ['deriveKey'],
-  );
-  const wrappingKey = await window.crypto.subtle.deriveKey(
-    {name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'},
-    derivedKey,
-    {name: 'AES-GCM', length: 256},
-    true,
-    ['wrapKey', 'unwrapKey'],
-  );
+	const derivedKey = await window.crypto.subtle.importKey(
+		'raw',
+		encodedPassword,
+		{name: 'PBKDF2'},
+		false,
+		['deriveKey'],
+	);
+	const wrappingKey = await window.crypto.subtle.deriveKey(
+		{name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256'},
+		derivedKey,
+		{name: 'AES-GCM', length: 256},
+		true,
+		['wrapKey', 'unwrapKey'],
+	);
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	We can now wrap the private key with the key derived from the password
    **	with an IV which will be stored on the server with the salt and the
    **	encrypted private key.
    ************************************************************************ */
-  const encryptedPrivateKey = await window.crypto.subtle.wrapKey('pkcs8', privateKey, wrappingKey, {
-    name: 'AES-GCM',
-    iv: IV,
-  });
+	const encryptedPrivateKey = await window.crypto.subtle.wrapKey('pkcs8', privateKey, wrappingKey, {
+		name: 'AES-GCM',
+		iv: IV,
+	});
 
-  return `${_arrayBufferToBase64(encryptedPrivateKey)},${_arrayBufferToBase64(
-    salt,
-  )},${_arrayBufferToBase64(IV)}`;
+	return `${_arrayBufferToBase64(encryptedPrivateKey)},${_arrayBufferToBase64(
+		salt,
+	)},${_arrayBufferToBase64(IV)}`;
 };
 
 const decryptPrivateKey = async (
-  encryptedPrivateKey,
-  password,
+	encryptedPrivateKey,
+	password,
 ) => {
-  const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(password);
+	const encoder = new TextEncoder();
+	const encodedPassword = encoder.encode(password);
 
-  const [encPK, salt, IV] = encryptedPrivateKey
-    .split(',')
-    .map((epk) => _base64ToArrayBuffer(epk));
+	const [encPK, salt, IV] = encryptedPrivateKey
+		.split(',')
+		.map((epk) => _base64ToArrayBuffer(epk));
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	We need to reverse the encryption process
    **	First thing to do is to recreate the derived key from the password and
    **	the salt
    ************************************************************************ */
-  const passwordKey = await window.crypto.subtle.importKey(
-    'raw',
-    encodedPassword,
-    {name: 'PBKDF2'},
-    false,
-    ['deriveKey'],
-  );
-  const derivedKey = await window.crypto.subtle.deriveKey(
-    {name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256'},
-    passwordKey,
-    {name: 'AES-GCM', length: 256},
-    true,
-    ['wrapKey', 'unwrapKey'],
-  );
+	const passwordKey = await window.crypto.subtle.importKey(
+		'raw',
+		encodedPassword,
+		{name: 'PBKDF2'},
+		false,
+		['deriveKey'],
+	);
+	const derivedKey = await window.crypto.subtle.deriveKey(
+		{name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256'},
+		passwordKey,
+		{name: 'AES-GCM', length: 256},
+		true,
+		['wrapKey', 'unwrapKey'],
+	);
 
-  /* ************************************************************************
+	/* ************************************************************************
    **	Then, we can unwrap the encryptedPrivateKey with the help of the
    **	derivedKey and the IV
    ************************************************************************ */
-  return await window.crypto.subtle.unwrapKey(
-    'pkcs8',
-    encPK,
-    derivedKey,
-    {name: 'AES-GCM', iv: IV},
-    {name: 'RSA-OAEP', hash: 'SHA-512'},
-    true,
-    ['decrypt', 'unwrapKey'],
-  );
+	return await window.crypto.subtle.unwrapKey(
+		'pkcs8',
+		encPK,
+		derivedKey,
+		{name: 'AES-GCM', iv: IV},
+		{name: 'RSA-OAEP', hash: 'SHA-512'},
+		true,
+		['decrypt', 'unwrapKey'],
+	);
 };
 
 /* ************************************************************************
@@ -203,24 +203,24 @@ const decryptPrivateKey = async (
  ** data which has been encrypted with a public key from a CryptoKeyPair.
  ************************************************************************ */
 const decryptWithPrivateKey = async (
-  dataToDecrypt,
-  privateKey,
+	dataToDecrypt,
+	privateKey,
 ) => {
-  const data = _base64ToArrayBuffer(dataToDecrypt);
-  const decrypted = await window.crypto.subtle.decrypt({name: 'RSA-OAEP'}, privateKey, data);
-  const decoder = new TextDecoder();
-  return decoder.decode(decrypted);
+	const data = _base64ToArrayBuffer(dataToDecrypt);
+	const decrypted = await window.crypto.subtle.decrypt({name: 'RSA-OAEP'}, privateKey, data);
+	const decoder = new TextDecoder();
+	return decoder.decode(decrypted);
 };
 
 const encryptWithPublicKey = async (
-  dataToEncrypt,
-  publicKey,
+	dataToEncrypt,
+	publicKey,
 ) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(dataToEncrypt);
+	const encoder = new TextEncoder();
+	const data = encoder.encode(dataToEncrypt);
 
-  const encryptedData = await window.crypto.subtle.encrypt({name: 'RSA-OAEP'}, publicKey, data);
-  return _arrayBufferToBase64(encryptedData);
+	const encryptedData = await window.crypto.subtle.encrypt({name: 'RSA-OAEP'}, publicKey, data);
+	return _arrayBufferToBase64(encryptedData);
 };
 
 /******************************************************************************
@@ -229,20 +229,20 @@ const encryptWithPublicKey = async (
  **  encryption
  ******************************************************************************/
 const encryptDataWithSecret = async (
-  dataToEncrypt,
-  wrappingKey,
+	dataToEncrypt,
+	wrappingKey,
 ) => {
-  const IV = new Uint8Array(12);
-  window.crypto.getRandomValues(IV);
+	const IV = new Uint8Array(12);
+	window.crypto.getRandomValues(IV);
 
-  const encoder = new TextEncoder();
-  const data = encoder.encode(dataToEncrypt);
-  const encryptedSecretKey = await window.crypto.subtle.encrypt(
-    {name: 'AES-GCM', iv: IV},
-    wrappingKey,
-    data,
-  );
-  return `${_arrayBufferToBase64(IV)},${_arrayBufferToBase64(encryptedSecretKey)}`;
+	const encoder = new TextEncoder();
+	const data = encoder.encode(dataToEncrypt);
+	const encryptedSecretKey = await window.crypto.subtle.encrypt(
+		{name: 'AES-GCM', iv: IV},
+		wrappingKey,
+		data,
+	);
+	return `${_arrayBufferToBase64(IV)},${_arrayBufferToBase64(encryptedSecretKey)}`;
 };
 
 /******************************************************************************
@@ -250,40 +250,40 @@ const encryptDataWithSecret = async (
  **  secret key should be provided raw. It is used only for symetric decryption
  ******************************************************************************/
 const decryptDataWithSecret = async (
-  dataToEncrypt,
-  rawWrappingKey,
-  IV,
+	dataToEncrypt,
+	rawWrappingKey,
+	IV,
 ) => {
-  const wrappingKey = await window.crypto.subtle.importKey(
-    'raw',
-    _base64ToArrayBuffer(rawWrappingKey),
-    {name: 'AES-GCM', length: 256},
-    true,
-    ['encrypt', 'decrypt'],
-  );
+	const wrappingKey = await window.crypto.subtle.importKey(
+		'raw',
+		_base64ToArrayBuffer(rawWrappingKey),
+		{name: 'AES-GCM', length: 256},
+		true,
+		['encrypt', 'decrypt'],
+	);
 
-  const decrypted = await window.crypto.subtle.decrypt(
-    {name: 'AES-GCM', iv: _base64ToArrayBuffer(IV)},
-    wrappingKey,
-    _base64ToArrayBuffer(dataToEncrypt),
-  );
+	const decrypted = await window.crypto.subtle.decrypt(
+		{name: 'AES-GCM', iv: _base64ToArrayBuffer(IV)},
+		wrappingKey,
+		_base64ToArrayBuffer(dataToEncrypt),
+	);
 
-  const decoder = new TextDecoder();
-  return decoder.decode(decrypted);
+	const decoder = new TextDecoder();
+	return decoder.decode(decrypted);
 };
 
 /* ************************************************************************
  **	generateSecretKey will generate a CryptoKey based on a random entropy
  ************************************************************************ */
 const generateSecretKey = async () => {
-  return await window.crypto.subtle.generateKey(
-    {
-      name: 'AES-GCM',
-      length: 256,
-    },
-    true,
-    ['encrypt', 'decrypt'],
-  );
+	return await window.crypto.subtle.generateKey(
+		{
+			name: 'AES-GCM',
+			length: 256,
+		},
+		true,
+		['encrypt', 'decrypt'],
+	);
 };
 
 /* ************************************************************************
@@ -291,8 +291,8 @@ const generateSecretKey = async () => {
  ** convert it to it's base64 counterpart
  ************************************************************************ */
 const publicKeyToBase64 = async (publicKey) => {
-  const exportedPublicKey = await window.crypto.subtle.exportKey('spki', publicKey);
-  return _arrayBufferToBase64(exportedPublicKey);
+	const exportedPublicKey = await window.crypto.subtle.exportKey('spki', publicKey);
+	return _arrayBufferToBase64(exportedPublicKey);
 };
 
 /* ************************************************************************
@@ -300,21 +300,21 @@ const publicKeyToBase64 = async (publicKey) => {
  ** to it's base64 counterpart
  ************************************************************************ */
 const secretKeyToBase64 = async (secretKey) => {
-  const exportedSecretKey = await window.crypto.subtle.exportKey('raw', secretKey);
-  return _arrayBufferToBase64(exportedSecretKey);
+	const exportedSecretKey = await window.crypto.subtle.exportKey('raw', secretKey);
+	return _arrayBufferToBase64(exportedSecretKey);
 };
 
 export {
-  generatePKI,
-  encryptPKI,
-  encryptPrivateKey,
-  decryptPrivateKey,
-  decryptWithPrivateKey,
-  encryptWithPublicKey,
-  encryptDataWithSecret,
-  decryptDataWithSecret,
-  generateSecretKey,
-  publicKeyToBase64,
-  secretKeyToBase64,
-  digestPassword,
+	generatePKI,
+	encryptPKI,
+	encryptPrivateKey,
+	decryptPrivateKey,
+	decryptWithPrivateKey,
+	encryptWithPublicKey,
+	encryptDataWithSecret,
+	decryptDataWithSecret,
+	generateSecretKey,
+	publicKeyToBase64,
+	secretKeyToBase64,
+	digestPassword,
 };

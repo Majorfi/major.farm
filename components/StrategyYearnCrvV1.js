@@ -45,7 +45,7 @@ async function	PrepareStrategyYearnCrvV1(parameters, address) {
 	async function	computeFees() {
 		const	cumulativeFees = (
 			normalTx
-			.filter(tx => ((
+				.filter(tx => ((
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
 					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
@@ -60,12 +60,12 @@ async function	PrepareStrategyYearnCrvV1(parameters, address) {
 					tx.input.startsWith(methods.ZAP_IN) &&
 					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
 				)
-			)).reduce((accumulator, tx) => {
-				const	gasUsed = bigNumber.from(tx.gasUsed);
-				const	gasPrice = bigNumber.from(tx.gasPrice);
-				const	gasUsedPrice = gasUsed.mul(gasPrice);
-				return bigNumber.from(accumulator).add(gasUsedPrice);
-			}, bigNumber.from(0))
+				)).reduce((accumulator, tx) => {
+					const	gasUsed = bigNumber.from(tx.gasUsed);
+					const	gasPrice = bigNumber.from(tx.gasPrice);
+					const	gasUsedPrice = gasUsed.mul(gasPrice);
+					return bigNumber.from(accumulator).add(gasUsedPrice);
+				}, bigNumber.from(0))
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeFees, 18)));
 	}
