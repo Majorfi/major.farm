@@ -13,6 +13,21 @@ import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategy
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX = {
+	'The Frog Prince 🐸💋': {
+		parameters: {
+			title: 'The Frog Prince 🐸💋',
+			href: 'https://ape.tax/frogprince',
+			contractAddress: '0xf962b098ecc4352aa2ad1d4164bd2b8367fd94c3',
+			underlyingTokenAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
+			underlyingTokenSymbol: 'LINK',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'chainlink',
+			underlyingTokenIcon: '/link.svg',
+		},
+		list: 'ape.tax',
+		prepare: (p, a) => PrepareStrategyApe(p, a),
+		Strategy: StrategyApe
+	},
 	'Comfi Carousel 🛋🎠': {
 		parameters: {
 			title: 'Comfi Carousel 🛋🎠',
@@ -541,6 +556,24 @@ const	STRATEGIES_YEARN_V1_CRV = {
 }
 
 const	STRATEGIES_MISC = {
+	'Yearn YVBoost': {
+		parameters: {
+			title: 'Yearn YVBoost',
+			href: 'https://yearn.fi/invest/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
+			contractAddress: '0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
+			tokenIcon: '/yvboost.png',
+			tokenSymbol: 'yvboost',
+			underlyingTokenAddress: '0xc5bddf9843308380375a611c18b50fb9341f502a',
+			underlyingTokenSymbol: 'yveCRV-DAO',
+			underlyingTokenName: 'veCRV-DAO yVault',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'yveCRV-DAO',
+			underlyingTokenIcon: '/curve.png',
+		},
+		list: 'misc',
+		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
+		Strategy: StrategyYearnCrvV2
+	},
 	'Badger WBTC': {
 		list: 'misc',
 		prepare: (a) => PrepareStrategyBadgerWBTC(a),

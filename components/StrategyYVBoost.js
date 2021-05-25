@@ -116,7 +116,6 @@ async function	PrepareStrategyYVBoost(address) {
 		return (Number(ethers.utils.formatUnits(cumulativeYieldToken, 18)));
 	}
 
-
 	const	fees = await computeFees();
 	const	initialCrops = await computeYieldToken();
 	await	computeDepositEth();
@@ -159,7 +158,8 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 		set_pickleEarned(_earned)
 	}
 	async function	retrieveYvBoostLpEth() {
-		const	{data} = await axios.get(`https://api.pickle-jar.info/protocol/earnings/${address.toLowerCase()}`)
+		const	{data} = await axios.get(`https://stkpowy01i.execute-api.us-west-1.amazonaws.com/prod//protocol/earnings/${address.toLowerCase()}`)
+		// const	{data} = await axios.get(`https://api.pickle-jar.info/protocol/earnings/${address.toLowerCase()}`)
 		const	_amount = data?.jarEarnings[0]?.earned;
 		set_yvBoostEthEarned(_amount);
 	}
@@ -202,18 +202,18 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 
 	useEffect(async () => {
 		set_seeds(await prepareSeeds())
-	}, [initialSeeds, ethToBaseCurrency, prepareSeeds])
+	}, [initialSeeds, ethToBaseCurrency])
 
 	useEffect(() => {
-		set_usdToBaseCurrency(tokenPrices['usd-coin']?.price || 0);
+		set_usdToBaseCurrency(tokenPrices['usdc']?.price || 0);
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_pickleToBaseCurrency(tokenPrices['pickle-finance']?.price || 0);
 		retrievePickle();
-	}, [currencyNonce, retrievePickle, tokenPrices]);
+	}, [currencyNonce]);
 
 	useEffect(() => {
 		retrieveYvBoostLpEth()
-	}, [currencyNonce, retrieveYvBoostLpEth, usdToBaseCurrency]);
+	}, [currencyNonce, usdToBaseCurrency]);
 
 	useEffect(() => {
 		set_result(
@@ -232,13 +232,15 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 			)
 			- (totalFeesEth * ethToBaseCurrency)
 		);
-	}, [ethToBaseCurrency, pickleToBaseCurrency, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth, sushiPairs])
+	}, [ethToBaseCurrency, pickleToBaseCurrency, pickleEarned, yvBoostEthEarned, crops, seedsValue, totalFeesEth])
 
 	useEffect(() => {
 		const	vi = seedsValue;
 		const	vf = resultImpermanent + vi;
 		set_APY((vf - vi) / vi * 100)
-	}, [ethToBaseCurrency, resultImpermanent, seedsValue])
+	}, [ethToBaseCurrency, resultImpermanent])
+
+	// return null
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>

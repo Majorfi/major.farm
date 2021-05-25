@@ -78,3 +78,12 @@ export async function retrieveTokenDecimalByTokenAddress(tokenAddress) {
 		symbol: result?.[0]?.tokenSymbol || '',
 	};
 }
+
+export async function getTokenMarket() {
+	try {
+		const	data = await axios.get('https://api.coingecko.com/api/v3/coins/cdai/market_chart?vs_currency=usd&days=45&interval=daily').then(e => e.data)
+		return	data.prices;		
+	} catch (error) {
+		return	{};
+	}
+}
