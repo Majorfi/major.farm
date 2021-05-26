@@ -340,3 +340,10 @@ input[type=number] {
 	height: 100%;
 	mix-blend-mode: lighten;
 }
+
+.prose-accent a {
+	cursor: pointer;
+}
+.prose-accent a:hover {
+	text-decoration: underline;
+}

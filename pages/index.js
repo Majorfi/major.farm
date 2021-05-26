@@ -81,6 +81,117 @@ function Features() {
 	)
 }
 
+const faqs = [
+	{
+		id: 1,
+		question: 'What is Major\'s Farm ?',
+		answer: (
+			<p>
+				{'It\'s a place where you can track some of your move related to yield farming in the DeFI ecosystem because if it\'s easy to get your yield, it\'s difficult to find the actual cost of your move, between impermanent loss, gas fees, gouv tokens etc.'}
+			</p>
+		),
+	},
+	{
+		id: 2,
+		question: 'Does this even works ?',
+		answer: (
+			<p>
+				{'Yeah, maybe. Each strategy has been tested with a few addresses but it\'s not bulletproof. Feel free to '}<a href={'https://github.com/TBouder/major.farm/issues'} target={'_blank'} rel={'noreferrer'}>{'report any issue'}</a> {'you may find !'}
+			</p>
+		),
+	},
+	{
+		id: 3,
+		question: 'Where do you get the transactions ?',
+		answer: (
+			<p>
+				{'When you add a new strategy to your farm, we try to retrieve all the related transaction from '}<a href={'https://etherscan.io/'} target={'_blank'} rel={'noreferrer'}>{'Etherscan'}</a>{". They are then saved in your localStorage.'"}
+			</p>
+		),
+	},
+	{
+		id: 4,
+		question: 'What do you do with my data',
+		answer: (
+			<p>
+				{'What data ? There is no backend/db, and the '}<a href={'https://vercel.com/analytics'} target={'_blank'} rel={'noreferrer'}>{'only cookie used'}</a> {'is one that indicates how long it takes to render the page (the speed of the app).'}
+			</p>
+		),
+	},
+	{
+		id: 5,
+		question: 'Where do you get the prices ?',
+		answer: (
+			<p>
+				{'The prices are mostly fetched from the '}<a href={'https://www.coingecko.com/en/api'} target={'_blank'} rel={'noreferrer'}>{'Coingecko API'}</a>{', but we also query the '}<a href={'https://curve.readthedocs.io/'} target={'_blank'} rel={'noreferrer'}>{'Curve SmartContract'}</a>{' for the CRV LP tokens, and from the '}<a href={'https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork'} target={'_blank'} rel={'noreferrer'}>{'SushiSwap SubGraph'}</a> {'for the Sushi LP tokens !'}
+			</p>
+		),
+	},
+]
+  
+function FAQ() {
+	return (
+		<div>
+			<div className={'max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8'}>
+				<h2 className={'text-3xl font-extrabold text-white text-opacity-75 text-center'}>{'Frequently asked questions'}</h2>
+				<div className={'mt-12'}>
+					<dl className={'space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-x-8 md:gap-y-12 lg:grid-cols-3'}>
+						{faqs.map((faq) => (
+							<div key={faq.id}>
+								<span>
+									<dt className={'inline text-lg leading-6 font-bold text-accent-900'}>{`${faq.id}. `}</dt>
+									<dt className={'inline text-lg leading-6 font-medium text-white text-opacity-75'}>{faq.question}</dt>
+								</span>
+								<dd className={'mt-2 text-base text-gray-400 prose-accent prose-lg'}>{faq.answer}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</div>
+		</div>
+	)
+}
+  
+function Banner() {
+	return (
+		<div>
+			<div className={'relative sm:py-16'}>
+				<div aria-hidden={'true'} className={'hidden sm:block'}>
+					<svg className={'absolute top-8 left-1/2 -ml-3'} width={404} height={392} fill={'none'} viewBox={'0 0 404 392'}><defs><pattern id={'8228f071-bcee-4ec8-905a-2a059a2cc4fb'} x={0} y={0} width={20} height={20} patternUnits={'userSpaceOnUse'}><rect x={0} y={0} width={4} height={4} className={'text-dark-600'} fill={'currentColor'} /></pattern></defs><rect width={404} height={392} fill={'url(#8228f071-bcee-4ec8-905a-2a059a2cc4fb)'} /></svg>
+				</div>
+				<div className={'mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8'}>
+					<div className={'relative rounded-2xl px-6 py-10 bg-accent-900 overflow-hidden shadow-xl sm:px-12'}>
+						<div aria-hidden={'true'} className={'absolute inset-0 -mt-72 sm:-mt-32 md:mt-0'}>
+							<svg className={'absolute inset-0 h-full w-full'} preserveAspectRatio={'xMidYMid slice'} xmlns={'http://www.w3.org/2000/svg'} fill={'none'} viewBox={'0 0 1463 360'}><path className={'text-accent-500 text-opacity-40'} fill={'currentColor'} d={'M-82.673 72l1761.849 472.086-134.327 501.315-1761.85-472.086z'}/><path className={'text-accent-600 text-opacity-40'} fill={'currentColor'} d={'M-217.088 544.086L1544.761 72l134.327 501.316-1761.849 472.086z'}/></svg>
+						</div>
+						<div className={'relative'}>
+							<div className={'sm:text-center'}>
+								<h2 className={'text-3xl font-extrabold text-white tracking-tight sm:text-4xl'}>
+									{'Start planting seeds now.'}
+								</h2>
+								<p className={'mt-6 mx-auto max-w-2xl text-lg text-white'}>
+									{'Some people say that money does not grow on trees. That may be true. But not on your farm.'}
+								</p>
+							</div>
+							<div className={'mt-8 mx-auto flex justify-center'}>
+								<div className={'mt-4 sm:mt-0 sm:ml-3'}>
+									<Link href={'/app'}>
+										<button
+											className={'block w-full rounded-md px-5 py-3 bg-white text-base font-medium text-accent-900 shadow hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-900 sm:px-10'}>
+											{'Visit your farm'}
+										</button>
+									</Link>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	)
+}
+  
+
 function	Index() {
 	const	lottieRef = useRef(null);
 
@@ -128,6 +239,10 @@ function	Index() {
 			<Protocols />
 
 			<Features />
+
+			<Banner />
+
+			<FAQ />
 		</div>
 	);
 }
