@@ -104,7 +104,7 @@ function	Index() {
 							<div className={'rounded-md shadow'}>
 								<Link passHref href={'/app'}>
 									<div className={'w-full flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-white bg-accent-900 hover:bg-accent-800 md:py-4 md:text-lg md:px-10 cursor-pointer'}>
-										{'Visit my farm'}
+										{'Visit your farm'}
 									</div>
 								</Link>
 							</div>
