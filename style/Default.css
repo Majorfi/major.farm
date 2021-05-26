@@ -347,3 +347,6 @@ input[type=number] {
 .prose-accent a:hover {
 	text-decoration: underline;
 }
+.display-none {
+	display: none;
+}

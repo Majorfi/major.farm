@@ -222,7 +222,7 @@ function	Index() {
 						</div>
 					</div>
 				</div>
-				<div className={'relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full'}>
+				<div className={'relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full xs:hidden sm:hidden md:hidden lg:flex'}>
 					<lottie-player
 						ref={lottieRef}
 						autoplay
