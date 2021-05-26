@@ -17,7 +17,11 @@ export const toAddress = (address) => {
 	if (address === 'GENESIS') {
 		return '0x0000000000000000000000000000000000000000'
 	}
-	return ethers.utils.getAddress(address);
+	try {
+		return ethers.utils.getAddress(address);	
+	} catch (error) {
+		return undefined
+	}
 };
 export const address = ethers.utils.getAddress;
 

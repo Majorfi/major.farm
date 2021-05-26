@@ -6,18 +6,19 @@
 ******************************************************************************/
 
 import	React, {useEffect, Fragment, useRef, useState}	from	'react';
+import	Image											from	'next/image';
+import	Link											from	'next/link';
 import	{Dialog, Transition}							from	'@headlessui/react';
 import	{useToasts}										from	'react-toast-notifications';
 import	{v4 as uuidv4}									from	'uuid';
+import	{ethers}										from	'ethers';
 import	useCurrencies									from	'contexts/useCurrencies';
 import	useStrategies									from	'contexts/useStrategies';
 import	{PrepareStrategyBadgerWBTC}						from	'components/StrategyBadgerWBTC';
 import	{PrepareStrategyYVBoost}						from	'components/StrategyYVBoost';
+import	useLocalStorage									from	'hook/useLocalStorage';
 import	{toAddress}										from	'utils';
 import	STRATEGIES										from	'utils/strategies';
-import Image from 'next/image';
-import Link from 'next/link';
-import useLocalStorage from 'hook/useLocalStorage';
 
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	const	{set_strategies} = useStrategies();
@@ -32,9 +33,13 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 	}, [list])
 
 	async function	prepareStrategy() {
-		const	_address = toAddress(address)
+		let	_address = toAddress(address.trim())
 		if (!_address) {
-			return {status: 'KO', result: 'invalidAddress'}
+			const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+			_address = toAddress(await provider.resolveName(address.trim()));
+			if (!_address) {
+				return {status: 'KO', result: 'invalidAddress'}
+			}
 		}
 
 		let		result = undefined;
@@ -54,7 +59,8 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 		}
 		return {status: 'OK', result: {
 			...result,
-			date: new Date(result.timestamp * 1000)
+			date: new Date(result.timestamp * 1000),
+			address: _address
 		}}
 	}
 
@@ -184,7 +190,6 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 												params: {
 													uuid: uuidv4(),
 													...populator,
-													address,
 												}
 											}])
 											addToast('Strategy available', {appearance: 'success'});
