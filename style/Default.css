@@ -343,10 +343,15 @@ input[type=number] {
 
 .prose-accent a {
 	cursor: pointer;
+	text-decoration: none !important;
 }
 .prose-accent a:hover {
-	text-decoration: underline;
+	text-decoration: underline !important;
 }
 .display-none {
 	display: none;
+}
+
+.h-xl {
+	height: 488px;
 }

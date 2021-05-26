@@ -265,6 +265,7 @@ const	STRATEGIES_APE_TAX = {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 const	STRATEGIES_YEARN_V1_DEPRECIED = {
 	'Yearn V1 - mUSD': {
 		parameters: {
@@ -348,6 +349,7 @@ const	STRATEGIES_YEARN_V1 = {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 	'Yearn V1 - crvLINK': {
 		parameters: {

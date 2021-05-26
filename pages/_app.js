@@ -9,6 +9,7 @@ import	React						from	'react';
 import	NProgress					from	'nprogress';
 import	Router						from	'next/router';
 import	Head						from	'next/head';
+import	Link						from	'next/link';
 import	{ToastProvider}				from	'react-toast-notifications';
 import	{CurrenciesContextApp}		from	'contexts/useCurrencies';
 import	{StrategiesContextApp}		from	'contexts/useStrategies';
@@ -51,6 +52,10 @@ function	AppWrapper(props) {
 					<a href={'https://github.com/TBouder/major.farm'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Github'}</a>
 					<p>{'-'}</p>
 					<a href={'mailto:major-tom.eth@pm.me'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Contact'}</a>
+					<p>{'-'}</p>
+					<Link href={'/changelog'}>
+						<p className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Changelog'}</p>
+					</Link>
 				</div>
 				<div className={'py-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
 					<p>{'Donation : 0xc599d862Aa595244b585ad839839d3f3f6d35f30'}</p>
