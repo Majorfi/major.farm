@@ -60,11 +60,11 @@ const	STRATEGIES_APE_TAX = {
 		prepare: (p, a) => PrepareStrategyApe(p, a, 'polygonscan.com'),
 		Strategy: StrategyApe
 	},
-	'The Frog Prince 🐸💋': {
+	'The Frog Prince 🐸💋 2': {
 		parameters: {
-			title: 'The Frog Prince 🐸💋',
-			href: 'https://ape.tax/frogprince',
-			contractAddress: '0xf962b098ecc4352aa2ad1d4164bd2b8367fd94c3',
+			title: 'The Frog Prince 🐸💋 2',
+			href: 'https://ape.tax/frogprince2',
+			contractAddress: '0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
 			underlyingTokenAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
 			underlyingTokenSymbol: 'LINK',
 			underlyingTokenDecimal: 18,
