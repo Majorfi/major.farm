@@ -152,7 +152,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 			<div className={'space-y-8'}>
 				<Group title={'Fertilizer'}>
 					<GroupElement
-						image={'/btc.svg'}
+						image={'/tokens/btc.svg'}
 						label={'wBTC'}
 						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
 						amount={wBTCDeposit.toFixed(8)}
@@ -161,7 +161,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 
 				<Group title={'Seeds'}>
 					<GroupElement
-						image={'/byvwbtc.png'}
+						image={'/tokens/byvwbtc.png'}
 						label={'byvWBTC'}
 						address={'0x4b92d19c11435614cd49af1b589001b7c08cd4d5'}
 						amount={byvWBTCDeposit.toFixed(8)}
@@ -170,13 +170,13 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 
 				<Group title={'Yield'}>
 					<GroupElement
-						image={'/btc.svg'}
+						image={'/tokens/btc.svg'}
 						label={'wBTC earned'}
 						address={'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'}
 						amount={wbtcEarned.toFixed(8)}
 						value={(wbtcEarned * btcToBaseCurrency).toFixed(2)} />
 					<GroupElement
-						image={'/badger.png'}
+						image={'/tokens/badger.png'}
 						label={'Badger earned'}
 						address={'0x3472A5A71965499acd81997a54BBA8D852C6E53d'}
 						amount={badgerEarned.toFixed(10)}

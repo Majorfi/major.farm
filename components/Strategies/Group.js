@@ -39,7 +39,7 @@ function	GroupElement({image, label, amount, value, address, details = undefined
 						<div className={'flex flex-row items-center'}>
 							<div className={'w-4'} style={{minWidth: 16}}>
 								<Image
-									onError={() => set_currentImage('/yGeneric.svg')}
+									onError={() => set_currentImage('/tokens/yGeneric.svg')}
 									src={currentImage}
 									width={16}
 									height={16}

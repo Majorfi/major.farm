@@ -174,7 +174,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 						return Promise.resolve(
 							<GroupElement
 								key={`${i}_${f.contractAddress}`}
-								image={'/eth.svg'}
+								image={'/tokens/eth.svg'}
 								label={f.tokenSymbol}
 								address={f.contractAddress}
 								amount={amount}
@@ -259,7 +259,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 
 				<Group title={'Crops'}>
 					<GroupElement
-						image={'/yvboost.png'}
+						image={'/tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0xced67a187b923f0e5ebcc77c7f2f7da20099e378'}
 						amount={crops.toFixed(8)}
@@ -270,13 +270,13 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 
 				<Group title={'Yield'}>
 					<GroupElement
-						image={'/pickle.png'}
+						image={'/tokens/pickle.png'}
 						label={'Pickle'}
 						address={'0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5'}
 						amount={pickleEarned.toFixed(10)}
 						value={(pickleEarned * pickleToBaseCurrency).toFixed(2)} />
 					<GroupElement
-						image={'/yvboost.png'}
+						image={'/tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0x9461173740d27311b176476fa27e94c681b1ea6b'}
 						amount={yvBoostEthEarned.toFixed(10)}
