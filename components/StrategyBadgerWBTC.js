@@ -88,7 +88,7 @@ async function	PrepareStrategyBadgerWBTC(address) {
 	}
 }
 
-function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, date}) {
+function	StrategyBadgerWBTC({address, network = 'ethereum', uuid, fees, initialDeposit, initialYield, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[APY, set_APY] = useState(0);
@@ -143,6 +143,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
+				network={network}
 				title={'BADGER WBTC'}
 				href={'https://app.badger.finance/'}
 				address={address}
@@ -159,7 +160,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 						value={(wBTCDeposit * btcToBaseCurrency).toFixed(2)} />
 				</Group>
 
-				<Group title={'Seeds'}>
+				<Group network={network} title={'Seeds'}>
 					<GroupElement
 						image={'/tokens/byvwbtc.png'}
 						label={'byvWBTC'}
@@ -168,7 +169,7 @@ function	StrategyBadgerWBTC({address, uuid, fees, initialDeposit, initialYield, 
 						value={'---'} />
 				</Group>
 
-				<Group title={'Yield'}>
+				<Group network={network} title={'Yield'}>
 					<GroupElement
 						image={'/tokens/btc.svg'}
 						label={'wBTC earned'}

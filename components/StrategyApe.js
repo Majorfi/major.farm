@@ -170,6 +170,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
+				network={network}
 				title={parameters.title}
 				href={parameters.href}
 				address={address}
@@ -177,7 +178,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group title={'Seeds'}>
+				<Group network={network} title={'Seeds'}>
 					<GroupElement
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
@@ -186,7 +187,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 						value={((isHarvested ? initialSeeds : (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
-				<Group title={'Crops'}>
+				<Group network={network} title={'Crops'}>
 					<GroupElement
 						image={'/tokens/yGeneric.svg'}
 						label={`yv${parameters.underlyingTokenSymbol}`}
@@ -197,7 +198,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 
 				{isHarvested ?
 					<>
-						<Group title={'Harvest'}>
+						<Group network={network} title={'Harvest'}>
 							<GroupElement
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
@@ -212,7 +213,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 						</Group>
 					</>
 					: 
-					<Group title={'Yield'}>
+					<Group network={network} title={'Yield'}>
 						<GroupElement
 							image={'/tokens/yGeneric.svg'}
 							label={`yv${parameters.underlyingTokenSymbol}`}

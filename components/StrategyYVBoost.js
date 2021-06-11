@@ -129,7 +129,7 @@ async function	PrepareStrategyYVBoost(address) {
 	}
 }
 
-function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}) {
+function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrops, initialSeeds, date}) {
 	const	{tokenPrices, sushiPairs, currencyNonce, baseCurrency} = useCurrencies();
 
 	const	[APY, set_APY] = useState(0);
@@ -246,6 +246,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
+				network={network}
 				title={'yvBOOST'}
 				href={'https://yearn.fi/invest/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a'}
 				address={address}
@@ -253,11 +254,11 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group title={'Seeds'}>
+				<Group network={network} title={'Seeds'}>
 					{seeds}
 				</Group>
 
-				<Group title={'Crops'}>
+				<Group network={network} title={'Crops'}>
 					<GroupElement
 						image={'/tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
@@ -268,7 +269,7 @@ function	StrategyYVBoost({address, uuid, fees, initialCrops, initialSeeds, date}
 				</Group>
 
 
-				<Group title={'Yield'}>
+				<Group network={network} title={'Yield'}>
 					<GroupElement
 						image={'/tokens/pickle.png'}
 						label={'Pickle'}

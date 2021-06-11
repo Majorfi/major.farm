@@ -8,8 +8,9 @@
 import	React, {useState, useEffect}	from	'react';
 import	Image							from	'next/image';
 import	useCurrencies					from	'contexts/useCurrencies';
+import	{getExplorer}					from	'utils/chains';
 
-function	GroupElement({image, label, amount, value, address, details = undefined}) {
+function	GroupElement({network, image, label, amount, value, address, details = undefined}) {
 	const	[currentImage, set_currentImage] = useState(image)
 	const	{baseCurrency} = useCurrencies();
 
@@ -50,7 +51,7 @@ function	GroupElement({image, label, amount, value, address, details = undefined
 							<div>
 								<a
 									target={'_blank'}
-									href={`https://etherscan.io/token/${address}`}
+									href={`https://${getExplorer(network).explorer}/token/${address}`}
 									className={'hover:text-accent-900 hover:underline transition-color'} rel={'noreferrer'}>
 									{`${label}`}
 								</a>

@@ -377,7 +377,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 
 	function	renderYield() {
 		return (
-			<Group title={'Yield'}>
+			<Group network={network} title={'Yield'}>
 				<GroupElement
 					image={parameters.tokenIcon}
 					label={parameters.tokenName}
@@ -396,7 +396,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 	function	renderYieldAndHarvest() {
 		return (
 			<>
-				<Group title={'Yield'}>
+				<Group network={network} title={'Yield'}>
 					<GroupElement
 						image={parameters.tokenIcon}
 						label={parameters.tokenName}
@@ -404,7 +404,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 						amount={parseFloat(yieldEarned.toFixed(10))}
 						value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
-				<Group title={'Harvest'}>
+				<Group network={network} title={'Harvest'}>
 					<GroupElement
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenName}
@@ -426,6 +426,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 		<div className={`flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative transition-opacity ${isPreRenderOK ? 'opacity-100' : 'opacity-0'}`}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
+				network={network}
 				title={parameters.title}
 				href={parameters.href}
 				address={address}
@@ -433,11 +434,11 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group title={'Seeds'}>
+				<Group network={network} title={'Seeds'}>
 					{renderSeeds()}
 				</Group>
 
-				<Group title={'Crops'}>
+				<Group network={network} title={'Crops'}>
 					{renderCrops()}
 				</Group>
 

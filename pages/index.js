@@ -105,7 +105,7 @@ const faqs = [
 		question: 'Where do you get the transactions ?',
 		answer: (
 			<p>
-				{'When you add a new strategy to your farm, we try to retrieve all the related transaction from '}<a href={'https://etherscan.io/'} target={'_blank'} rel={'noreferrer'}>{'Etherscan'}</a>{". They are then saved in your localStorage.'"}
+				{'When you add a new strategy to your farm, we try to retrieve all the related transaction from '}<a href={'https://etherscan.io/'} target={'_blank'} rel={'noreferrer'}>{'Etherscan'}</a>{'. They are then saved in your localStorage.'}
 			</p>
 		),
 	},

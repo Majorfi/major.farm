@@ -9,8 +9,9 @@ import	React					from	'react';
 import	{useState, useEffect}	from	'react';
 import	{ethers}				from	'ethers';
 import	{datediff}				from	'utils';
+import	{getExplorer}			from	'utils/chains';
 
-function	SectionHead({title, href, address, date, APY}) {
+function	SectionHead({network, title, href, address, date, APY}) {
 	const	[ethAddress, set_ethAddress] = useState(address);
 
 	useEffect(async () => {
@@ -34,7 +35,7 @@ function	SectionHead({title, href, address, date, APY}) {
 				</div>
 				<a
 					target={'_blank'}
-					href={`https://etherscan.io/address/${address}`}
+					href={`https://${getExplorer(network).explorer}/address/${address}`}
 					className={'text-xs text-white text-opacity-30 transition-all hover:text-accent-900 hover:text-opacity-100 hover:underline'}
 					rel={'noreferrer'}>
 					{ethAddress}

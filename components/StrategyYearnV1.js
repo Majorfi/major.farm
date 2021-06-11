@@ -168,6 +168,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
+				network={network}
 				title={parameters.title}
 				href={parameters.href}
 				address={address}
@@ -175,7 +176,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group title={'Seeds'}>
+				<Group network={network} title={'Seeds'}>
 					<GroupElement
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
@@ -184,7 +185,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
-				<Group title={'Crops'}>
+				<Group network={network} title={'Crops'}>
 					<GroupElement
 						image={parameters.tokenIcon}
 						label={`y${parameters.underlyingTokenSymbol}`}
@@ -195,7 +196,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 
 				{isHarvested ?
 					<>
-						<Group title={'Yield'}>
+						<Group network={network} title={'Yield'}>
 							<GroupElement
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
@@ -203,7 +204,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
 								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						</Group>
-						<Group title={'Harvest'}>
+						<Group network={network} title={'Harvest'}>
 							<GroupElement
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
@@ -218,7 +219,7 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 						</Group>
 					</>
 					: 
-					<Group title={'Yield'}>
+					<Group network={network} title={'Yield'}>
 						<GroupElement
 							image={parameters.underlyingTokenIcon}
 							label={parameters.underlyingTokenSymbol}
