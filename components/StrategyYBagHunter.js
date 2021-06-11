@@ -5,7 +5,7 @@
 **	@Filename:				StrategyAssy.js
 ******************************************************************************/
 
-import	{useState, useEffect}	from	'react';
+import	React, {useState, useEffect}	from	'react';
 import	useCurrencies			from	'contexts/useCurrencies';
 import	{datediff}				from	'utils'
 
@@ -77,7 +77,7 @@ function	StrategyYBagHunter() {
 				<p className={`text-opacity-80 font-medium text-center text-2xl ${result > 0 ? 'text-green-400' : result < 0 ? 'text-red-400' : 'text-white'}`}>
 					{`${(result).toFixed(4)} €`}
 				</p>
-				<div className={`text-opacity-60 font-light italic text-center text-xs text-red-600`}>
+				<div className={'text-opacity-60 font-light italic text-center text-xs text-red-600'}>
 					{'CLOSED'}
 				</div>
 			</div>

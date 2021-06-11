@@ -174,10 +174,10 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 				address={address}
 				date={date}
 				APY={APY} />
-			
 			<div className={'space-y-8'}>
-				<Group network={network} title={'Seeds'}>
+				<Group title={'Seeds'}>
 					<GroupElement
+						network={network}
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
 						address={parameters.underlyingTokenAddress}
@@ -185,8 +185,9 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
-				<Group network={network} title={'Crops'}>
+				<Group title={'Crops'}>
 					<GroupElement
+						network={network}
 						image={parameters.tokenIcon}
 						label={`y${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
@@ -196,22 +197,25 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 
 				{isHarvested ?
 					<>
-						<Group network={network} title={'Yield'}>
+						<Group title={'Yield'}>
 							<GroupElement
+								network={network}
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
 								address={parameters.contractAddress}
 								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
 								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						</Group>
-						<Group network={network} title={'Harvest'}>
+						<Group title={'Harvest'}>
 							<GroupElement
+								network={network}
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
 								address={parameters.underlyingTokenAddress}
 								amount={parseFloat(harvest.toFixed(10))}
 								value={(harvest * underlyingToBaseCurrency).toFixed(2)} />
 							<GroupElement
+								network={network}
 								image={'⛽️'}
 								label={'Fees'}
 								amount={parseFloat(totalFeesEth.toFixed(10))}
@@ -219,14 +223,16 @@ function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds
 						</Group>
 					</>
 					: 
-					<Group network={network} title={'Yield'}>
+					<Group title={'Yield'}>
 						<GroupElement
+							network={network}
 							image={parameters.underlyingTokenIcon}
 							label={parameters.underlyingTokenSymbol}
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
 							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
+							network={network}
 							image={'⛽️'}
 							label={'Fees'}
 							amount={parseFloat(totalFeesEth.toFixed(10))}

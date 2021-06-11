@@ -173,6 +173,7 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 						set_seedsValue(v => v + (amount * ethToBaseCurrency));
 						return Promise.resolve(
 							<GroupElement
+								network={network}
 								key={`${i}_${f.contractAddress}`}
 								image={'/tokens/eth.svg'}
 								label={f.tokenSymbol}
@@ -187,6 +188,7 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 
 						return Promise.resolve(
 							<GroupElement
+								network={network}
 								key={`${i}_${f.contractAddress}`}
 								image={`https://tokens.1inch.exchange/${f.contractAddress}.png`}
 								label={f.tokenSymbol}
@@ -254,12 +256,13 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group network={network} title={'Seeds'}>
+				<Group title={'Seeds'}>
 					{seeds}
 				</Group>
 
-				<Group network={network} title={'Crops'}>
+				<Group title={'Crops'}>
 					<GroupElement
+						network={network}
 						image={'/tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0xced67a187b923f0e5ebcc77c7f2f7da20099e378'}
@@ -269,20 +272,23 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 				</Group>
 
 
-				<Group network={network} title={'Yield'}>
+				<Group title={'Yield'}>
 					<GroupElement
+						network={network}
 						image={'/tokens/pickle.png'}
 						label={'Pickle'}
 						address={'0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5'}
 						amount={pickleEarned.toFixed(10)}
 						value={(pickleEarned * pickleToBaseCurrency).toFixed(2)} />
 					<GroupElement
+						network={network}
 						image={'/tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0x9461173740d27311b176476fa27e94c681b1ea6b'}
 						amount={yvBoostEthEarned.toFixed(10)}
 						value={(yvBoostEthEarned * sushiPairs['0x9461173740d27311b176476fa27e94c681b1ea6b']).toFixed(2)} />
 					<GroupElement
+						network={network}
 						image={'⛽️'}
 						label={'Fees'}
 						amount={totalFeesEth.toFixed(10)}

@@ -178,8 +178,9 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group network={network} title={'Seeds'}>
+				<Group title={'Seeds'}>
 					<GroupElement
+						network={network}
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
 						address={parameters.underlyingTokenAddress}
@@ -187,8 +188,9 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 						value={((isHarvested ? initialSeeds : (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
-				<Group network={network} title={'Crops'}>
+				<Group title={'Crops'}>
 					<GroupElement
+						network={network}
 						image={'/tokens/yGeneric.svg'}
 						label={`yv${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
@@ -198,14 +200,16 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 
 				{isHarvested ?
 					<>
-						<Group network={network} title={'Harvest'}>
+						<Group title={'Harvest'}>
 							<GroupElement
+								network={network}
 								image={parameters.underlyingTokenIcon}
 								label={parameters.underlyingTokenSymbol}
 								address={parameters.underlyingTokenAddress}
 								amount={parseFloat(harvest.toFixed(10))}
 								value={(harvest * underlyingToBaseCurrency).toFixed(2)} />
 							<GroupElement
+								network={network}
 								image={'⛽️'}
 								label={'Fees'}
 								amount={parseFloat(totalFees.toFixed(10))}
@@ -213,14 +217,16 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 						</Group>
 					</>
 					: 
-					<Group network={network} title={'Yield'}>
+					<Group title={'Yield'}>
 						<GroupElement
+							network={network}
 							image={'/tokens/yGeneric.svg'}
 							label={`yv${parameters.underlyingTokenSymbol}`}
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - (initialSeeds - harvest)).toFixed(10))}
 							value={((underlyingEarned - (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
+							network={network}
 							image={'⛽️'}
 							label={'Fees'}
 							amount={parseFloat(totalFees.toFixed(10))}

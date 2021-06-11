@@ -353,6 +353,7 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 			seeds.map((seed, i) => {
 				const tokenPrice = seed.symbol === parameters.underlyingTokenSymbol ? underlyingToBaseCurrency : tokenPrices[seed.id || seed.symbol]?.price || 0;
 				return <GroupElement
+					network={network}
 					key={`seed_${seed.name}_${i}`}
 					image={seed.symbol === parameters.underlyingTokenSymbol ? parameters.underlyingTokenIcon : `https://tokens.1inch.exchange/${seed.address}.png`}
 					label={seed.name}
@@ -367,6 +368,7 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 		return (
 			crops.map((crop, i) => {
 				return <GroupElement
+					network={network}
 					key={`crop_${crop.name}_${i}`}
 					image={parameters.tokenIcon}
 					label={crop.name}
@@ -379,14 +381,16 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 
 	function	renderYield() {
 		return (
-			<Group network={network} title={'Yield'}>
+			<Group title={'Yield'}>
 				<GroupElement
+					network={network}
 					image={parameters.tokenIcon}
 					label={parameters.underlyingTokenName}
 					address={parameters.contractAddress}
 					amount={parseFloat(yieldEarned.toFixed(10))}
 					value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />
 				<GroupElement
+					network={network}
 					image={'⛽️'}
 					label={'Fees'}
 					amount={parseFloat(fees.toFixed(10))}
@@ -398,22 +402,25 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 	function	renderYieldAndHarvest() {
 		return (
 			<>
-				<Group network={network} title={'Yield'}>
+				<Group title={'Yield'}>
 					<GroupElement
+						network={network}
 						image={parameters.tokenIcon}
 						label={parameters.underlyingTokenName}
 						address={parameters.contractAddress}
 						amount={parseFloat(yieldEarned.toFixed(10))}
 						value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
-				<Group network={network} title={'Harvest'}>
+				<Group title={'Harvest'}>
 					<GroupElement
+						network={network}
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenName}
 						address={parameters.underlyingTokenAddress}
 						amount={parseFloat(harvested.toFixed(10))}
 						value={(harvested * underlyingToBaseCurrency).toFixed(2)} />
 					<GroupElement
+						network={network}
 						image={'⛽️'}
 						label={'Fees'}
 						amount={parseFloat(fees.toFixed(10))}
@@ -436,11 +443,11 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 				APY={APY} />
 			
 			<div className={'space-y-8'}>
-				<Group network={network} title={'Seeds'}>
+				<Group title={'Seeds'}>
 					{renderSeeds()}
 				</Group>
 
-				<Group network={network} title={'Crops'}>
+				<Group title={'Crops'}>
 					{renderCrops()}
 				</Group>
 

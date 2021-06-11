@@ -10,7 +10,8 @@
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "eslint . --ext .js"
+    "lint": "eslint . --ext .js",
+    "lintfix": "eslint . --ext .js --fix"
   },
   "dependencies": {
     "@headlessui/react": "^1.1.1",

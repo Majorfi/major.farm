@@ -5,7 +5,7 @@
 **	@Filename:				StrategyAssy.js
 ******************************************************************************/
 
-import	{useState, useEffect}	from	'react';
+import	React, {useState, useEffect}	from	'react';
 import	useCurrencies			from	'contexts/useCurrencies';
 import	{ethers}				from	'ethers';
 import	{datediff}				from	'utils'
@@ -83,7 +83,7 @@ function	StrategyYLA() {
 			<div className={'w-full'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Deposits - Fiat'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>💶&nbsp; {'EURO : '}</p>
+					<p className={'w-1/3 font-medium'}>{'💶&nbsp; '}{'EURO : '}</p>
 					<p className={'w-1/3 text-right'}>{EUROBalance.toFixed(2)}</p>
 					<p className={'w-1/3 text-right'}>{`${EUROBalance.toFixed(2)} €`}</p>
 				</div>
@@ -92,7 +92,7 @@ function	StrategyYLA() {
 			<div className={'w-full mt-8'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Crops'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🐵&nbsp; {'YLA : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🐵&nbsp; '}{'YLA : '}</p>
 					<p className={'w-1/3 text-right'}>{YLABalance.toFixed(4)}</p>
 					<div className={'w-1/3 text-right'}>
 						<p>{`${(YLABalance * ylaToBaseCurrency).toFixed(2)} €`}</p>
@@ -100,7 +100,7 @@ function	StrategyYLA() {
 					</div>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🌀&nbsp; {'CVP : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🌀&nbsp; '}{'CVP : '}</p>
 					<p className={'w-1/3 text-right'}>{CVPBalance.toFixed(6)}</p>
 					<div className={'w-1/3 text-right'}>
 						<p>{`${(CVPBalance * cvpToBaseCurrency).toFixed(2)} €`}</p>
@@ -112,17 +112,17 @@ function	StrategyYLA() {
 			<div className={'w-full mt-8'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Yield'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🔒&nbsp; {'CVP Earned : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🔒&nbsp; '}{'CVP Earned : '}</p>
 					<p className={'w-1/3 text-right'}>{cvpEarned.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(cvpEarned * cvpToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🔓&nbsp; {'CVP Vested : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🔓&nbsp; '}{'CVP Vested : '}</p>
 					<p className={'w-1/3 text-right'}>{cvpVested.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(cvpVested * cvpToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>⛽️&nbsp; {'FEES : '}</p>
+					<p className={'w-1/3 font-medium'}>{'⛽️&nbsp; '}{'FEES : '}</p>
 					<p className={'w-1/3 text-right'}>{totalFeesEth.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`-${(totalFeesEth * ethToBaseCurrency).toFixed(2)} €`}</p>
 				</div>

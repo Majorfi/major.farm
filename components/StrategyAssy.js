@@ -5,7 +5,7 @@
 **	@Filename:				StrategyAssy.js
 ******************************************************************************/
 
-import	{useState, useEffect}	from	'react';
+import	React, {useState, useEffect}	from	'react';
 import	useCurrencies			from	'contexts/useCurrencies';
 import	{ethers}				from	'ethers';
 import	{datediff}				from	'utils'
@@ -74,12 +74,12 @@ function	StrategyASSY() {
 			<div className={'w-full'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Crops'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🍑&nbsp; {'ASSY : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🍑&nbsp; '}{'ASSY : '}</p>
 					<p className={'w-1/3 text-right'}>{ASSYBalance.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(ASSYBalance * assyToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🌀&nbsp; {'CVP : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🌀&nbsp; '}{'CVP : '}</p>
 					<p className={'w-1/3 text-right'}>{CVPBalance.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(CVPBalance * cvpToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
@@ -88,17 +88,17 @@ function	StrategyASSY() {
 			<div className={'w-full mt-8'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Yield'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🔒&nbsp; {'CVP Earned : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🔒&nbsp; '}{'CVP Earned : '}</p>
 					<p className={'w-1/3 text-right'}>{cvpEarned.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(cvpEarned * cvpToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>🔓&nbsp; {'CVP Vested : '}</p>
+					<p className={'w-1/3 font-medium'}>{'🔓&nbsp; '}{'CVP Vested : '}</p>
 					<p className={'w-1/3 text-right'}>{cvpVested.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(cvpVested * cvpToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>⛽️&nbsp; {'FEES : '}</p>
+					<p className={'w-1/3 font-medium'}>{'⛽️&nbsp; '}{'FEES : '}</p>
 					<p className={'w-1/3 text-right'}>{totalFeesEth.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`-${(totalFeesEth * ethToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
@@ -109,7 +109,7 @@ function	StrategyASSY() {
 					<p className={`text-opacity-80 font-medium text-center text-2xl ${result > 0 ? 'text-green-400' : result < 0 ? 'text-red-400' : 'text-white'}`}>
 						{`${(result).toFixed(4)}€`}
 					</p>
-					<p className={`text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2`}>
+					<p className={'text-opacity-100 font-light italic text-center text-xs text-dark-200 mt-2'}>
 						{`(${(result / 2).toFixed(4)} split between two participants)`}
 					</p>
 				</div>

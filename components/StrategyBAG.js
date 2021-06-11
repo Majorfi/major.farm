@@ -5,7 +5,7 @@
 **	@Filename:				StrategyAssy.js
 ******************************************************************************/
 
-import	{useState, useEffect}	from	'react';
+import	React, {useState, useEffect}	from	'react';
 import	useCurrencies			from	'contexts/useCurrencies';
 import	{ethers}				from	'ethers';
 import	{datediff}				from	'utils'
@@ -76,7 +76,7 @@ function	StrategyBAG() {
 			<div className={'w-full'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Deposit'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>💎&nbsp; {'ETH : '}</p>
+					<p className={'w-1/3 font-medium'}>{'💎&nbsp; '}{'ETH : '}</p>
 					<p className={'w-1/3 text-right'}>{ETHBalance.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(ETHBalance * ethToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
@@ -85,7 +85,7 @@ function	StrategyBAG() {
 			<div className={'w-full mt-12'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Crops'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>💰&nbsp; {'BAG : '}</p>
+					<p className={'w-1/3 font-medium'}>{'💰&nbsp; '}{'BAG : '}</p>
 					<p className={'w-1/3 text-right'}>{BAGBalance.toFixed(6)}</p>
 					<div className={'w-1/3 text-right'}>
 						<p>{`${(BAGBalance * bagToBaseCurrency).toFixed(2)} €`}</p>
@@ -97,17 +97,17 @@ function	StrategyBAG() {
 			<div className={'w-full mt-8'}>
 				<p className={'text-white text-opacity-80 pb-2 border-b border-dark-400 font-medium'}>{'Yield'}</p>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>💰&nbsp; {'BAG Earned : '}</p>
+					<p className={'w-1/3 font-medium'}>{'💰&nbsp; '}{'BAG Earned : '}</p>
 					<p className={'w-1/3 text-right'}>{BAGEarned.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(BAGEarned * bagToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>⚱️&nbsp; {'BAG Gold Earned : '}</p>
+					<p className={'w-1/3 font-medium'}>{'⚱️&nbsp; '}{'BAG Gold Earned : '}</p>
 					<p className={'w-1/3 text-right'}>{BAGGoldEarned.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`${(BAGGoldEarned * bagGoldToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
 				<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full'}>
-					<p className={'w-1/3 font-medium'}>⛽️&nbsp; {'FEES : '}</p>
+					<p className={'w-1/3 font-medium'}>{'⛽️&nbsp; '}{'FEES : '}</p>
 					<p className={'w-1/3 text-right'}>{totalFeesEth.toFixed(6)}</p>
 					<p className={'w-1/3 text-right'}>{`-${(totalFeesEth * ethToBaseCurrency).toFixed(2)} €`}</p>
 				</div>
