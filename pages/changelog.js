@@ -51,7 +51,7 @@ function	Changelog() {
 				<ChangeItem
 					inProgress
 					date={''}
-					version={'0.0.3'}
+					version={'1.0.0'}
 					content={
 						<ul>
 							<li className={'text-base text-gray-200'}>
@@ -69,10 +69,34 @@ function	Changelog() {
 						</ul>
 					} />
 				<ChangeItem
-					date={'2021-05-25'}
-					version={'0.0.2'}
+					date={'2021-06-11'}
+					version={'0.0.3'}
 					content={
 						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Adding the chain selection when adding a new strategy'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ftm_woofy'} target={'_blank'} rel={'noreferrer'}>{'FTM\'s Wandering Woofy 🧭🐶'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/spooky'} target={'_blank'} rel={'noreferrer'}>{'Spooky Skeletons 🙀👻'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ftmfrappedape'} target={'_blank'} rel={'noreferrer'}>{'FTM\'s Frapped Ape ☕️🦧'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/fantombaby'} target={'_blank'} rel={'noreferrer'}>{'Fantom\'s Ape Ape Baby 🧊👶'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/fantomsfury'} target={'_blank'} rel={'noreferrer'}>{'Fantom\'s Fury 👻⚡'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Adding Fantom support for the ape.tax strategies.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Merging the lists for Yearn V1 & Yearn V2'}
+							</li>
 							<li className={'text-base text-gray-200'}>
 								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/purpletwister'} target={'_blank'} rel={'noreferrer'}>{'Purple Twister 🟣🧬'}</a>{' on Polygon.'}
 							</li>
@@ -80,11 +104,18 @@ function	Changelog() {
 								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/matic_woofy'} target={'_blank'} rel={'noreferrer'}>{'Matic\'s Wandering Woofy 🧭🐶'}</a>{' on Polygon.'}
 							</li>
 							<li className={'text-base text-gray-200'}>
-								{'Adding polygon support for the ape.tax strategies.'}
+								{'Adding Polygon support for the ape.tax strategies.'}
 							</li>
 							<li className={'text-base text-gray-200'}>
 								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ultrasoundmoney'} target={'_blank'} rel={'noreferrer'}>{'Wrapped Ultra Sound Money 🦇🔊'}</a>{'.'}
 							</li>
+						</ul>
+					} />
+				<ChangeItem
+					date={'2021-05-25'}
+					version={'0.0.2'}
+					content={
+						<ul>
 							<li className={'text-base text-gray-200'}>
 								{'Integration of '}<a href={'https://ens.domains/'} target={'_blank'} rel={'noreferrer'}>{'Ethereum Name Service (ENS)'}</a>{' on the address selection and on the strategy card'}
 							</li>
