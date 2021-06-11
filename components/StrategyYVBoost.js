@@ -20,8 +20,8 @@ async function	PrepareStrategyYVBoost(address) {
 	let		timestamp = undefined;
 
 	const	initialSeeds = [];
-	const	normalTx = await API.retreiveTxFrom('etherscan.io', address);
-	const	erc20Tx = await API.retreiveErc20TxFrom('etherscan.io', address);
+	const	normalTx = await API.retreiveTxFrom('ethereum', address);
+	const	erc20Tx = await API.retreiveErc20TxFrom('ethereum', address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (

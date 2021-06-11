@@ -17,10 +17,10 @@ import	* as api										from	'utils/API';
 import	methods											from	'utils/methodsSignatures';
 import	{analyzeZapIn}									from	'utils/txHelpers';
 
-async function	PrepareStrategyYearnV2(parameters, address) {
+async function	PrepareStrategyYearnV2(parameters, address, network) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFrom('etherscan.io', address);
-	const	erc20Tx = await api.retreiveErc20TxFrom('etherscan.io', address);
+	const	normalTx = await api.retreiveTxFrom(network, address);
+	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
 
 	/***************************************************************************
 	** The seeds represent the initial investment. It could be the underlying
@@ -100,7 +100,7 @@ async function	PrepareStrategyYearnV2(parameters, address) {
 			if (timestamp === undefined || timestamp > tx.timeStamp) {
 				timestamp = tx.timeStamp;
 			}
-			const	{dataIn, dataOut} = await analyzeZapIn(address, toAddress(tx.to), tx.hash);
+			const	{dataIn, dataOut} = await analyzeZapIn(address, toAddress(tx.to), tx.hash, network);
 			if (dataIn && dataIn?.valueRaw) {
 				const	newValue = bigNumber.from(dataIn?.valueRaw);
 				const	oldValue = bigNumber.from(seeds[toAddress(dataIn?.address)]?.valueRaw || 0);
@@ -192,7 +192,7 @@ async function	PrepareStrategyYearnV2(parameters, address) {
 	})
 }
 
-function	StrategyYearnV2({parameters, address, uuid, fees, seeds, crops, harvest, date}) {
+function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 	const	[preRenderStep, set_preRenderStep] = useState({
 		seedPrice: false,

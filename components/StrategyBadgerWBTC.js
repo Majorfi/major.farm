@@ -18,8 +18,8 @@ import	{retreiveTxFrom, retreiveErc20TxFrom} from 'utils/API';
 
 async function	PrepareStrategyBadgerWBTC(address) {
 	let	timestamp = undefined;
-	const	normalTx = await retreiveTxFrom('etherscan.io', address);
-	const	erc20Tx = await retreiveErc20TxFrom('etherscan.io', address);
+	const	normalTx = await retreiveTxFrom('ethereum', address);
+	const	erc20Tx = await retreiveErc20TxFrom('ethereum', address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (

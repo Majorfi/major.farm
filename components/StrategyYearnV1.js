@@ -16,10 +16,10 @@ import	Group, {GroupElement}						from	'components/Strategies/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 
-async function	PrepareStrategyYearnV1(parameters, address) {
+async function	PrepareStrategyYearnV1(parameters, address, network) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFrom('etherscan.io', address);
-	const	erc20Tx = await api.retreiveErc20TxFrom('etherscan.io', address);
+	const	normalTx = await api.retreiveTxFrom(network, address);
+	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (
@@ -113,7 +113,7 @@ async function	PrepareStrategyYearnV1(parameters, address) {
 	}
 }
 
-function	StrategyYearnV1({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);

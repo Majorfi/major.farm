@@ -15,11 +15,12 @@ import	SectionFoot									from	'components/Strategies/SectionFoot'
 import	Group, {GroupElement}						from	'components/Strategies/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
+import	{getProvider, getSymbol}					from	'utils/chains';
 
-async function	PrepareStrategyApe(parameters, address, scan = 'etherscan.io') {
+async function	PrepareStrategyApe(parameters, address, network) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFrom(scan, address);
-	const	erc20Tx = await api.retreiveErc20TxFrom(scan, address);
+	const	normalTx = await api.retreiveTxFrom(network, address);
+	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (
@@ -72,12 +73,7 @@ async function	PrepareStrategyApe(parameters, address, scan = 'etherscan.io') {
 	}
 
 	async function	computeCrops() {
-		let provider = undefined;
-		if (parameters.network === 'polygon') {
-			provider = new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`)
-		} else {
-			provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		}
+		const	provider = getProvider(network);
 		const	ABI = ['function balanceOf(address) external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	balanceOf = await smartContract.balanceOf(address);
@@ -113,7 +109,7 @@ async function	PrepareStrategyApe(parameters, address, scan = 'etherscan.io') {
 	}
 }
 
-function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);
@@ -123,24 +119,17 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	const	[underlyingEarned, set_underlyingEarned] = useState(0);
 	const	[totalFees] = useState(fees);
 
-	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(
-		(parameters.network === 'polygon' ? tokenPrices['matic']?.price : tokenPrices['eth']?.price) || 0
-	);
+	const	[symbolToBaseCurrency, set_symbolToBaseCurrency] = useState(tokenPrices[getSymbol(network)]?.price || 0);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
 	const retrieveShareValue = useCallback(async () => {
-		let	provider = undefined;
-		if (parameters.network === 'polygon') {
-			provider = new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`)
-		} else {
-			provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		}
+		const	provider = getProvider(network);
 		const	ABI = ['function pricePerShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	pricePerShare = await smartContract.pricePerShare();
 		const	share = initialCrops * (pricePerShare / (10**(parameters.underlyingTokenDecimal || 18)))
 		set_underlyingEarned(share)
-	}, [initialCrops, parameters.contractAddress, parameters.network, parameters.underlyingTokenDecimal]);
+	}, [initialCrops, parameters.contractAddress, network, parameters.underlyingTokenDecimal]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
@@ -149,27 +138,33 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	}, [harvest, initialCrops])
 
 	useEffect(() => {
-		set_ethToBaseCurrency((parameters.network === 'polygon' ? tokenPrices['matic']?.price : tokenPrices['eth']?.price) || 0);
+		set_symbolToBaseCurrency(tokenPrices[getSymbol(network)]?.price || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
-	}, [currencyNonce, parameters.network, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
+	}, [currencyNonce, network, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
-			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFees * ethToBaseCurrency));
+			set_result(((harvest - (initialSeeds)) * underlyingToBaseCurrency) - (totalFees * symbolToBaseCurrency));
 		} else {
 			set_result(
-				((underlyingEarned - initialSeeds) * underlyingToBaseCurrency) -
-				(totalFees * ethToBaseCurrency)
+				((underlyingEarned - (initialSeeds - harvest)) * underlyingToBaseCurrency) -
+				(totalFees * symbolToBaseCurrency)
 			);
 		}
-	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFees, harvest, initialCrops, initialSeeds])
+	}, [symbolToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFees, harvest, initialCrops, initialSeeds])
 
 	useEffect(() => {
-		const	vi = initialSeeds * underlyingToBaseCurrency;
-		const	vf = result + vi;
-		set_APY((vf - vi) / vi * 100)
-	}, [ethToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency])
+		if (harvest > 0) {
+			const	vi = (initialSeeds) * underlyingToBaseCurrency;
+			const	vf = result + vi;
+			set_APY((vf - vi) / vi * 100)
+		} else {
+			const	vi = (initialSeeds - harvest) * underlyingToBaseCurrency;
+			const	vf = result + vi;
+			set_APY((vf - vi) / vi * 100)
+		}
+	}, [symbolToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency, harvest])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
@@ -187,8 +182,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
 						address={parameters.underlyingTokenAddress}
-						amount={parseFloat(initialSeeds.toFixed(10))}
-						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
+						amount={parseFloat(isHarvested ? initialSeeds : (initialSeeds - harvest).toFixed(10))}
+						value={((isHarvested ? initialSeeds : (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				<Group title={'Crops'}>
@@ -202,14 +197,6 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 
 				{isHarvested ?
 					<>
-						<Group title={'Yield'}>
-							<GroupElement
-								image={'/yGeneric.svg'}
-								label={`yv${parameters.underlyingTokenSymbol}`}
-								address={parameters.contractAddress}
-								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
-								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
-						</Group>
 						<Group title={'Harvest'}>
 							<GroupElement
 								image={parameters.underlyingTokenIcon}
@@ -221,7 +208,7 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 								image={'⛽️'}
 								label={'Fees'}
 								amount={parseFloat(totalFees.toFixed(10))}
-								value={-(totalFees * ethToBaseCurrency).toFixed(2)} />
+								value={-(totalFees * symbolToBaseCurrency).toFixed(2)} />
 						</Group>
 					</>
 					: 
@@ -230,13 +217,13 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 							image={'/yGeneric.svg'}
 							label={`yv${parameters.underlyingTokenSymbol}`}
 							address={parameters.contractAddress}
-							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
-							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
+							amount={parseFloat((underlyingEarned - (initialSeeds - harvest)).toFixed(10))}
+							value={((underlyingEarned - (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
 							image={'⛽️'}
 							label={'Fees'}
 							amount={parseFloat(totalFees.toFixed(10))}
-							value={-(totalFees * ethToBaseCurrency).toFixed(2)} />
+							value={-(totalFees * symbolToBaseCurrency).toFixed(2)} />
 					</Group>
 				}
 			</div>

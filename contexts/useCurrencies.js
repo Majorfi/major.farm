@@ -17,8 +17,10 @@ const CurrenciesContext = createContext();
 async function	fetchCryptoPrice(nonce) {
 	const	to = ['eur', 'usd']
 	const	from = [
-		'bitcoin',
 		'ethereum',
+		'matic-network',
+		'fantom',
+		'bitcoin',
 		'yearn-lazy-ape',
 		'assy-index',
 		'concentrated-voting-power',
@@ -44,7 +46,7 @@ async function	fetchCryptoPrice(nonce) {
 		'yearn-finance',
 		'1inch',
 		'woofy',
-		'matic-network'
+		'spookyswap'
 	]
 	const	result = await performGet(
 		`https://api.coingecko.com/api/v3/simple/price?ids=${from}&vs_currencies=${to}&n=${nonce}`
@@ -95,8 +97,10 @@ export const CurrenciesContextApp = ({children}) => {
 		NProgress.start();
 
 		const	cryptoListObj = {
-			'btc': {price: 0, fetchID: 'bitcoin'},
 			'eth': {price: 0, fetchID: 'ethereum'},
+			'matic': {price: 1, fetchID: 'matic-network'},
+			'fantom': {price: 1, fetchID: 'fantom'},
+			'btc': {price: 0, fetchID: 'bitcoin'},
 			'yearn-lazy-ape': {price: 1, fetchID: 'yearn-lazy-ape'},
 			'assy-index': {price: 1, fetchID: 'assy-index'},
 			'concentrated-voting-power': {price: 1, fetchID: 'concentrated-voting-power'},
@@ -122,7 +126,7 @@ export const CurrenciesContextApp = ({children}) => {
 			'yearn-finance': {price: 1, fetchID: 'yearn-finance'},
 			'1inch': {price: 1, fetchID: '1inch'},
 			'woofy': {price: 1, fetchID: 'woofy'},
-			'matic': {price: 1, fetchID: 'matic-network'},
+			'spookyswap': {price: 1, fetchID: 'spookyswap'},
 		}
 
 		const	fetchedCryptoPrices = await fetchCryptoPrice(currencyNonce);

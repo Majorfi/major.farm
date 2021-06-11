@@ -6,6 +6,7 @@
 ******************************************************************************/
 
 import	axios			from	'axios';
+import	{getExplorer}	from	'utils/chains';
 
 export const	performGet = (url) => {
 	return (
@@ -31,23 +32,37 @@ export async function	fetchCryptoPrice(from, to) {
 	return null;
 }
 
-export async function	retreiveTxFrom(scan = 'etherscan.io', address) {
-	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.POLYGONSCAN_API_KEY : process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	retreiveTxFrom(network, address) {
+	const	{explorer, apiKey} = getExplorer(network);
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`).then(e => e.data)
 
 	return result || [];
 }
 
-export async function	retreiveErc20TxFrom(scan = 'etherscan.io', address) {
-	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.POLYGONSCAN_API_KEY : process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	retreiveErc20TxFrom(network, address) {
+	const	{explorer, apiKey} = getExplorer(network);
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`).then(e => e.data)
 
 	return result || [];
 }
 
-export async function	getTransactionReceiptFrom(scan = 'etherscan.io', hash) {
-	const	{result} = await axios.get(`https://api.${scan}/api?module=proxy&action=eth_getTransactionReceipt&txhash=${hash}&apikey=1QJIBHW3HCXNV3MMB2MC23NKYVP2AIMVPU${scan === 'polygonscan.com' ? process.env.POLYGONSCAN_API_KEY : process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	getTransactionReceiptFrom(network, hash) {
+	const	{explorer, apiKey} = getExplorer(network);
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=proxy&action=eth_getTransactionReceipt&txhash=${hash}&apikey=1QJIBHW3HCXNV3MMB2MC23NKYVP2AIMVPU${apiKey}`).then(e => e.data)
 
 	return result || [];
 }
+
+export async function retrieveTokenDecimalByTokenAddress(network, tokenAddress) {
+	const	{explorer, apiKey} = getExplorer(network);
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=1&sort=asc&apikey=${apiKey}`).then(e => e.data)
+	return {
+		decimals: result?.[0]?.tokenDecimal || 18,
+		name: result?.[0]?.tokenName || '',
+		symbol: result?.[0]?.tokenSymbol || '',
+	};
+}
+
 
 export async function getQuotePriceEth(tokenAddress, coin = 'eth') {
 	const	{market_data} = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenAddress}`).then(e => e.data)
@@ -62,15 +77,6 @@ export async function getTokenInfo(tokenAddress) {
 	} catch (error) {
 		return	{};
 	}
-}
-
-export async function retrieveTokenDecimalByTokenAddress(scan = 'etherscan.io', tokenAddress) {
-	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=1&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.POLYGONSCAN_API_KEY : process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
-	return {
-		decimals: result?.[0]?.tokenDecimal || 18,
-		name: result?.[0]?.tokenName || '',
-		symbol: result?.[0]?.tokenSymbol || '',
-	};
 }
 
 export async function getTokenMarket() {

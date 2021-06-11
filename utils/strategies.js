@@ -13,7 +13,7 @@ import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/StrategyYearn
 import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/StrategyYearnCrvV1';
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
-const	STRATEGIES_APE_TAX = {
+const	STRATEGIES_APE_TAX_POLYGON = {
 	'Purple Twister 🟣🧬': {
 		parameters: {
 			title: 'Purple Twister 🟣🧬',
@@ -24,24 +24,10 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenSymbol: 'WMATIC',
 			underlyingTokenCgID: 'matic',
 			underlyingTokenIcon: '/matic.png',
-			network: 'polygon'
 		},
+		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a, 'polygonscan.com'),
-		Strategy: StrategyApe
-	},
-	'Wrapped Ultra Sound Money 🦇🔊': {
-		parameters: {
-			title: 'Wrapped Ultra Sound Money 🦇🔊',
-			href: 'https://ape.tax/ultrasoundmoney',
-			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
-			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-			underlyingTokenSymbol: 'WETH',
-			underlyingTokenCgID: 'eth',
-			underlyingTokenIcon: '/weth.png',
-		},
-		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Matic\'s Wandering Woofy 🧭🐶': {
@@ -54,10 +40,111 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenSymbol: 'WOOFY',
 			underlyingTokenCgID: 'woofy',
 			underlyingTokenIcon: '/woofy.png',
-			network: 'polygon'
 		},
+		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a, 'polygonscan.com'),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+}
+const	STRATEGIES_APE_TAX_FANTOM = {
+	'FTM\'s Wandering Woofy 🧭🐶': {
+		parameters: {
+			title: 'FTM\'s Wandering Woofy 🧭🐶',
+			href: 'https://ape.tax/ftm_woofy',
+			contractAddress: '0x6fCE944d1f2f877B3972e0E8ba81d27614D62BeD',
+			underlyingTokenAddress: '0xd0660cd418a64a1d44e9214ad8e459324d8157f1',
+			underlyingTokenDecimal: 12,
+			underlyingTokenSymbol: 'WOOFY',
+			underlyingTokenCgID: 'woofy',
+			underlyingTokenIcon: '/woofy.png',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+	'Spooky Skeletons 🙀👻': {
+		parameters: {
+			title: 'Spooky Skeletons 🙀👻',
+			href: 'https://ape.tax/spooky',
+			contractAddress: '0x79330397e161C67703e9bce2cA2Db73937D5fc7e',
+			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'BOO',
+			underlyingTokenCgID: 'spookyswap',
+			underlyingTokenIcon: '/boo.png',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+	'FTM\'s Frapped Ape ☕️🦧': {
+		parameters: {
+			title: 'FTM\'s Frapped Ape ☕️🦧',
+			href: 'https://ape.tax/ftmfrappedape',
+			contractAddress: '0x1E9eC284BA99E14436f809291eBF7dC8CCDB12e1',
+			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+			underlyingTokenDecimal: 6,
+			underlyingTokenSymbol: 'fUSDT',
+			underlyingTokenCgID: 'tether',
+			underlyingTokenIcon: '/usdt.svg',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+	'Fantom\'s Ape Ape Baby 🧊👶': {
+		parameters: {
+			title: 'Fantom\'s Ape Ape Baby 🧊👶',
+			href: 'https://ape.tax/fantombaby',
+			contractAddress: '0xEea0714eC1af3b0D41C624Ba5ce09aC92F4062b1',
+			underlyingTokenAddress: '0xf16e81dce15b08f326220742020379b855b87df9',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'ICE',
+			underlyingTokenCgID: 'ice-token',
+			underlyingTokenIcon: '/ice.png',
+
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+	'Fantom\'s Fury 👻⚡': {
+		parameters: {
+			title: 'Fantom\'s Fury 👻⚡',
+			href: 'https://ape.tax/fantomsfury',
+			contractAddress: '0x36e7aF39b921235c4b01508BE38F27A535851a5c',
+			underlyingTokenAddress: '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'WFTM',
+			underlyingTokenCgID: 'fantom',
+			underlyingTokenIcon: '/fantom.png',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+
+}
+const	STRATEGIES_APE_TAX = {
+	'Wrapped Ultra Sound Money 🦇🔊': {
+		parameters: {
+			title: 'Wrapped Ultra Sound Money 🦇🔊',
+			href: 'https://ape.tax/ultrasoundmoney',
+			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
+			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+			underlyingTokenSymbol: 'WETH',
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: '/weth.png',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'The Frog Prince 🐸💋 2': {
@@ -71,8 +158,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'link',
 			underlyingTokenIcon: '/link.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Comfi Carousel 🛋🎠': {
@@ -86,8 +174,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'usd-coin',
 			underlyingTokenIcon: '/usdc.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Reflex me 📷💚': {
@@ -101,8 +190,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'rai',
 			underlyingTokenIcon: '/rai.png',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Old Grandmaster\'s DAI ♟👴': {
@@ -116,8 +206,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'dai',
 			underlyingTokenIcon: '/dai.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Spartan Bank ⚔️🏦': {
@@ -131,8 +222,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'havven',
 			underlyingTokenIcon: '/snx.png',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'ETH\'s Ape Ape Baby 🧊👶': {
@@ -146,8 +238,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'ice-token',
 			underlyingTokenIcon: '/ice.png',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Bank Sushi 🏦🍣': {
@@ -161,8 +254,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'sushi',
 			underlyingTokenIcon: '/sushi.png',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Ghosty Dollar 𓀀💵': {
@@ -176,8 +270,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'nusd',
 			underlyingTokenIcon: '/susd.png',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧': {
@@ -191,8 +286,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'uniswap',
 			underlyingTokenIcon: '/uni.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'True Idle T🛌': {
@@ -206,8 +302,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'true-usd',
 			underlyingTokenIcon: '/tusd.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Idle Tether 🛌T': {
@@ -221,8 +318,9 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'tether',
 			underlyingTokenIcon: '/usdt.svg',
 		},
+		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		Strategy: StrategyApe
 	},
 	'Data AAVE 💿🕊': {
@@ -235,7 +333,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'aave',
 			underlyingTokenIcon: '/aave.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -249,7 +348,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'alchemix',
 			underlyingTokenIcon: '/alcx.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -263,7 +363,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'nusd',
 			underlyingTokenIcon: '/susd.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -277,7 +378,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'eth',
 			underlyingTokenIcon: '/weth.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -291,7 +393,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'eth',
 			underlyingTokenIcon: '/weth.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -305,7 +408,8 @@ const	STRATEGIES_APE_TAX = {
 			underlyingTokenCgID: 'eth',
 			underlyingTokenIcon: '/stecrv.png',
 		},
-		prepare: (p, a) => PrepareStrategyApe(p, a),
+		network: 'ethereum',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	}
@@ -325,8 +429,9 @@ const	STRATEGIES_YEARN_V1_DEPRECIED = {
 			underlyingTokenCgID: 'mstable-usd',
 			underlyingTokenIcon: '/musd.png',
 		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
 		Strategy: StrategyYearnV1
 	},
 }
@@ -342,8 +447,9 @@ const	STRATEGIES_YEARN_V1 = {
 			underlyingTokenCgID: 'dai',
 			underlyingTokenIcon: '/dai.svg',
 		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - TUSD': {
@@ -357,8 +463,9 @@ const	STRATEGIES_YEARN_V1 = {
 			underlyingTokenCgID: 'true-usd',
 			underlyingTokenIcon: '/tusd.svg',
 		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - USDC': {
@@ -373,8 +480,9 @@ const	STRATEGIES_YEARN_V1 = {
 			underlyingTokenCgID: 'usd-coin',
 			underlyingTokenIcon: '/usdc.svg',
 		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - USDT': {
@@ -389,8 +497,9 @@ const	STRATEGIES_YEARN_V1 = {
 			underlyingTokenCgID: 'tether',
 			underlyingTokenIcon: '/usdt.svg',
 		},
-		list: 'yearn-v1',
-		prepare: (p, a) => PrepareStrategyYearnV1(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
 		Strategy: StrategyYearnV1
 	}
 }
@@ -410,10 +519,10 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'linkCRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvMUSD': {
@@ -429,10 +538,10 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'musd3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUSDN': {
@@ -448,10 +557,10 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'usdn3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUST': {
@@ -467,10 +576,10 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'ust3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	}
 }
@@ -489,8 +598,9 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenCgID: 'eursCRV',
 			underlyingTokenIcon: '/curve.png',
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvSUSD': {
@@ -506,10 +616,10 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'crvPlain3andSUSD',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvHUSD': {
@@ -525,10 +635,10 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'husd3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvAAVE': {
@@ -544,10 +654,10 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'a3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUSDP': {
@@ -563,10 +673,10 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: 'usdp3CRV',
 			underlyingTokenIcon: '/curve.png',
-
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},
 	'yearn V1 - crvAETH': {
@@ -583,8 +693,9 @@ const	STRATEGIES_YEARN_V1_CRV = {
 			underlyingTokenCgID: 'ankrCRV',
 			underlyingTokenIcon: '/curve.png',
 		},
-		list: 'yearn-v1-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV1(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
 		Strategy: StrategyYearnCrvV1
 	},	
 }
@@ -606,8 +717,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'eth',
 			underlyingTokenIcon: '/eth.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - YFI': {
@@ -626,8 +738,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'yearn-finance',
 			underlyingTokenIcon: '/yfi.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - wBTC': {
@@ -646,8 +759,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'btc',
 			underlyingTokenIcon: '/btc.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 
@@ -667,8 +781,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'dai',
 			underlyingTokenIcon: '/dai.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - USDC': {
@@ -687,8 +802,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'usd-coin',
 			underlyingTokenIcon: '/usdc.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - USDT': {
@@ -707,8 +823,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'tether',
 			underlyingTokenIcon: '/usdt.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - sUSD': {
@@ -727,8 +844,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'nusd',
 			underlyingTokenIcon: '/susd.png',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - SNX': {
@@ -742,13 +860,14 @@ const	STRATEGIES_YEARN_V2 = {
 			tokenDecimal: 18,
 			underlyingTokenAddress: '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f',
 			underlyingTokenSymbol: 'SNX',
-			underlyingTokenName: 'Synthetix Network Token',
 			underlyingTokenDecimal: 18,
+			underlyingTokenName: 'Synthetix Network Token',
 			underlyingTokenCgID: 'havven',
 			underlyingTokenIcon: '/snx.png',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - UNI': {
@@ -767,8 +886,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: 'uniswap',
 			underlyingTokenIcon: '/uni.svg',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - 1Inch': {
@@ -787,8 +907,9 @@ const	STRATEGIES_YEARN_V2 = {
 			underlyingTokenCgID: '1inch',
 			underlyingTokenIcon: '/1inch.png',
 		},
-		list: 'yearn-v2',
-		prepare: (p, a) => PrepareStrategyYearnV2(p, a),
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
 		Strategy: StrategyYearnV2
 	}
 }
@@ -807,8 +928,9 @@ const	STRATEGIES_YEARN_V2_CRV = {
 			underlyingTokenCgID: 'steCRV',
 			underlyingTokenIcon: '/curve.png',
 		},
-		list: 'yearn-v2-crv',
-		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
+		network: 'ethereum',
+		list: 'yearn-crv',
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV2(p, a, n),
 		Strategy: StrategyYearnCrvV2
 	}
 }
@@ -828,8 +950,9 @@ const	STRATEGIES_MISC = {
 			underlyingTokenCgID: 'yveCRV-DAO',
 			underlyingTokenIcon: '/curve.png',
 		},
+		network: 'ethereum',
 		list: 'misc',
-		prepare: (p, a) => PrepareStrategyYearnCrvV2(p, a),
+		prepare: (p, a, n) => PrepareStrategyYearnCrvV2(p, a, n),
 		Strategy: StrategyYearnCrvV2
 	},
 	'Badger WBTC': {
@@ -844,4 +967,4 @@ const	STRATEGIES_MISC = {
 	},
 }
 
-export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};
+export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};

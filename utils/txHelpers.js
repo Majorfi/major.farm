@@ -9,8 +9,8 @@ import	* as API		from	'utils/API'
 import	{bigNumber}		from	'utils';
 import	{ethers}		from	'ethers';
 
-export async function	analyzeZapIn(from, zapIn, txHash, scan = 'etherscan.io') {
-	const	zapInReceipt = await API.getTransactionReceiptFrom(scan, txHash);
+export async function	analyzeZapIn(from, zapIn, txHash, network) {
+	const	zapInReceipt = await API.getTransactionReceiptFrom(network, txHash);
 	const	{logs} = zapInReceipt;
 	const	fromAddress = from.slice(2).toLowerCase();
 	const	zapInAddress = zapIn.slice(2).toLowerCase();
@@ -23,7 +23,7 @@ export async function	analyzeZapIn(from, zapIn, txHash, scan = 'etherscan.io') {
 			if (((log?.topics?.[1]).toLowerCase()).includes(fromAddress)) {
 				if (((log?.topics?.[2]).toLowerCase()).includes(zapInAddress)) {
 					const	tokenInfoCoingecko = await API.getTokenInfo(log?.address);
-					const	tokenInfoEtherscan = await API.retrieveTokenDecimalByTokenAddress(scan, log?.address);
+					const	tokenInfoEtherscan = await API.retrieveTokenDecimalByTokenAddress(network, log?.address);
 					dataIn.id = tokenInfoCoingecko?.id || '';
 					dataIn.name = tokenInfoEtherscan?.name || tokenInfoCoingecko?.name;
 					dataIn.symbol = tokenInfoEtherscan?.symbol || tokenInfoCoingecko?.symbol;
@@ -38,7 +38,7 @@ export async function	analyzeZapIn(from, zapIn, txHash, scan = 'etherscan.io') {
 			if (((log?.topics?.[1]).toLowerCase()).includes(zapInAddress)) {
 				if (((log?.topics?.[2]).toLowerCase()).includes(fromAddress)) {
 					const	tokenInfoCoingecko = await API.getTokenInfo(log?.address);
-					const	tokenInfoEtherscan = await API.retrieveTokenDecimalByTokenAddress(scan, log?.address);
+					const	tokenInfoEtherscan = await API.retrieveTokenDecimalByTokenAddress(network, log?.address);
 					dataOut.id = tokenInfoCoingecko?.id || '';
 					dataOut.name = tokenInfoEtherscan?.name || tokenInfoCoingecko?.name;
 					dataOut.symbol = tokenInfoEtherscan?.symbol || tokenInfoCoingecko?.symbol;
