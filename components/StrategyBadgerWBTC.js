@@ -14,12 +14,12 @@ import	SectionRemove						from	'components/Strategies/SectionRemove'
 import	SectionHead							from	'components/Strategies/SectionHead'
 import	SectionFoot							from	'components/Strategies/SectionFoot'
 import	Group, {GroupElement}				from	'components/Strategies/Group'
-import	{retreiveTxFromEtherscan, retreiveErc20TxFromEtherscan} from 'utils/API';
+import	{retreiveTxFrom, retreiveErc20TxFrom} from 'utils/API';
 
 async function	PrepareStrategyBadgerWBTC(address) {
 	let	timestamp = undefined;
-	const	normalTx = await retreiveTxFromEtherscan(address);
-	const	erc20Tx = await retreiveErc20TxFromEtherscan(address);
+	const	normalTx = await retreiveTxFrom('etherscan.io', address);
+	const	erc20Tx = await retreiveErc20TxFrom('etherscan.io', address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (

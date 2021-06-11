@@ -58,7 +58,7 @@ function	AppWrapper(props) {
 					</Link>
 				</div>
 				<div className={'py-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
-					<p>{'Donation : 0xc599d862Aa595244b585ad839839d3f3f6d35f30'}</p>
+					<p>{'Donation : major-tom.eth'}</p>
 				</div>
 
 			</div>

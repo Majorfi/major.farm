@@ -14,6 +14,22 @@ import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategy
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX = {
+	'Purple Twister 🟣🧬': {
+		parameters: {
+			title: 'Purple Twister 🟣🧬',
+			href: 'https://ape.tax/purpletwister',
+			contractAddress: '0xCcba0B868106d55704cb7ff19782C829dc949feB',
+			underlyingTokenAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'WMATIC',
+			underlyingTokenCgID: 'matic',
+			underlyingTokenIcon: '/matic.png',
+			network: 'polygon'
+		},
+		list: 'ape.tax',
+		prepare: (p, a) => PrepareStrategyApe(p, a, 'polygonscan.com'),
+		Strategy: StrategyApe
+	},
 	'Wrapped Ultra Sound Money 🦇🔊': {
 		parameters: {
 			title: 'Wrapped Ultra Sound Money 🦇🔊',
@@ -26,6 +42,22 @@ const	STRATEGIES_APE_TAX = {
 		},
 		list: 'ape.tax',
 		prepare: (p, a) => PrepareStrategyApe(p, a),
+		Strategy: StrategyApe
+	},
+	'Matic\'s Wandering Woofy 🧭🐶': {
+		parameters: {
+			title: 'Matic\'s Wandering Woofy 🧭🐶',
+			href: 'https://ape.tax/matic_woofy',
+			contractAddress: '0xEAFB3Ee25B5a9a1b35F193A4662E3bDba7A95BEb',
+			underlyingTokenAddress: '0xd0660cd418a64a1d44e9214ad8e459324d8157f1',
+			underlyingTokenDecimal: 12,
+			underlyingTokenSymbol: 'WOOFY',
+			underlyingTokenCgID: 'woofy',
+			underlyingTokenIcon: '/woofy.png',
+			network: 'polygon'
+		},
+		list: 'ape.tax',
+		prepare: (p, a) => PrepareStrategyApe(p, a, 'polygonscan.com'),
 		Strategy: StrategyApe
 	},
 	'The Frog Prince 🐸💋': {

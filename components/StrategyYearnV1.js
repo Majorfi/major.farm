@@ -18,8 +18,8 @@ import	methods										from	'utils/methodsSignatures';
 
 async function	PrepareStrategyYearnV1(parameters, address) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFromEtherscan(address);
-	const	erc20Tx = await api.retreiveErc20TxFromEtherscan(address);
+	const	normalTx = await api.retreiveTxFrom('etherscan.io', address);
+	const	erc20Tx = await api.retreiveErc20TxFrom('etherscan.io', address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (

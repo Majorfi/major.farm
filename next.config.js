@@ -13,7 +13,9 @@ module.exports = ({
 	],
 	env: {
 		ALCHEMY_KEY: process.env.ALCHEMY_KEY,
-		ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY
+		ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY,
+		POLYGONSCAN_API_KEY: process.env.POLYGONSCAN_API_KEY,
+		POLYGON_MATIC_VIRGIL: process.env.POLYGON_MATIC_VIRGIL,
 	},
 	optimization: {
 		minimize: true,

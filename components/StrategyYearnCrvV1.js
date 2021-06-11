@@ -19,8 +19,8 @@ import	{analyzeZapIn}						from	'utils/txHelpers';
 
 async function	PrepareStrategyYearnCrvV1(parameters, address) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFromEtherscan(address);
-	const	erc20Tx = await api.retreiveErc20TxFromEtherscan(address);
+	const	normalTx = await api.retreiveTxFrom('etherscan.io', address);
+	const	erc20Tx = await api.retreiveErc20TxFrom('etherscan.io', address);
 
 	/***************************************************************************
 	** The seeds represent the initial investment. It could be the underlying

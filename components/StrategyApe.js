@@ -16,10 +16,10 @@ import	Group, {GroupElement}						from	'components/Strategies/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 
-async function	PrepareStrategyApe(parameters, address) {
+async function	PrepareStrategyApe(parameters, address, scan = 'etherscan.io') {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFromEtherscan(address);
-	const	erc20Tx = await api.retreiveErc20TxFromEtherscan(address);
+	const	normalTx = await api.retreiveTxFrom(scan, address);
+	const	erc20Tx = await api.retreiveErc20TxFrom(scan, address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (
@@ -72,7 +72,12 @@ async function	PrepareStrategyApe(parameters, address) {
 	}
 
 	async function	computeCrops() {
-		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		let provider = undefined;
+		if (parameters.network === 'polygon') {
+			provider = new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`)
+		} else {
+			provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		}
 		const	ABI = ['function balanceOf(address) external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	balanceOf = await smartContract.balanceOf(address);
@@ -116,19 +121,26 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
 	const	[underlyingEarned, set_underlyingEarned] = useState(0);
-	const	[totalFeesEth] = useState(fees);
+	const	[totalFees] = useState(fees);
 
-	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(
+		(parameters.network === 'polygon' ? tokenPrices['matic']?.price : tokenPrices['eth']?.price) || 0
+	);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
 	const retrieveShareValue = useCallback(async () => {
-		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		let	provider = undefined;
+		if (parameters.network === 'polygon') {
+			provider = new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`)
+		} else {
+			provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		}
 		const	ABI = ['function pricePerShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
 		const	pricePerShare = await smartContract.pricePerShare();
 		const	share = initialCrops * (pricePerShare / (10**(parameters.underlyingTokenDecimal || 18)))
 		set_underlyingEarned(share)
-	}, [initialCrops, parameters.contractAddress, parameters.underlyingTokenDecimal]);
+	}, [initialCrops, parameters.contractAddress, parameters.network, parameters.underlyingTokenDecimal]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
@@ -137,21 +149,21 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 	}, [harvest, initialCrops])
 
 	useEffect(() => {
-		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
+		set_ethToBaseCurrency((parameters.network === 'polygon' ? tokenPrices['matic']?.price : tokenPrices['eth']?.price) || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
-	}, [currencyNonce, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
+	}, [currencyNonce, parameters.network, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
-			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFeesEth * ethToBaseCurrency));
+			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFees * ethToBaseCurrency));
 		} else {
 			set_result(
 				((underlyingEarned - initialSeeds) * underlyingToBaseCurrency) -
-				(totalFeesEth * ethToBaseCurrency)
+				(totalFees * ethToBaseCurrency)
 			);
 		}
-	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth, harvest, initialCrops, initialSeeds])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFees, harvest, initialCrops, initialSeeds])
 
 	useEffect(() => {
 		const	vi = initialSeeds * underlyingToBaseCurrency;
@@ -208,8 +220,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 							<GroupElement
 								image={'⛽️'}
 								label={'Fees'}
-								amount={parseFloat(totalFeesEth.toFixed(10))}
-								value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
+								amount={parseFloat(totalFees.toFixed(10))}
+								value={-(totalFees * ethToBaseCurrency).toFixed(2)} />
 						</Group>
 					</>
 					: 
@@ -223,8 +235,8 @@ function	StrategyApe({parameters, address, uuid, fees, initialSeeds, initialCrop
 						<GroupElement
 							image={'⛽️'}
 							label={'Fees'}
-							amount={parseFloat(totalFeesEth.toFixed(10))}
-							value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
+							amount={parseFloat(totalFees.toFixed(10))}
+							value={-(totalFees * ethToBaseCurrency).toFixed(2)} />
 					</Group>
 				}
 			</div>

@@ -74,6 +74,15 @@ function	Changelog() {
 					content={
 						<ul>
 							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/purpletwister'} target={'_blank'} rel={'noreferrer'}>{'Purple Twister 🟣🧬'}</a>{' on Polygon.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/matic_woofy'} target={'_blank'} rel={'noreferrer'}>{'Matic\'s Wandering Woofy 🧭🐶'}</a>{' on Polygon.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Adding polygon support for the ape.tax strategies.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
 								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ultrasoundmoney'} target={'_blank'} rel={'noreferrer'}>{'Wrapped Ultra Sound Money 🦇🔊'}</a>{'.'}
 							</li>
 							<li className={'text-base text-gray-200'}>

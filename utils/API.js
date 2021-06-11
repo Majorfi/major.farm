@@ -31,26 +31,20 @@ export async function	fetchCryptoPrice(from, to) {
 	return null;
 }
 
-export async function	retreiveTxFromEtherscan(address) {
-	const	{result} = await axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	retreiveTxFrom(scan = 'etherscan.io', address) {
+	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.ETHERSCAN_API_KEY : process.env.POLYGONSCAN_API_KEY}`).then(e => e.data)
 
 	return result || [];
 }
 
-export async function	retreiveErc20TxFromEtherscan(address) {
-	const	{result} = await axios.get(`https://api.etherscan.io/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	retreiveErc20TxFrom(scan = 'etherscan.io', address) {
+	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.ETHERSCAN_API_KEY : process.env.POLYGONSCAN_API_KEY}`).then(e => e.data)
 
 	return result || [];
 }
 
-export async function	retreiveInternalTxFromEtherscan(address) {
-	const	{result} = await axios.get(`https://api.etherscan.io/api?module=account&action=txlistinternal&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
-
-	return result || [];
-}
-
-export async function	getTransactionReceipt(hash) {
-	const	{result} = await axios.get(`https://api.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash=${hash}&apikey=1QJIBHW3HCXNV3MMB2MC23NKYVP2AIMVPU${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function	getTransactionReceiptFrom(scan = 'etherscan.io', hash) {
+	const	{result} = await axios.get(`https://api.${scan}/api?module=proxy&action=eth_getTransactionReceipt&txhash=${hash}&apikey=1QJIBHW3HCXNV3MMB2MC23NKYVP2AIMVPU${scan === 'polygonscan.com' ? process.env.ETHERSCAN_API_KEY : process.env.POLYGONSCAN_API_KEY}`).then(e => e.data)
 
 	return result || [];
 }
@@ -70,8 +64,8 @@ export async function getTokenInfo(tokenAddress) {
 	}
 }
 
-export async function retrieveTokenDecimalByTokenAddress(tokenAddress) {
-	const	{result} = await axios.get(`https://api.etherscan.io/api?module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=1&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`).then(e => e.data)
+export async function retrieveTokenDecimalByTokenAddress(scan = 'etherscan.io', tokenAddress) {
+	const	{result} = await axios.get(`https://api.${scan}/api?module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=1&sort=asc&apikey=${scan === 'polygonscan.com' ? process.env.ETHERSCAN_API_KEY : process.env.POLYGONSCAN_API_KEY}`).then(e => e.data)
 	return {
 		decimals: result?.[0]?.tokenDecimal || 18,
 		name: result?.[0]?.tokenName || '',
