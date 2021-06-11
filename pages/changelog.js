@@ -74,6 +74,9 @@ function	Changelog() {
 					content={
 						<ul>
 							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ultrasoundmoney'} target={'_blank'} rel={'noreferrer'}>{'Wrapped Ultra Sound Money 🦇🔊'}</a>{'.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
 								{'Integration of '}<a href={'https://ens.domains/'} target={'_blank'} rel={'noreferrer'}>{'Ethereum Name Service (ENS)'}</a>{' on the address selection and on the strategy card'}
 							</li>
 							<li className={'text-base text-gray-200'}>

@@ -223,7 +223,7 @@ function	Currency() {
 function	Index() {
 	const	{strategies} = useStrategies();
 	const	[strategyModal, set_strategyModal] = useState(false);
-	const	[newsBanner, set_newsBanner] = useLocalStorage('newsBanner', true);
+	const	[newsBanner, set_newsBanner] = useLocalStorage('newsBanner-1', true);
 
 	function	renderStrategy(strategy, s) {
 		const	CurrentStrategy = STRATEGIES[strategy];
@@ -284,13 +284,13 @@ function	Index() {
 								</svg>
 							</span>
 							<p className={'ml-3 font-medium text-white truncate'}>
-								<span className={'md:hidden'}>{'The Frog Prince 🐸💋 is now available'}</span>
-								<span className={'hidden md:inline tracking-wider'}>{'The Frog Prince 🐸💋 from ape.tax is now available for tracking !'}</span>
+								<span className={'md:hidden'}>{'Wrapped Ultra Sound Money 🦇🔊 is now available'}</span>
+								<span className={'hidden md:inline tracking-wider'}>{'Wrapped Ultra Sound Money 🦇🔊 from ape.tax is now available for tracking !'}</span>
 							</p>
 						</div>
 						<div className={'order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto'}>
 							<a
-								href={'https://ape.tax/frogprince'}
+								href={'https://ape.tax/ultrasoundmoney'}
 								target={'_blank'}
 								className={'flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-accent-900 bg-white hover:bg-accent-50'} rel={'noreferrer'}>
 								{'Learn more'}

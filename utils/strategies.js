@@ -14,6 +14,20 @@ import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategy
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX = {
+	'Wrapped Ultra Sound Money 🦇🔊': {
+		parameters: {
+			title: 'Wrapped Ultra Sound Money 🦇🔊',
+			href: 'https://ape.tax/ultrasoundmoney',
+			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
+			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+			underlyingTokenSymbol: 'WETH',
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: '/weth.png',
+		},
+		list: 'ape.tax',
+		prepare: (p, a) => PrepareStrategyApe(p, a),
+		Strategy: StrategyApe
+	},
 	'The Frog Prince 🐸💋': {
 		parameters: {
 			title: 'The Frog Prince 🐸💋',
