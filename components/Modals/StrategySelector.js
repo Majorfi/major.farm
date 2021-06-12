@@ -29,7 +29,7 @@ function	SectionChains({set_chain, chain}) {
 					type={'button'}
 					className={`${chain === 'ethereum' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative flex flex-col items-center px-4 py-2 rounded-l-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-full text-center`}>
 					<Image
-						src={'./chains/ethereum.png'}
+						src={'/chains/ethereum.png'}
 						loading={'eager'}
 						width={26.4}
 						height={42} />
@@ -40,7 +40,7 @@ function	SectionChains({set_chain, chain}) {
 					type={'button'}
 					className={`${chain === 'polygon' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative flex flex-col items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-full text-center`}>
 					<Image
-						src={'./chains/polygon.svg'}
+						src={'/chains/polygon.svg'}
 						loading={'eager'}
 						width={42}
 						height={42} />
@@ -51,7 +51,7 @@ function	SectionChains({set_chain, chain}) {
 					type={'button'}
 					className={`${chain === 'bsc' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} relative flex flex-col items-center px-4 py-2 border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-full text-center`}>
 					<Image
-						src={'./chains/bsc.svg'}
+						src={'/chains/bsc.svg'}
 						loading={'eager'}
 						width={42}
 						height={42} />
@@ -62,7 +62,7 @@ function	SectionChains({set_chain, chain}) {
 					type={'button'}
 					className={`${chain === 'fantom' ? 'bg-dark-900 text-white text-opacity-100' : 'bg-dark-400 text-white text-opacity-75'} -ml-px relative flex flex-col items-center px-4 py-2 rounded-r-md border border-dark-300 text-sm font-medium hover:bg-dark-900 focus:outline-none transition-colors w-full text-center`}>
 					<Image
-						src={'./chains/fantom.svg'}
+						src={'/chains/fantom.svg'}
 						loading={'eager'}
 						width={42}
 						height={42} />

@@ -191,7 +191,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 				<Group title={'Crops'}>
 					<GroupElement
 						network={network}
-						image={'./tokens/yGeneric.svg'}
+						image={'/tokens/yGeneric.svg'}
 						label={`yv${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(initialCrops.toFixed(10))}
@@ -220,7 +220,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 					<Group title={'Yield'}>
 						<GroupElement
 							network={network}
-							image={'./tokens/yGeneric.svg'}
+							image={'/tokens/yGeneric.svg'}
 							label={`yv${parameters.underlyingTokenSymbol}`}
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - (initialSeeds - harvest)).toFixed(10))}

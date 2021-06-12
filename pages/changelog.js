@@ -256,7 +256,7 @@ function	ChangelogWrapper() {
 						autoplay
 						loop
 						mode={'normal'}
-						src={'./changelog.json'}
+						src={'/changelog.json'}
 						className={'absolute inset-0 w-full h-full object-cover'} />
 				</div>
 			</main>
