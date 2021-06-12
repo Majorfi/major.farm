@@ -26,11 +26,6 @@ module.exports = ({
 			minSize: 20000
 		}
 	},
-	assetPrefix: '/',
-	trailingSlash: true,
-	exportPathMap: function() {
-		return {'/': {page: '/'}};
-	},
 	images: {
 		domains: [
 			'tokens.1inch.exchange'
