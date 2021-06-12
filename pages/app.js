@@ -95,7 +95,7 @@ function	Index() {
 					<Link href={'/'}>
 						<div className={'flex flex-row items-center text-white cursor-pointer'}>
 							<div>
-								<Image src={'/sprout.svg'} width={30} height={30} />
+								<Image src={'./sprout.svg'} width={30} height={30} />
 							</div>
 							<div className={'ml-4'}>
 								<p className={'font-semibold text-xl text-white'}>{'Major\'s Farm'}</p>

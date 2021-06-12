@@ -228,7 +228,7 @@ function	Index() {
 						autoplay
 						loop
 						mode={'normal'}
-						src={'/grow.json'}
+						src={'./grow.json'}
 						className={'absolute inset-0 w-full h-full object-cover'} />
 				</div>
 			</main>

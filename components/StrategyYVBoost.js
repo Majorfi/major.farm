@@ -175,7 +175,7 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 							<GroupElement
 								network={network}
 								key={`${i}_${f.contractAddress}`}
-								image={'/tokens/eth.svg'}
+								image={'./tokens/eth.svg'}
 								label={f.tokenSymbol}
 								address={f.contractAddress}
 								amount={amount}
@@ -263,7 +263,7 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 				<Group title={'Crops'}>
 					<GroupElement
 						network={network}
-						image={'/tokens/yvboost.png'}
+						image={'./tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0xced67a187b923f0e5ebcc77c7f2f7da20099e378'}
 						amount={crops.toFixed(8)}
@@ -275,14 +275,14 @@ function	StrategyYVBoost({address, network = 'ethereum', uuid, fees, initialCrop
 				<Group title={'Yield'}>
 					<GroupElement
 						network={network}
-						image={'/tokens/pickle.png'}
+						image={'./tokens/pickle.png'}
 						label={'Pickle'}
 						address={'0x429881672B9AE42b8EbA0E26cD9C73711b891Ca5'}
 						amount={pickleEarned.toFixed(10)}
 						value={(pickleEarned * pickleToBaseCurrency).toFixed(2)} />
 					<GroupElement
 						network={network}
-						image={'/tokens/yvboost.png'}
+						image={'./tokens/yvboost.png'}
 						label={'yvBoost-ETH'}
 						address={'0x9461173740d27311b176476fa27e94c681b1ea6b'}
 						amount={yvBoostEthEarned.toFixed(10)}
