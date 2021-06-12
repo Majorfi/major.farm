@@ -66,8 +66,26 @@ function	Changelog() {
 							<li className={'text-base text-gray-200'}>
 								{'Working on Curve strategies.'}
 							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Working to deploy on IPFS.'}
+							</li>
 						</ul>
 					} />
+
+				<ChangeItem
+					date={'2021-06-12'}
+					version={'0.0.3'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/dollarstorebento'} target={'_blank'} rel={'noreferrer'}>{'Dollar Store Bento 💵🍱'}</a>{' on Polygon.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/matic-idle-dai'} target={'_blank'} rel={'noreferrer'}>{'Matic\'s Magic Idle DAI 🏆🚀'}</a>{' on Polygon.'}
+							</li>
+						</ul>
+					} />
+
 				<ChangeItem
 					date={'2021-06-11'}
 					version={'0.0.3'}

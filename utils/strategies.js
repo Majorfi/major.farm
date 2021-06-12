@@ -14,6 +14,22 @@ import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategy
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX_POLYGON = {
+	'Dollar Store Bento 💵🍱': {
+		parameters: {
+			title: 'Dollar Store Bento 💵🍱',
+			href: 'https://ape.tax/dollarstorebento',
+			contractAddress: '0x32A2d6F07079b6CdFe942B198773cDA1398544b1',
+			underlyingTokenAddress: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+			underlyingTokenSymbol: 'USDC',
+			underlyingTokenDecimal: 6,
+			underlyingTokenCgID: 'usd-coin',
+			underlyingTokenIcon: '/tokens/usdc.svg',
+		},
+		network: 'polygon',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
 	'Purple Twister 🟣🧬': {
 		parameters: {
 			title: 'Purple Twister 🟣🧬',
@@ -24,6 +40,22 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 			underlyingTokenSymbol: 'WMATIC',
 			underlyingTokenCgID: 'matic',
 			underlyingTokenIcon: '/tokens/matic.png',
+		},
+		network: 'polygon',
+		list: 'ape.tax',
+		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		Strategy: StrategyApe
+	},
+	'Matic\'s Magic Idle DAI 🏆🚀': {
+		parameters: {
+			title: 'Matic\'s Magic Idle DAI 🏆🚀',
+			href: 'https://ape.tax/matic-idle-dai',
+			contractAddress: '0x9Cfeb5e00a38ed1c9950dBadC0821ce4cb648a90',
+			underlyingTokenAddress: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+			underlyingTokenSymbol: 'DAI',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: '/tokens/dai.svg',
 		},
 		network: 'polygon',
 		list: 'ape.tax',
