@@ -26,11 +26,13 @@ module.exports = ({
 			minSize: 20000
 		}
 	},
-	exportTrailingSlash: true,
+	trailingSlash: true,
 	exportPathMap: function() {
 		return {'/': {page: '/'}};
 	},
 	images: {
+		loader: 'cloudinary',
+		path: 'https://res.cloudinary.com/major-tom',
 		domains: [
 			'tokens.1inch.exchange'
 		],
