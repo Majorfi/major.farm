@@ -15,22 +15,22 @@ function Protocols() {
 				<div className={'grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-4'}>
 					<a href={'https://yearn.finance/'} target={'_blank'} rel={'noreferrer'}>
 						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
-							<img className={'h-12'} src={'/protocols/yearn.svg'} alt={'Yearn Finance'} />
+							<img className={'h-12'} src={'../public/protocols/yearn.svg'} alt={'Yearn Finance'} />
 						</div>
 					</a>
 					<a href={'https://curve.fi/'} target={'_blank'} rel={'noreferrer'}>
 						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 cursor-pointer'}>
-							<img className={'h-12'} src={'/protocols/curve.svg'} alt={'Curve Fi'} />
+							<img className={'h-12'} src={'../public/protocols/curve.svg'} alt={'Curve Fi'} />
 						</div>
 					</a>
 					<a href={'https://aave.com/'} target={'_blank'} rel={'noreferrer'}>
 						<div className={'col-span-1 flex justify-center md:col-span-2 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
-							<img className={'h-12'} src={'/protocols/compound.svg'} alt={'Compound'} />
+							<img className={'h-12'} src={'../public/protocols/compound.svg'} alt={'Compound'} />
 						</div>
 					</a>
 					<a href={'https://compound.finance/'} target={'_blank'} rel={'noreferrer'}>
 						<div className={'col-span-1 flex justify-center md:col-span-3 lg:col-span-1 items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer'}>
-							<img className={'h-10'} src={'/protocols/aave.svg'} alt={'AAVE'} />
+							<img className={'h-10'} src={'../public/protocols/aave.svg'} alt={'AAVE'} />
 						</div>
 					</a>
 				</div>
