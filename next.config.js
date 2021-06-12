@@ -26,6 +26,7 @@ module.exports = ({
 			minSize: 20000
 		}
 	},
+	assetPrefix: './',
 	trailingSlash: true,
 	exportPathMap: function() {
 		return {'/': {page: '/'}};
