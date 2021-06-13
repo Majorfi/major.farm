@@ -14,7 +14,7 @@ import	{ToastProvider}				from	'react-toast-notifications';
 import	{CurrenciesContextApp}		from	'contexts/useCurrencies';
 import	{StrategiesContextApp}		from	'contexts/useStrategies';
 
-import	'../style/Default.css'
+import	'style/Default.css'
 import	'tailwindcss/tailwind.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
