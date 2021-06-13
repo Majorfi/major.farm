@@ -167,12 +167,11 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 	}, [symbolToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency, harvest])
 
 	return (
-		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
+		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative overflow-hidden'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
 				network={network}
-				title={parameters.title}
-				href={parameters.href}
+				parameters={parameters}
 				address={address}
 				date={date}
 				APY={APY} />

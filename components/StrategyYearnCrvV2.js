@@ -436,8 +436,7 @@ function	StrategyYearnCrvV2({parameters, network, address, uuid, fees, seeds, cr
 			<SectionRemove uuid={uuid} />
 			<SectionHead
 				network={network}
-				title={parameters.title}
-				href={parameters.href}
+				parameters={parameters}
 				address={address}
 				date={date}
 				APY={APY} />
