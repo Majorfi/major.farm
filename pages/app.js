@@ -164,7 +164,7 @@ function	Index() {
 		const	_address = address;
 		const	normalTx = {};
 		const	erc20Tx = {};
-		asyncForEach(Object.values(STRATEGIES), async (s) => {
+		await asyncForEach(Object.values(STRATEGIES), async (s) => {
 			const	contractAddress = s?.parameters?.contractAddress;
 			if (!contractAddress) {
 				return;
