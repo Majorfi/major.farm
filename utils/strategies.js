@@ -7,7 +7,7 @@
 
 import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategies/StrategyBadgerWBTC';
 import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/Strategies/StrategyYVBoost';
-import	StrategyApe, {PrepareStrategyApe}				from	'components/Strategies/StrategyApe';
+import	StrategyApe, {PrepareStrategyApe, DetectStrategyApe}				from	'components/Strategies/StrategyApe';
 import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/Strategies/StrategyYearnV1';
 import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/Strategies/StrategyYearnV2';
 import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategies/StrategyYearnCrvV1';
@@ -28,7 +28,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Purple Twister 🟣🧬': {
@@ -45,7 +45,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Matic\'s Magic Idle DAI 🏆🚀': {
@@ -62,7 +62,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Matic\'s Wandering Woofy 🧭🐶': {
@@ -79,7 +79,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 }
@@ -98,7 +98,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Spooky Skeletons 🙀👻': {
@@ -115,7 +115,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'FTM\'s Frapped Ape ☕️🦧': {
@@ -132,7 +132,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Fantom\'s Ape Ape Baby 🧊👶': {
@@ -149,7 +149,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Fantom\'s Fury 👻⚡': {
@@ -166,7 +166,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 
@@ -185,7 +185,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'The Frog Prince 🐸💋 2': {
@@ -202,7 +203,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Comfi Carousel 🛋🎠': {
@@ -219,7 +221,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Reflex me 📷💚': {
@@ -236,7 +239,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Old Grandmaster\'s DAI ♟👴': {
@@ -253,7 +257,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'ETH\'s Ape Ape Baby 🧊👶': {
@@ -270,7 +275,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Bank Sushi 🏦🍣': {
@@ -287,7 +293,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧': {
@@ -304,7 +311,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'True Idle T🛌': {
@@ -321,7 +329,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Idle Tether 🛌T': {
@@ -338,7 +347,8 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Data AAVE 💿🕊': {
@@ -353,7 +363,8 @@ const	STRATEGIES_APE_TAX = {
 			author: '0xangelfish',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -369,7 +380,8 @@ const	STRATEGIES_APE_TAX = {
 			author: 'akshaynexust',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -385,7 +397,8 @@ const	STRATEGIES_APE_TAX = {
 			author: 'emilianobonassi',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -401,7 +414,8 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -417,7 +431,8 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	},
@@ -433,7 +448,8 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n) => PrepareStrategyApe(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
 		Strategy: StrategyApe
 	}
@@ -456,7 +472,7 @@ const	STRATEGIES_YEARN_V1_DEPRECIED = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV1
 	},
 }
@@ -475,7 +491,7 @@ const	STRATEGIES_YEARN_V1 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - TUSD': {
@@ -492,7 +508,7 @@ const	STRATEGIES_YEARN_V1 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - USDC': {
@@ -510,7 +526,7 @@ const	STRATEGIES_YEARN_V1 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV1
 	},
 	'Yearn V1 - USDT': {
@@ -528,7 +544,7 @@ const	STRATEGIES_YEARN_V1 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV1
 	}
 }
@@ -552,7 +568,7 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvMUSD': {
@@ -572,7 +588,7 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUSDN': {
@@ -592,7 +608,7 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUST': {
@@ -612,7 +628,7 @@ const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	}
 }
@@ -634,7 +650,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvSUSD': {
@@ -654,7 +670,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvHUSD': {
@@ -674,7 +690,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvAAVE': {
@@ -694,7 +710,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'Yearn V1 - crvUSDP': {
@@ -714,7 +730,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},
 	'yearn V1 - crvAETH': {
@@ -734,7 +750,7 @@ const	STRATEGIES_YEARN_V1_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV1(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV1
 	},	
 }
@@ -759,7 +775,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - YFI': {
@@ -781,7 +797,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - wBTC': {
@@ -803,7 +819,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 
@@ -826,7 +842,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - USDC': {
@@ -848,7 +864,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - USDT': {
@@ -870,7 +886,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - sUSD': {
@@ -892,7 +908,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - SNX': {
@@ -914,7 +930,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - UNI': {
@@ -936,7 +952,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	},
 	'Yearn V2 - 1Inch': {
@@ -958,7 +974,7 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n) => PrepareStrategyYearnV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnV2
 	}
 }
@@ -980,7 +996,7 @@ const	STRATEGIES_YEARN_V2_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV2
 	}
 }
@@ -1003,7 +1019,7 @@ const	STRATEGIES_MISC = {
 		},
 		network: 'ethereum',
 		list: 'misc',
-		prepare: (p, a, n) => PrepareStrategyYearnCrvV2(p, a, n),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV2
 	},
 	'Badger WBTC': {

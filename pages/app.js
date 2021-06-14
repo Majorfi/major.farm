@@ -6,26 +6,16 @@
 ******************************************************************************/
 
 import	React, {useState}				from	'react';
-import	Image							from	'next/image';
-import	Link							from	'next/link';
-import	useCurrencies					from	'contexts/useCurrencies';
 import	useStrategies					from	'contexts/useStrategies';
 import	useWeb3							from	'contexts/useWeb3';
 import	StrategySelectorModal			from	'components/Modals/StrategySelector';
-import	LoginModal						from	'components/Modals/LoginModal';
+import	TopBar							from	'components/TopBar';
 import	useLocalStorage					from	'hook/useLocalStorage';
 import	STRATEGIES						from	'utils/strategies';
-
-function	Currency() {
-	const	{switchCurrency, baseCurrency} = useCurrencies();
-	return (
-		<div
-			className={'ml-4 pl-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-100'}
-			onClick={() => switchCurrency()}>
-			<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
-		</div>
-	)
-}
+import	* as api						from	'utils/API';
+import	{useToasts}										from	'react-toast-notifications';
+import	{v4 as uuidv4}					from	'uuid';
+import	{ViewGridAddIcon, RefreshIcon, FireIcon} from '@heroicons/react/outline'
 
 function	NewsBanner({short, long, uri, bannerID}) {
 	const	[newsBanner, set_newsBanner] = useLocalStorage(bannerID, true);
@@ -73,37 +63,122 @@ function	NewsBanner({short, long, uri, bannerID}) {
 	)
 }
 
-function	Index() {
-	const	{strategies} = useStrategies();
-	const	{address, ens, active, deactivate, onDesactivate} = useWeb3();
-	const	[strategyModal, set_strategyModal] = useState(false);
-	const	[open, set_open] = useState(false);
+function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, detectingStrategies}) {
+	return (
+		<div className={'mt-12 shadow rounded-lg bg-dark-600 p-6 grid grid-cols-3 divide-x-2 divide-dark-400'}>
+			<div className={'group flex px-6'}>
+				<div
+					onClick={onAddStrategy}
+					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>
+					<div>
+						<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
+							<ViewGridAddIcon className={'h-7 w-7'} aria-hidden={'true'} />
+						</span>
+					</div>
+					<div className={'ml-8'}>
+						<h3 className={'text-lg font-medium text-accent-900'}>
+							{'Add a strategy'}
+						</h3>
+						<p className={'mt-2 text-sm text-white-75'}>
+							{'Choose a specific strategy and start monitoring your Yield to see if you are profitable !'}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div className={'group flex px-6'}>
+				<div
+					onClick={onDetectStrategies}
+					className={'flex flex-col p-6 hover:bg-dark-400 rounded transition-all cursor-pointer relative'}>
+					<div className={'flex flex-row'}>
+						<div>
+							<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
+								<FireIcon className={'h-7 w-7'} aria-hidden={'true'} />
+							</span>
+						</div>
+						<div className={'ml-8'}>
+							<h3 className={'text-lg font-medium text-accent-900'}>
+								{'Find your seeds'}
+							</h3>
+							<p className={'mt-2 text-sm text-white-75'}>
+								{'The easy way ! Just click and let us find the strategies you invested in !'}
+							</p>
+						</div>
+					</div>
+					{detectingStrategies ? <div className={'absolute bottom-2 flex w-full justify-center items-center pr-12'}>
+						<div className={'flex flex-row items-center'}>
+							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse'} />
+							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse mx-3'} style={{animationDelay: '1s'}} />
+							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse'} />
+						</div>
+					</div> : null}
+				</div>
+			</div>
+			<div className={'group flex px-6'}>
+				<div
+					onClick={onRefreshStrategies}
+					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>
+					<div>
+						<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
+							<RefreshIcon className={'h-7 w-7'} aria-hidden={'true'} />
+						</span>
+					</div>
+					<div className={'ml-8'}>
+						<h3 className={'text-lg font-medium text-accent-900'}>
+							{'Update strategies'}
+						</h3>
+						<p className={'mt-2 text-sm text-white-75'}>
+							{'Your strategies are outdated ? Refresh them to get the latest information.'}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
 
-	function	renderWallet() {
-		if (ens) {
-			return (
-				<span className={'whitespace-nowrap text-white-95'}>
-					{ens}
-				</span>
-			);
-		} else if (address) {
-			return (
-				<span className={'whitespace-nowrap text-white-95'}>
-					{`${address.slice(0, 4)}...${address.slice(-4)}`}
-				</span>
-			);
-		} else if (active) {
-			return (
-				<span className={'whitespace-nowrap text-white-95 italic'}>
-					{'Fetching information ...'}
-				</span>
-			);	
+function	Index() {
+	const	{addToast} = useToasts();
+	const	{address} = useWeb3();
+	const	{strategies, set_strategies} = useStrategies();
+	const	[strategyModal, set_strategyModal] = useState(false);
+	const	[detectingStrategies, set_detectingStrategies] = useState(false);
+
+	async function	detectStrategies() {
+		if (!address) {
+			addToast('Please, connect your wallet first', {appearance: 'error'});
+			return (null);
 		}
-		return (
-			<span className={'whitespace-nowrap text-white-95'}>
-				{'Connect a wallet'}
-			</span>
-		);
+		set_detectingStrategies(true);
+		addToast('Looking for strategies ...', {appearance: 'info'});
+		const	_address = address;
+		const	normalTx = await api.retreiveTxFrom('ethereum', _address);
+		const	erc20Tx = await api.retreiveErc20TxFrom('ethereum', _address);
+		Object.values(STRATEGIES).map(async (s) => {
+			const	contractAddress = s?.parameters?.contractAddress;
+			if (!contractAddress) {
+				return;
+			}
+			const	detector = s?.detect;
+			if (!detector) {
+				return;
+			}
+			const	hasSomeTx = await detector(s.parameters, _address, s.network, normalTx);
+			console.log(hasSomeTx);
+			if (hasSomeTx) {
+				const	newStrategy = await s.prepare(s.parameters, _address, s.network, normalTx, erc20Tx);
+				newStrategy.date = new Date(newStrategy.timestamp * 1000);
+				newStrategy.address = _address;
+				set_strategies(_s => [..._s, {
+					strategy: s?.parameters?.title,
+					params: {
+						uuid: uuidv4(),
+						...newStrategy,
+					}
+				}])
+				addToast(`Strategy ${s.parameters.title} available`, {appearance: 'success'});
+			}
+		});
+		set_detectingStrategies(false);
 	}
 
 	function	renderStrategy(strategy, s) {
@@ -119,59 +194,9 @@ function	Index() {
 		)
 	}
 
-	function	Header() {
-		return (
-			<div className={'bg-dark-600 py-6 -mx-12 -mt-12 px-12 bg-opacity-30'}>
-				<div className={'flex flex-row justify-between items-center'}>
-					<Link href={'/'}>
-						<div className={'flex flex-row items-center text-white cursor-pointer'}>
-							<div>
-								<Image src={'/sprout.svg'} width={30} height={30} />
-							</div>
-							<div className={'ml-4'}>
-								<p className={'font-semibold text-xl text-white'}>{'Major\'s Farm'}</p>
-								<p className={'font-normal text-sm text-white text-opacity-60'}>{'A degen loss calculator'}</p>
-							</div>
-						</div>
-					</Link>
-					<div className={'flex flex-row items-center'}>
-						<div
-							className={'text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center'}
-							style={{marginLeft: 'auto'}}
-							onClick={() => set_strategyModal(true)}>
-							<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
-								<path fillRule={'evenodd'} d={'M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'} clipRule={'evenodd'} />
-							</svg>
-							<h2>{'Add strategy'}</h2>
-						</div>
-						<Currency />
-						<button
-							suppressHydrationWarning
-							onClick={() => {
-								if (active) {
-									deactivate();
-									onDesactivate();
-								} else {
-									set_open(!open);
-								}
-							}}
-							type={'button'}
-							className={'ml-8 inline-flex px-4 py-2 items-center shadow-md leading-4 font-normal rounded-md text-xs border border-white border-opacity-10 bg-dark-400 hover:bg-dark-300 overflow-auto focus:outline-none overflow-y-hidden'}
-							id={'options-menu'}
-							aria-expanded={'true'}
-							aria-haspopup={'true'}>
-							{renderWallet()}
-						</button>
-					</div>
-				</div>
-				<LoginModal open={open} set_open={set_open} />
-			</div>
-		)
-	}
-
 	return (
 		<div>
-			<Header />
+			<TopBar set_strategyModal={set_strategyModal} />
 			<div id={'newsbanner'} className={'space-y-0.5'}>
 				<NewsBanner
 					bannerID={'newsBanner-2'}
@@ -179,6 +204,13 @@ function	Index() {
 					long={'Dollar Store Bento 💵🍱 and Magic Idle DAI 🏆🚀 from ape.tax are now available for tracking !'}
 					uri={'https://ape.tax'} />
 			</div>
+
+			<SectionCTA
+				onAddStrategy={() => set_strategyModal(true)}
+				onDetectStrategies={() => detectStrategies()}
+				onRefreshStrategies={() => addToast('Not implemented', {appearance: 'warning'})}
+				detectingStrategies={detectingStrategies}
+			/>
 
 			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row mt-12'} id={'strategies'}>
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
@@ -191,7 +223,9 @@ function	Index() {
 					))}
 				</div>
 			</div>
-			<StrategySelectorModal strategyModal={strategyModal} set_strategyModal={set_strategyModal} />
+			<StrategySelectorModal
+				strategyModal={strategyModal}
+				set_strategyModal={set_strategyModal} />
 		</div>
 	);
 }

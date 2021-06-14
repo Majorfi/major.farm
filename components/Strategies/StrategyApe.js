@@ -17,10 +17,50 @@ import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 import	{getProvider, getSymbol}					from	'utils/chains';
 
-async function	PrepareStrategyApe(parameters, address, network) {
+async function	DetectStrategyApe(parameters, address, network, normalTx = undefined) {
+	if (!normalTx)
+		normalTx = await api.retreiveTxFrom(network, address);
+
+	async function	detectTx() {
+		const	hasSomeTx = (
+			normalTx
+				.some(tx => (
+					(
+						toAddress(tx.from) === toAddress(address) &&
+					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
+					(
+						tx.input.startsWith(methods.YV_DEPOSIT) ||
+						tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
+					)
+					)
+				||
+				(
+					toAddress(tx.from) === toAddress(address) &&
+					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
+					tx.input.startsWith(methods.YV_WITHDRAW)
+				)
+				||
+				(
+					tx.input.startsWith(methods.STANDARD_APPROVE) &&
+					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
+				)
+				))
+		);
+		return (hasSomeTx);
+	}
+
+	const	hasSomeTx = await detectTx();
+
+	return hasSomeTx;
+}
+
+
+async function	PrepareStrategyApe(parameters, address, network, normalTx = undefined, erc20Tx = undefined) {
 	let		timestamp = undefined;
-	const	normalTx = await api.retreiveTxFrom(network, address);
-	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
+	if (!normalTx)
+		normalTx = await api.retreiveTxFrom(network, address);
+	if (!erc20Tx)
+		erc20Tx = await api.retreiveErc20TxFrom(network, address);
 
 	async function	computeFees() {
 		const	cumulativeFees = (
@@ -239,5 +279,5 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 	)
 }
 
-export {PrepareStrategyApe};
+export {PrepareStrategyApe, DetectStrategyApe};
 export default StrategyApe;
