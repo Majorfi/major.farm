@@ -110,7 +110,7 @@ function	SectionLists({set_list, list}) {
 }
 
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
-	const	{set_strategies} = useStrategies();
+	const	{set_strategies, set_nonce} = useStrategies();
 	const	[address, set_address] = useState('');
 	const	[chain, set_chain] = useState('ethereum');
 	const	[list, set_list] = useState('ape.tax');
@@ -238,6 +238,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 													...populator,
 												}
 											}])
+											set_nonce(n => n + 1);
 											addToast('Strategy available', {appearance: 'success'});
 											set_strategyModal(false);
 										}}

@@ -29,6 +29,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		network: 'polygon',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Purple Twister 🟣🧬': {
@@ -46,6 +47,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		network: 'polygon',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Matic\'s Magic Idle DAI 🏆🚀': {
@@ -63,6 +65,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		network: 'polygon',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Matic\'s Wandering Woofy 🧭🐶': {
@@ -80,6 +83,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		network: 'polygon',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 }
@@ -99,6 +103,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		network: 'fantom',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Spooky Skeletons 🙀👻': {
@@ -116,6 +121,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		network: 'fantom',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'FTM\'s Frapped Ape ☕️🦧': {
@@ -133,6 +139,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		network: 'fantom',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Fantom\'s Ape Ape Baby 🧊👶': {
@@ -150,6 +157,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		network: 'fantom',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 	'Fantom\'s Fury 👻⚡': {
@@ -167,6 +175,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		network: 'fantom',
 		list: 'ape.tax',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyApe
 	},
 

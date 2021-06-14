@@ -5,14 +5,29 @@
 **	@Filename:				useStategies.js
 ******************************************************************************/
 
-import	React, {useState, useContext, createContext}	from	'react';
+import	React, {useState, useEffect, useContext, createContext}	from	'react';
 import	useLocalStorage									from	'hook/useLocalStorage'
 
 const StrategiesContext = createContext();
 
 export const StrategiesContextApp = ({children}) => {
-	const	[, set_nonce] = useState(0);
-	const	[strategies, set_strategies] = useLocalStorage('strategies-v02', []);
+	const	[nonce, set_nonce] = useState(0);
+	const	[isLocalInit, set_isLocalInit] = useState(false);
+	const	[localStrategies, set_localStrategies] = useLocalStorage('strategies-v02', []);
+	const	[strategies, set_strategies] = useState([]);
+
+	useEffect(() => {
+		if (isLocalInit) {
+			set_localStrategies(strategies);
+		}
+	}, [strategies, nonce, isLocalInit])
+
+	useEffect(() => {
+		if (isLocalInit === false) {
+			set_isLocalInit(true)
+			set_strategies(localStrategies)
+		}
+	}, [localStrategies])
 
 	return (
 		<StrategiesContext.Provider

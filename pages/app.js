@@ -5,17 +5,18 @@
 **	@Filename:				index.js
 ******************************************************************************/
 
-import	React, {useState}				from	'react';
-import	useStrategies					from	'contexts/useStrategies';
-import	useWeb3							from	'contexts/useWeb3';
-import	StrategySelectorModal			from	'components/Modals/StrategySelector';
-import	TopBar							from	'components/TopBar';
-import	useLocalStorage					from	'hook/useLocalStorage';
-import	STRATEGIES						from	'utils/strategies';
-import	* as api						from	'utils/API';
-import	{useToasts}										from	'react-toast-notifications';
-import	{v4 as uuidv4}					from	'uuid';
-import	{ViewGridAddIcon, RefreshIcon, FireIcon} from '@heroicons/react/outline'
+import	React, {useState}							from	'react';
+import	{useToasts}									from	'react-toast-notifications';
+import	{v4 as uuidv4}								from	'uuid';
+import	{ViewGridAddIcon, RefreshIcon, FireIcon}	from	'@heroicons/react/outline'
+import	useStrategies								from	'contexts/useStrategies';
+import	useWeb3										from	'contexts/useWeb3';
+import	StrategySelectorModal						from	'components/Modals/StrategySelector';
+import	TopBar										from	'components/TopBar';
+import	useLocalStorage								from	'hook/useLocalStorage';
+import	STRATEGIES									from	'utils/strategies';
+import	* as api									from	'utils/API';
+import	{asyncForEach}								from	'utils';
 
 function	NewsBanner({short, long, uri, bannerID}) {
 	const	[newsBanner, set_newsBanner] = useLocalStorage(bannerID, true);
@@ -139,10 +140,20 @@ function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, det
 function	Index() {
 	const	{addToast} = useToasts();
 	const	{address} = useWeb3();
-	const	{strategies, set_strategies} = useStrategies();
+	const	{strategies, set_strategies, set_nonce} = useStrategies();
 	const	[strategyModal, set_strategyModal] = useState(false);
 	const	[detectingStrategies, set_detectingStrategies] = useState(false);
 
+	function appendStrategy(title, newStrategy) {
+		set_strategies(_strategies => [..._strategies, {
+			strategy: title,
+			params: {
+				uuid: uuidv4(),
+				...newStrategy,
+			}
+		}]);
+		set_nonce(n => n + 1);
+	}
 	async function	detectStrategies() {
 		if (!address) {
 			addToast('Please, connect your wallet first', {appearance: 'error'});
@@ -151,9 +162,9 @@ function	Index() {
 		set_detectingStrategies(true);
 		addToast('Looking for strategies ...', {appearance: 'info'});
 		const	_address = address;
-		const	normalTx = await api.retreiveTxFrom('ethereum', _address);
-		const	erc20Tx = await api.retreiveErc20TxFrom('ethereum', _address);
-		Object.values(STRATEGIES).map(async (s) => {
+		const	normalTx = {};
+		const	erc20Tx = {};
+		asyncForEach(Object.values(STRATEGIES), async (s) => {
 			const	contractAddress = s?.parameters?.contractAddress;
 			if (!contractAddress) {
 				return;
@@ -162,19 +173,18 @@ function	Index() {
 			if (!detector) {
 				return;
 			}
-			const	hasSomeTx = await detector(s.parameters, _address, s.network, normalTx);
-			console.log(hasSomeTx);
+			if (normalTx[s.network] === undefined) {
+				normalTx[s.network] = await api.retreiveTxFrom(s.network, _address);
+			}
+			if (erc20Tx[s.network] === undefined) {
+				erc20Tx[s.network] = await api.retreiveErc20TxFrom(s.network, _address);
+			}
+			const	hasSomeTx = await detector(s.parameters, _address, s.network, normalTx[s.network]);
 			if (hasSomeTx) {
-				const	newStrategy = await s.prepare(s.parameters, _address, s.network, normalTx, erc20Tx);
+				const	newStrategy = await s.prepare(s.parameters, _address, s.network, normalTx[s.network], erc20Tx[s.network]);
 				newStrategy.date = new Date(newStrategy.timestamp * 1000);
 				newStrategy.address = _address;
-				set_strategies(_s => [..._s, {
-					strategy: s?.parameters?.title,
-					params: {
-						uuid: uuidv4(),
-						...newStrategy,
-					}
-				}])
+				appendStrategy(s?.parameters?.title, newStrategy);
 				addToast(`Strategy ${s.parameters.title} available`, {appearance: 'success'});
 			}
 		});
