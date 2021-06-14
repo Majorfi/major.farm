@@ -10,7 +10,9 @@ import	Image							from	'next/image';
 import	Link							from	'next/link';
 import	useCurrencies					from	'contexts/useCurrencies';
 import	useStrategies					from	'contexts/useStrategies';
+import	useWeb3							from	'contexts/useWeb3';
 import	StrategySelectorModal			from	'components/Modals/StrategySelector';
+import	LoginModal						from	'components/Modals/LoginModal';
 import	useLocalStorage					from	'hook/useLocalStorage';
 import	STRATEGIES						from	'utils/strategies';
 
@@ -73,7 +75,36 @@ function	NewsBanner({short, long, uri, bannerID}) {
 
 function	Index() {
 	const	{strategies} = useStrategies();
+	const	{address, ens, active, deactivate, onDesactivate} = useWeb3();
 	const	[strategyModal, set_strategyModal] = useState(false);
+	const	[open, set_open] = useState(false);
+
+	function	renderWallet() {
+		if (ens) {
+			return (
+				<span className={'whitespace-nowrap text-white-95'}>
+					{ens}
+				</span>
+			);
+		} else if (address) {
+			return (
+				<span className={'whitespace-nowrap text-white-95'}>
+					{`${address.slice(0, 4)}...${address.slice(-4)}`}
+				</span>
+			);
+		} else if (active) {
+			return (
+				<span className={'whitespace-nowrap text-white-95 italic'}>
+					{'Fetching information ...'}
+				</span>
+			);	
+		}
+		return (
+			<span className={'whitespace-nowrap text-white-95'}>
+				{'Connect a wallet'}
+			</span>
+		);
+	}
 
 	function	renderStrategy(strategy, s) {
 		const	CurrentStrategy = STRATEGIES[strategy];
@@ -114,8 +145,26 @@ function	Index() {
 							<h2>{'Add strategy'}</h2>
 						</div>
 						<Currency />
+						<button
+							suppressHydrationWarning
+							onClick={() => {
+								if (active) {
+									deactivate();
+									onDesactivate();
+								} else {
+									set_open(!open);
+								}
+							}}
+							type={'button'}
+							className={'ml-8 inline-flex px-4 py-2 items-center shadow-md leading-4 font-normal rounded-md text-xs border border-white border-opacity-10 bg-dark-400 hover:bg-dark-300 overflow-auto focus:outline-none overflow-y-hidden'}
+							id={'options-menu'}
+							aria-expanded={'true'}
+							aria-haspopup={'true'}>
+							{renderWallet()}
+						</button>
 					</div>
 				</div>
+				<LoginModal open={open} set_open={set_open} />
 			</div>
 		)
 	}

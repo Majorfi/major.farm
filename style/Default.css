@@ -355,3 +355,40 @@ input[type=number] {
 .h-xl {
 	height: 488px;
 }
+
+.text-white-95 {
+	color: rgba(255, 255, 255, 0.95);
+}
+.text-white-90 {
+	color: rgba(255, 255, 255, 0.90);
+}
+.text-white-80 {
+	color: rgba(255, 255, 255, 0.80);
+}
+.text-white-75 {
+	color: rgba(255, 255, 255, 0.75);
+}
+.text-white-70 {
+	color: rgba(255, 255, 255, 0.70);
+}
+.text-white-60 {
+	color: rgba(255, 255, 255, 0.60);
+}
+.text-white-50 {
+	color: rgba(255, 255, 255, 0.50);
+}
+.text-white-40 {
+	color: rgba(255, 255, 255, 0.40);
+}
+.text-white-30 {
+	color: rgba(255, 255, 255, 0.30);
+}
+.text-white-20 {
+	color: rgba(255, 255, 255, 0.20);
+}
+.text-white-10 {
+	color: rgba(255, 255, 255, 0.10);
+}
+.text-white-5 {
+	color: rgba(255, 255, 255, 0.5);
+}

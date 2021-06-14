@@ -13,6 +13,9 @@ import	Link						from	'next/link';
 import	{ToastProvider}				from	'react-toast-notifications';
 import	{CurrenciesContextApp}		from	'contexts/useCurrencies';
 import	{StrategiesContextApp}		from	'contexts/useStrategies';
+import	{Web3ContextApp}			from	'contexts/useWeb3';
+import	{Web3ReactProvider}			from	'@web3-react-fork/core';
+import	{ethers}					from	'ethers';
 
 import	'style/Default.css'
 import	'tailwindcss/tailwind.css';
@@ -67,19 +70,27 @@ function	AppWrapper(props) {
 	);
 }
 
+const getLibrary = (provider) => {
+	return new ethers.providers.Web3Provider(provider, 'any')
+};
+
 function	MyApp(props) {
 	const	{Component, pageProps} = props;
 	
 	return (
 		<CurrenciesContextApp>
 			<StrategiesContextApp>
-				<ToastProvider autoDismiss>
-					<AppWrapper
-						Component={Component}
-						pageProps={pageProps}
-						element={props.element}
-						router={props.router} />
-				</ToastProvider>
+				<Web3ReactProvider getLibrary={getLibrary}>
+					<Web3ContextApp>
+						<ToastProvider autoDismiss>
+							<AppWrapper
+								Component={Component}
+								pageProps={pageProps}
+								element={props.element}
+								router={props.router} />
+						</ToastProvider>
+					</Web3ContextApp>
+				</Web3ReactProvider>
 			</StrategiesContextApp>
 		</CurrenciesContextApp>
 	);

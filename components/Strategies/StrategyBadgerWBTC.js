@@ -10,10 +10,10 @@ import	useCurrencies						from	'contexts/useCurrencies';
 import	{toAddress, bigNumber}				from	'utils';
 import	{ethers}							from	'ethers';
 import	axios								from	'axios';
-import	SectionRemove						from	'components/Strategies/SectionRemove'
-import	SectionHead							from	'components/Strategies/SectionHead'
-import	SectionFoot							from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}				from	'components/Strategies/Group'
+import	SectionRemove						from	'components/StrategyCard/SectionRemove'
+import	SectionHead							from	'components/StrategyCard/SectionHead'
+import	SectionFoot							from	'components/StrategyCard/SectionFoot'
+import	Group, {GroupElement}				from	'components/StrategyCard/Group'
 import	{retreiveTxFrom, retreiveErc20TxFrom} from 'utils/API';
 
 async function	PrepareStrategyBadgerWBTC(address) {

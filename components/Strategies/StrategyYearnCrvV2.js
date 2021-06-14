@@ -2,22 +2,22 @@
 **	@Author:				Thomas Bouder <Tbouder>
 **	@Email:					Tbouder@protonmail.com
 **	@Date:					Friday April 23rd 2021
-**	@Filename:				StrategyYearnV2.js
+**	@Filename:				StrategyYearnCrvV2.js
 ******************************************************************************/
 
 import	React, {useState, useEffect, useCallback}		from	'react';
-import	useCurrencies									from	'contexts/useCurrencies';
-import	{toAddress, bigNumber, asyncFilter}				from	'utils';
-import	{ethers}										from	'ethers';
-import	SectionRemove									from	'components/Strategies/SectionRemove'
-import	SectionHead										from	'components/Strategies/SectionHead'
-import	SectionFoot										from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}							from	'components/Strategies/Group'
-import	* as api										from	'utils/API';
-import	methods											from	'utils/methodsSignatures';
-import	{analyzeZapIn}									from	'utils/txHelpers';
+import	useCurrencies						from	'contexts/useCurrencies';
+import	{toAddress, bigNumber, asyncFilter}	from	'utils';
+import	{ethers}							from	'ethers';
+import	SectionRemove						from	'components/StrategyCard/SectionRemove'
+import	SectionHead							from	'components/StrategyCard/SectionHead'
+import	SectionFoot							from	'components/StrategyCard/SectionFoot'
+import	Group, {GroupElement}				from	'components/StrategyCard/Group'
+import	* as api							from	'utils/API';
+import	methods								from	'utils/methodsSignatures';
+import	{analyzeZapIn}						from	'utils/txHelpers';
 
-async function	PrepareStrategyYearnV2(parameters, address, network) {
+async function	PrepareStrategyYearnCrvV2(parameters, address, network) {
 	let		timestamp = undefined;
 	const	normalTx = await api.retreiveTxFrom(network, address);
 	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
@@ -69,6 +69,7 @@ async function	PrepareStrategyYearnV2(parameters, address, network) {
 		);
 		return (Number(ethers.utils.formatUnits(cumulativeFees, 18)));
 	}
+
 	async function	computeSeeds() {
 		const	filtered = await asyncFilter(erc20Tx, async (tx) => (
 			toAddress(tx.to) === toAddress(parameters.contractAddress) &&
@@ -192,8 +193,9 @@ async function	PrepareStrategyYearnV2(parameters, address, network) {
 	})
 }
 
-function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops, harvest, date}) {
-	const	{tokenPrices, currencyNonce} = useCurrencies();
+function	StrategyYearnCrvV2({parameters, network, address, uuid, fees, seeds, crops, harvest, date}) {
+	const	{tokenPrices, crvPrices, currencyNonce} = useCurrencies();
+
 	const	[preRenderStep, set_preRenderStep] = useState({
 		seedPrice: false,
 		harvest: false,
@@ -247,10 +249,10 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 	**************************************************************************/
 	useEffect(() => {
 		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
-		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
+		set_underlyingToBaseCurrency(crvPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
 		retrieveBalanceOf();
-	}, [currencyNonce, retrieveBalanceOf, tokenPrices, parameters.underlyingTokenCgID, retrieveShareValue]);
+	}, [currencyNonce, retrieveBalanceOf, crvPrices, tokenPrices, parameters.underlyingTokenCgID, retrieveShareValue]);
 
 	/**************************************************************************
 	**	Get the total price for all the seeds
@@ -292,7 +294,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 	**	- set_yieldEarned
 	**************************************************************************/
 	const computeGroupPrices = useCallback(async () => {
-		if (underlyingToBaseCurrency >= 0 && cropsShare) {
+		if (underlyingToBaseCurrency && cropsShare) {
 			const	_cumulativeHarvestPrice = harvested * underlyingToBaseCurrency;
 			set_cumulativeHarvestPrice(_cumulativeHarvestPrice);
 
@@ -303,18 +305,18 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 				const	_cumulativeCropsPrice = _remainingCrops * underlyingToBaseCurrency;
 				set_cumulativeCropsPrice(_cumulativeCropsPrice);
 	
-				const	_cumulativeYield = _remainingCrops * (cropsShare / (10 ** parameters.tokenDecimal));
+				const	_cumulativeYield = _remainingCrops * (cropsShare / 1e18);
 				const	_cumulativeFarmPrice = _cumulativeYield * underlyingToBaseCurrency;
 				set_cumulativeFarmPrice(_cumulativeFarmPrice);
 
-				set_yieldEarned((actualCrops * (cropsShare / (10 ** parameters.tokenDecimal))) - actualCrops);
-				set_yieldEarnedPrice(((actualCrops * (cropsShare / (10 ** parameters.tokenDecimal))) - actualCrops) * underlyingToBaseCurrency);
+				set_yieldEarned((actualCrops * (cropsShare / 1e18)) - actualCrops);
+				set_yieldEarnedPrice(((actualCrops * (cropsShare / 1e18)) - actualCrops) * underlyingToBaseCurrency);
 			} else {
 				const	_cumulativeCrops = await retrieveBalanceOf();
 				const	_cumulativeCropsPrice = _cumulativeCrops * underlyingToBaseCurrency;
 				set_cumulativeCropsPrice(_cumulativeCropsPrice);
 	
-				const	_cumulativeYield = _cumulativeCrops * (cropsShare / (10 ** parameters.tokenDecimal));
+				const	_cumulativeYield = _cumulativeCrops * (cropsShare / 1e18);
 				const	_cumulativeFarmPrice = _cumulativeYield * underlyingToBaseCurrency;
 				set_cumulativeFarmPrice(_cumulativeFarmPrice);
 
@@ -325,7 +327,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 			}
 			set_preRenderStep(v => ({...v, prices: true}))
 		}
-	}, [underlyingToBaseCurrency, cropsShare, harvested, actualCrops, isHarvested, harvest.length, retrieveBalanceOf, parameters.tokenDecimal]);
+	}, [underlyingToBaseCurrency, cropsShare, harvested, actualCrops, isHarvested, retrieveBalanceOf, harvest]);
 	useEffect(() => {computeGroupPrices()}, [computeGroupPrices])
 
 	/**************************************************************************
@@ -383,7 +385,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 				<GroupElement
 					network={network}
 					image={parameters.tokenIcon}
-					label={parameters.tokenName}
+					label={parameters.underlyingTokenName}
 					address={parameters.contractAddress}
 					amount={parseFloat(yieldEarned.toFixed(10))}
 					value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />
@@ -404,7 +406,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 					<GroupElement
 						network={network}
 						image={parameters.tokenIcon}
-						label={parameters.tokenName}
+						label={parameters.underlyingTokenName}
 						address={parameters.contractAddress}
 						amount={parseFloat(yieldEarned.toFixed(10))}
 						value={(yieldEarned * underlyingToBaseCurrency).toFixed(2)} />
@@ -428,7 +430,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 		)
 	}
 
-	const	isPreRenderOK = true || preRenderStep.seedPrice && preRenderStep.harvest && preRenderStep.prices && preRenderStep.result;
+	const	isPreRenderOK = preRenderStep.seedPrice && preRenderStep.harvest && preRenderStep.prices && preRenderStep.result;
 	return (
 		<div className={`flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative transition-opacity ${isPreRenderOK ? 'opacity-100' : 'opacity-0'}`}>
 			<SectionRemove uuid={uuid} />
@@ -456,5 +458,5 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 	)
 }
 
-export {PrepareStrategyYearnV2};
-export default StrategyYearnV2;
+export {PrepareStrategyYearnCrvV2};
+export default StrategyYearnCrvV2;

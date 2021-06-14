@@ -5,13 +5,13 @@
 **	@Filename:				strategies.js
 ******************************************************************************/
 
-import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/StrategyBadgerWBTC';
-import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/StrategyYVBoost';
-import	StrategyApe, {PrepareStrategyApe}				from	'components/StrategyApe';
-import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/StrategyYearnV1';
-import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/StrategyYearnV2';
-import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/StrategyYearnCrvV1';
-import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/StrategyYearnCrvV2';
+import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategies/StrategyBadgerWBTC';
+import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/Strategies/StrategyYVBoost';
+import	StrategyApe, {PrepareStrategyApe}				from	'components/Strategies/StrategyApe';
+import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/Strategies/StrategyYearnV1';
+import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/Strategies/StrategyYearnV2';
+import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategies/StrategyYearnCrvV1';
+import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/Strategies/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX_POLYGON = {
 	'Dollar Store Bento 💵🍱': {

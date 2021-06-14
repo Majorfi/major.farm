@@ -9,10 +9,10 @@ import	React, {useState, useEffect, useCallback}		from	'react';
 import	useCurrencies						from	'contexts/useCurrencies';
 import	{toAddress, bigNumber, asyncFilter}	from	'utils';
 import	{ethers}							from	'ethers';
-import	SectionRemove						from	'components/Strategies/SectionRemove'
-import	SectionHead							from	'components/Strategies/SectionHead'
-import	SectionFoot							from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}				from	'components/Strategies/Group'
+import	SectionRemove						from	'components/StrategyCard/SectionRemove'
+import	SectionHead							from	'components/StrategyCard/SectionHead'
+import	SectionFoot							from	'components/StrategyCard/SectionFoot'
+import	Group, {GroupElement}				from	'components/StrategyCard/Group'
 import	* as api							from	'utils/API';
 import	methods								from	'utils/methodsSignatures';
 import	{analyzeZapIn}						from	'utils/txHelpers';
@@ -440,7 +440,7 @@ function	StrategyYearnCrvV1({parameters, network, address, uuid, fees, seeds, cr
 				address={address}
 				date={date}
 				APY={APY} />
-			
+
 			<div className={'space-y-8'}>
 				<Group title={'Seeds'}>
 					{renderSeeds()}

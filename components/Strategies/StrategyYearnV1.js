@@ -9,15 +9,14 @@ import	React, {useState, useEffect, useCallback}	from	'react';
 import	useCurrencies								from	'contexts/useCurrencies';
 import	{toAddress, bigNumber}						from	'utils';
 import	{ethers}									from	'ethers';
-import	SectionRemove								from	'components/Strategies/SectionRemove'
-import	SectionHead									from	'components/Strategies/SectionHead'
-import	SectionFoot									from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}						from	'components/Strategies/Group'
+import	SectionRemove								from	'components/StrategyCard/SectionRemove'
+import	SectionHead									from	'components/StrategyCard/SectionHead'
+import	SectionFoot									from	'components/StrategyCard/SectionFoot'
+import	Group, {GroupElement}						from	'components/StrategyCard/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
-import	{getProvider, getSymbol}					from	'utils/chains';
 
-async function	PrepareStrategyApe(parameters, address, network) {
+async function	PrepareStrategyYearnV1(parameters, address, network) {
 	let		timestamp = undefined;
 	const	normalTx = await api.retreiveTxFrom(network, address);
 	const	erc20Tx = await api.retreiveErc20TxFrom(network, address);
@@ -29,16 +28,13 @@ async function	PrepareStrategyApe(parameters, address, network) {
 					(
 						toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					(
-						tx.input.startsWith(methods.YV_DEPOSIT) ||
-						tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
-					)
+					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
 					)
 				||
 				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YV_WITHDRAW)
+					tx.input.startsWith(methods.YEARNV1_WITHDRAW)
 				)
 				||
 				(
@@ -73,19 +69,27 @@ async function	PrepareStrategyApe(parameters, address, network) {
 	}
 
 	async function	computeCrops() {
-		const	provider = getProvider(network);
-		const	ABI = ['function balanceOf(address) external view returns (uint256)']
-		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	balanceOf = await smartContract.balanceOf(address);
-		return (Number(ethers.utils.formatUnits(balanceOf, parameters.underlyingTokenDecimal || 18)));
+		const	cumulativeCrops = (
+			erc20Tx
+				.filter(tx => (
+					(toAddress(tx.from) === toAddress('0x0000000000000000000000000000000000000000'))
+				&&
+				(toAddress(tx.to) === toAddress(address))
+				&&
+				(tx.tokenSymbol === `y${parameters.underlyingTokenSymbol}`)
+				)).reduce((accumulator, tx) => {
+					return bigNumber.from(accumulator).add(tx.value);
+				}, bigNumber.from(0))
+		);
+		return Number(ethers.utils.formatUnits(cumulativeCrops, parameters.underlyingTokenDecimal || 18));
 	}
 
 	async function	computeHarvest() {
 		const	cumulativeHarvest = (
 			erc20Tx
 				.filter(tx => (
-					(toAddress(tx.from) === toAddress(parameters.contractAddress)) && (toAddress(tx.to) === toAddress(address))
-				&&
+					(toAddress(tx.from) === toAddress(parameters.contractAddress)) &&
+				(toAddress(tx.to) === toAddress(address)) &&
 				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 				)).reduce((accumulator, tx) => {
 					return bigNumber.from(accumulator).add(tx.value);
@@ -109,7 +113,7 @@ async function	PrepareStrategyApe(parameters, address, network) {
 	}
 }
 
-function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyYearnV1({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 
 	const	[isHarvested, set_isHarvested] = useState(false);
@@ -117,57 +121,51 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 	const	[APY, set_APY] = useState(0);
 	const	[result, set_result] = useState(0);
 	const	[underlyingEarned, set_underlyingEarned] = useState(0);
-	const	[totalFees] = useState(fees);
+	const	[totalFeesEth] = useState(fees);
 
-	const	[symbolToBaseCurrency, set_symbolToBaseCurrency] = useState(tokenPrices[getSymbol(network)]?.price || 0);
+	const	[ethToBaseCurrency, set_ethToBaseCurrency] = useState(tokenPrices['eth']?.price || 0);
 	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		
 	const retrieveShareValue = useCallback(async () => {
-		const	provider = getProvider(network);
-		const	ABI = ['function pricePerShare() external view returns (uint256)']
+		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
+		const	ABI = ['function getPricePerFullShare() external view returns (uint256)']
 		const	smartContract = new ethers.Contract(parameters.contractAddress, ABI, provider)
-		const	pricePerShare = await smartContract.pricePerShare();
-		const	share = initialCrops * (pricePerShare / (10**(parameters.underlyingTokenDecimal || 18)))
+		const	getPricePerFullShare = await smartContract.getPricePerFullShare();
+		const	share = initialCrops * (getPricePerFullShare / 1e18)
 		set_underlyingEarned(share)
-	}, [initialCrops, parameters.contractAddress, network, parameters.underlyingTokenDecimal]);
+	}, [initialCrops, parameters.contractAddress]);
 
 	useEffect(() => {
-		if (harvest > 0 && initialCrops === 0) {
+		if (harvest > 0 && underlyingEarned === 0) {
 			set_isHarvested(true);
 		}
-	}, [harvest, initialCrops])
+	}, [harvest, underlyingEarned])
 
 	useEffect(() => {
-		set_symbolToBaseCurrency(tokenPrices[getSymbol(network)]?.price || 0);
+		set_ethToBaseCurrency(tokenPrices['eth']?.price || 0);
 		set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		retrieveShareValue();
-	}, [currencyNonce, network, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
+	}, [currencyNonce, parameters.underlyingTokenCgID, retrieveShareValue, tokenPrices]);
 
 	useEffect(() => {
 		if (harvest > 0 && initialCrops === 0) {
-			set_result(((harvest - (initialSeeds)) * underlyingToBaseCurrency) - (totalFees * symbolToBaseCurrency));
+			set_result(((harvest - initialSeeds) * underlyingToBaseCurrency) - (totalFeesEth * ethToBaseCurrency));
 		} else {
 			set_result(
-				((underlyingEarned - (initialSeeds - harvest)) * underlyingToBaseCurrency) -
-				(totalFees * symbolToBaseCurrency)
+				((underlyingEarned - initialSeeds) * underlyingToBaseCurrency) -
+				(totalFeesEth * ethToBaseCurrency)
 			);
 		}
-	}, [symbolToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFees, harvest, initialCrops, initialSeeds])
+	}, [ethToBaseCurrency, underlyingToBaseCurrency, underlyingEarned, totalFeesEth, harvest, initialCrops, initialSeeds])
 
 	useEffect(() => {
-		if (harvest > 0) {
-			const	vi = (initialSeeds) * underlyingToBaseCurrency;
-			const	vf = result + vi;
-			set_APY((vf - vi) / vi * 100)
-		} else {
-			const	vi = (initialSeeds - harvest) * underlyingToBaseCurrency;
-			const	vf = result + vi;
-			set_APY((vf - vi) / vi * 100)
-		}
-	}, [symbolToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency, harvest])
+		const	vi = initialSeeds * underlyingToBaseCurrency;
+		const	vf = result + vi;
+		set_APY((vf - vi) / vi * 100)
+	}, [ethToBaseCurrency, initialSeeds, result, underlyingToBaseCurrency])
 
 	return (
-		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative overflow-hidden'}>
+		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative'}>
 			<SectionRemove uuid={uuid} />
 			<SectionHead
 				network={network}
@@ -175,7 +173,6 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 				address={address}
 				date={date}
 				APY={APY} />
-			
 			<div className={'space-y-8'}>
 				<Group title={'Seeds'}>
 					<GroupElement
@@ -183,22 +180,31 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 						image={parameters.underlyingTokenIcon}
 						label={parameters.underlyingTokenSymbol}
 						address={parameters.underlyingTokenAddress}
-						amount={parseFloat(isHarvested ? initialSeeds : (initialSeeds - harvest).toFixed(10))}
-						value={((isHarvested ? initialSeeds : (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
+						amount={parseFloat(initialSeeds.toFixed(10))}
+						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				<Group title={'Crops'}>
 					<GroupElement
 						network={network}
-						image={'/tokens/yGeneric.svg'}
-						label={`yv${parameters.underlyingTokenSymbol}`}
+						image={parameters.tokenIcon}
+						label={`y${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(initialCrops.toFixed(10))}
-						value={(initialCrops * underlyingToBaseCurrency).toFixed(2)} />
+						value={(initialSeeds * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
 				{isHarvested ?
 					<>
+						<Group title={'Yield'}>
+							<GroupElement
+								network={network}
+								image={parameters.underlyingTokenIcon}
+								label={parameters.underlyingTokenSymbol}
+								address={parameters.contractAddress}
+								amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
+								value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
+						</Group>
 						<Group title={'Harvest'}>
 							<GroupElement
 								network={network}
@@ -211,25 +217,25 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 								network={network}
 								image={'⛽️'}
 								label={'Fees'}
-								amount={parseFloat(totalFees.toFixed(10))}
-								value={-(totalFees * symbolToBaseCurrency).toFixed(2)} />
+								amount={parseFloat(totalFeesEth.toFixed(10))}
+								value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 						</Group>
 					</>
 					: 
 					<Group title={'Yield'}>
 						<GroupElement
 							network={network}
-							image={'/tokens/yGeneric.svg'}
-							label={`yv${parameters.underlyingTokenSymbol}`}
+							image={parameters.underlyingTokenIcon}
+							label={parameters.underlyingTokenSymbol}
 							address={parameters.contractAddress}
-							amount={parseFloat((underlyingEarned - (initialSeeds - harvest)).toFixed(10))}
-							value={((underlyingEarned - (initialSeeds - harvest)) * underlyingToBaseCurrency).toFixed(2)} />
+							amount={parseFloat((underlyingEarned - initialSeeds).toFixed(10))}
+							value={((underlyingEarned - initialSeeds) * underlyingToBaseCurrency).toFixed(2)} />
 						<GroupElement
 							network={network}
 							image={'⛽️'}
 							label={'Fees'}
-							amount={parseFloat(totalFees.toFixed(10))}
-							value={-(totalFees * symbolToBaseCurrency).toFixed(2)} />
+							amount={parseFloat(totalFeesEth.toFixed(10))}
+							value={-(totalFeesEth * ethToBaseCurrency).toFixed(2)} />
 					</Group>
 				}
 			</div>
@@ -239,5 +245,5 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 	)
 }
 
-export {PrepareStrategyApe};
-export default StrategyApe;
+export {PrepareStrategyYearnV1};
+export default StrategyYearnV1;

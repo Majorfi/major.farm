@@ -12,8 +12,8 @@ import	{useToasts}										from	'react-toast-notifications';
 import	{v4 as uuidv4}									from	'uuid';
 import	{ethers}										from	'ethers';
 import	useStrategies									from	'contexts/useStrategies';
-import	{PrepareStrategyBadgerWBTC}						from	'components/StrategyBadgerWBTC';
-import	{PrepareStrategyYVBoost}						from	'components/StrategyYVBoost';
+import	{PrepareStrategyBadgerWBTC}						from	'components/Strategies/StrategyBadgerWBTC';
+import	{PrepareStrategyYVBoost}						from	'components/Strategies/StrategyYVBoost';
 import	{toAddress}										from	'utils';
 import	STRATEGIES										from	'utils/strategies';
 

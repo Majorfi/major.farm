@@ -9,10 +9,10 @@ import	React, {useState, useEffect}	from	'react';
 import	useCurrencies					from	'contexts/useCurrencies';
 import	{ethers}						from	'ethers';
 import	axios							from	'axios';
-import	SectionRemove					from	'components/Strategies/SectionRemove'
-import	SectionHead						from	'components/Strategies/SectionHead'
-import	SectionFoot						from	'components/Strategies/SectionFoot'
-import	Group, {GroupElement}			from	'components/Strategies/Group'
+import	SectionRemove					from	'components/StrategyCard/SectionRemove'
+import	SectionHead						from	'components/StrategyCard/SectionHead'
+import	SectionFoot						from	'components/StrategyCard/SectionFoot'
+import	Group, {GroupElement}			from	'components/StrategyCard/Group'
 import	{toAddress, bigNumber}			from	'utils';
 import	* as API						from	'utils/API';
 
