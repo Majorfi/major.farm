@@ -38,6 +38,7 @@ function	AppWrapper(props) {
 				<meta name={'msapplication-TileColor'} content={'#9fcc2e'} />
 				<meta name={'theme-color'} content={'#ffffff'} />
 				<meta charSet={'utf-8'} />
+				<script defer data-domain={'major.farm'} src={'https://plausible.io/js/plausible.js'} />
 			</Head>
 			<div className={'withAnim transition-opacity bg-dark-900 min-h-screen'}>
 				<div id={'app'} className={'flex'}>
