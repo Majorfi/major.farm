@@ -54,7 +54,6 @@ async function	DetectStrategyApe(parameters, address, network, normalTx = undefi
 	return hasSomeTx;
 }
 
-
 async function	PrepareStrategyApe(parameters, address, network, normalTx = undefined, erc20Tx = undefined) {
 	let		timestamp = undefined;
 	if (!normalTx)

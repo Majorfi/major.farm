@@ -8,10 +8,10 @@
 import	React, {Fragment}			from	'react';
 import	{useState, useEffect}		from	'react';
 import	{ethers}					from	'ethers';
-import	{datediff}					from	'utils';
+import	{datediff, truncateAddress}	from	'utils';
 import	{getProvider, getExplorer}	from	'utils/chains';
 import	{Popover, Transition}		from	'@headlessui/react'
-import	{MenuAlt3Icon, XIcon}		from	'@heroicons/react/solid'
+import	{MenuAlt3Icon}				from	'@heroicons/react/solid'
 import	{DownloadIcon, UploadIcon}	from	'@heroicons/react/outline'
 
 const solutions = [
@@ -29,12 +29,12 @@ const solutions = [
 
 function	SectionHead({network, address, parameters, date, APY}) {
 	const	{title, contractAddress} = parameters;
-	const	[ethAddress, set_ethAddress] = useState(address);
+	const	[ethAddress, set_ethAddress] = useState(truncateAddress(address));
 	const	[vaultInformations, set_vaultInformations] = useState({});
 
 	async function lookupAddress(_address) {
 		const	provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY)
-		set_ethAddress(await provider.lookupAddress(_address) || _address);
+		set_ethAddress(await provider.lookupAddress(_address) || truncateAddress(_address));
 	}
 	async function getStrategyData(_contractAddress) {
 		const	provider = getProvider(network);
@@ -70,7 +70,7 @@ function	SectionHead({network, address, parameters, date, APY}) {
 	useEffect(() => {getStrategyData(contractAddress);}, [contractAddress])
 
 	return (
-		<Popover className={'z-20'}>
+		<Popover className={'z-20 mb-3'}>
 			{({open}) => (
 				<>
 					<div className={'z-10'}>
@@ -79,32 +79,32 @@ function	SectionHead({network, address, parameters, date, APY}) {
 								<div className={'pb-6 text-left flex flex-row'}>
 									<div>
 										<div>
-											<p className={`font-medium text-2xl text-white transition-all group-hover:text-opacity-100 ${open ? 'text-opacity-100' : 'text-opacity-30'}`}>
+											<p className={'font-medium text-2xl text-white transition-all text-opacity-30'}>
 												{title}
 											</p>
 										</div>
-										<a
-											target={'_blank'}
-											href={`https://${getExplorer(network).explorer}/address/${address}`}
-											className={'text-xs text-white text-opacity-30 transition-all hover:text-accent-900 hover:text-opacity-100 hover:underline'}
-											rel={'noreferrer'}>
-											{ethAddress}
-										</a>
-									</div>
-									<div className={'mt-2'}>
-										{open ?
-											<XIcon
-												className={`ml-4 p-1 h-6 w-6 text-white transition-all group-hover:text-opacity-100 rounded-full border border-white border-solid group-hover:border-opacity-100 ${open ? 'border-opacity-100 text-opacity-100' : 'border-opacity-30 text-opacity-30'}`}
-												aria-hidden={'true'} /> :
-											<MenuAlt3Icon
-												className={`ml-4 p-1 h-6 w-6 text-white transition-all group-hover:text-opacity-100 rounded-full border border-white border-solid group-hover:border-opacity-100 ${open ? 'border-opacity-100 text-opacity-100' : 'border-opacity-30 text-opacity-30'}`}
-												aria-hidden={'true'} />
-										}
+										<div className={'text-xs text-white text-opacity-30 pt-2'}>
+											<a
+												target={'_blank'}
+												href={`https://${getExplorer(network).explorer}/address/${address}`}
+												className={'transition-all hover:text-accent-900 hover:text-opacity-100 hover:underline'}
+												rel={'noreferrer'}>
+												{ethAddress}
+											</a>
+											&nbsp; &ndash;	&nbsp;
+											<p className={'inline mb-1'}>{`For ${datediff(date)} days, earning `}</p>
+											<p className={`inline font-medium mb-1 ${APY > 0 ? 'text-green-400' : APY < 0 ? 'text-red-400' : 'text-white'}`}>{`${(APY).toFixed(2)}%`}</p>
+										</div>
 									</div>
 								</div>
-								<div className={'font-medium text-xs text-white text-opacity-30 pb-6'}>
-									<p className={'mb-1'}>{`${datediff(date)} days`}</p>
-									<p className={`mb-1 ${APY > 0 ? 'text-green-400' : APY < 0 ? 'text-red-400' : 'text-white'}`}>{`${(APY).toFixed(2)}%`}</p>
+								<div className={''}>
+									<button
+										type={'button'}
+										className={'flex flex-row items-center justify-center px-2 py-2 leading-4 font-normal rounded-md text-xs border border-white border-opacity-5 bg-dark-400 bg-opacity-40 hover:bg-dark-300 mr-2 mb-2 text-white text-opacity-30 group-hover:text-opacity-90 transition-opacity'}
+									>
+										<span className={''}>{'Details'}</span>
+										<MenuAlt3Icon className={'ml-2 h-5 w-5'} aria-hidden={'true'} />
+									</button>
 								</div>
 							</Popover.Button>
 						</section>

@@ -73,8 +73,31 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-06-15'}
+					version={'0.1.0'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Adding support for your wallet. You can now connect your '}<a href={'https://metamask.io/'} target={'_blank'} rel={'noreferrer'}>{'Metamask'}</a>{' or mobile wallet (with '}<a href={'https://walletconnect.org/'} target={'_blank'} rel={'noreferrer'}>{'WalletConnect'}</a>{'). Once implemented, you will be able to interact with strategies directly from the Major\'s Farm !'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Adding a feature to fetch all your ape.tax strategies, based on your wallet transactions.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Quick strategy card redesign.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Adding the details button for the strategies, to access some information (fees, author, limit) and, once implemented, perform actions with theses strategies.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Adding a banner for some quick actions, including adding a strategy, auto-detecting strategies and refreshing strategies.'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-06-12'}
-					version={'0.0.3'}
+					version={'0.0.4'}
 					content={
 						<ul>
 							<li className={'text-base text-gray-200'}>

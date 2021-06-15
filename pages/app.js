@@ -219,14 +219,13 @@ function	Index() {
 				onAddStrategy={() => set_strategyModal(true)}
 				onDetectStrategies={() => detectStrategies()}
 				onRefreshStrategies={() => addToast('Not implemented', {appearance: 'warning'})}
-				detectingStrategies={detectingStrategies}
-			/>
+				detectingStrategies={detectingStrategies} />
 
 			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row mt-12'} id={'strategies'}>
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
-					{strategies.map((s, i) => (
+					{strategies.map((s) => (
 						<div
-							key={`${s.strategy}-${s.params?.address}-${s.params?.uuid}-${i}`}
+							key={s.params?.uuid}
 							style={{display: 'inherit'}}>
 							{renderStrategy(s.strategy, s)}
 						</div>
