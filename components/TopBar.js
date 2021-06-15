@@ -16,7 +16,7 @@ function	Currency() {
 	const	{switchCurrency, baseCurrency} = useCurrencies();
 	return (
 		<div
-			className={'ml-4 pl-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center border-l border-dark-600 border-opacity-100'}
+			className={'ml-4 pl-4 text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center md:border-l border-dark-600 border-opacity-100'}
 			onClick={() => switchCurrency()}>
 			<h2>{baseCurrency === 'eur' ? '€' : '$'}</h2>
 		</div>
@@ -55,7 +55,7 @@ function	Header({set_strategyModal}) {
 	}
 
 	return (
-		<div className={'bg-dark-600 py-6 -mx-12 -mt-12 px-12 bg-opacity-30'}>
+		<div className={'bg-dark-600 py-6 -mx-4 md:-mx-12 -mt-12 px-4 md:px-12 bg-opacity-30'}>
 			<div className={'flex flex-row justify-between items-center'}>
 				<Link href={'/'}>
 					<div className={'flex flex-row items-center text-white cursor-pointer'}>
@@ -64,13 +64,13 @@ function	Header({set_strategyModal}) {
 						</div>
 						<div className={'ml-4'}>
 							<p className={'font-semibold text-xl text-white'}>{'Major\'s Farm'}</p>
-							<p className={'font-normal text-sm text-white text-opacity-60'}>{'A degen loss calculator'}</p>
+							<p className={'font-normal text-sm text-white text-opacity-60 md:block hidden'}>{'A degen loss calculator'}</p>
 						</div>
 					</div>
 				</Link>
 				<div className={'flex flex-row items-center'}>
 					<div
-						className={'text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md flex flex-row items-center'}
+						className={'text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md hidden md:flex flex-row items-center'}
 						style={{marginLeft: 'auto'}}
 						onClick={() => set_strategyModal(true)}>
 						<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>

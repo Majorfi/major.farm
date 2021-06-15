@@ -66,8 +66,8 @@ function	NewsBanner({short, long, uri, bannerID}) {
 
 function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, detectingStrategies}) {
 	return (
-		<div className={'mt-12 shadow rounded-lg bg-dark-600 p-6 grid grid-cols-3 divide-x-2 divide-dark-400'}>
-			<div className={'group flex px-6'}>
+		<div className={'mt-12 shadow rounded-lg bg-dark-600 p-2 md:p-6 grid-flow-col md:grid grid-cols-3 md:divide-x-2 md:divide-dark-400'}>
+			<div className={'group flex px-1 md:px-6'}>
 				<div
 					onClick={onAddStrategy}
 					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>
@@ -86,7 +86,7 @@ function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, det
 					</div>
 				</div>
 			</div>
-			<div className={'group flex px-6'}>
+			<div className={'group flex px-1 md:px-6'}>
 				<div
 					onClick={onDetectStrategies}
 					className={'flex flex-col p-6 hover:bg-dark-400 rounded transition-all cursor-pointer relative'}>
@@ -114,7 +114,7 @@ function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, det
 					</div> : null}
 				</div>
 			</div>
-			<div className={'group flex px-6'}>
+			<div className={'group flex px-1 md:px-6'}>
 				<div
 					onClick={onRefreshStrategies}
 					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>

@@ -75,11 +75,11 @@ function	SectionHead({network, address, parameters, date, APY}) {
 				<>
 					<div className={'z-10'}>
 						<section aria-label={'head'}>
-							<Popover.Button className={'flex flex-row justify-between items-center w-full focus:outline-none group'}>
+							<Popover.Button className={'flex flex-col md:flex-row justify-between items-center w-full focus:outline-none group'}>
 								<div className={'pb-6 text-left flex flex-row'}>
 									<div>
 										<div>
-											<p className={'font-medium text-2xl text-white transition-all text-opacity-30'}>
+											<p className={'font-medium text-2xl text-white transition-all text-opacity-30 truncate'}>
 												{title}
 											</p>
 										</div>

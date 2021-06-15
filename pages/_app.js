@@ -41,7 +41,7 @@ function	AppWrapper(props) {
 			</Head>
 			<div className={'withAnim transition-opacity bg-dark-900 min-h-screen'}>
 				<div id={'app'} className={'flex'}>
-					<div className={'p-12 w-full'} style={{minHeight: '90vh'}}>
+					<div className={'p-4 pt-12 md:p-12 w-full'} style={{minHeight: '90vh'}}>
 						<Component
 							key={router.route}
 							element={props.element}
