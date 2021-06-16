@@ -14,6 +14,8 @@ export function getProvider(chain = 'ethereum') {
 		return new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`);
 	} else if (chain === 'fantom') {
 		return new ethers.providers.JsonRpcProvider('https://rpcapi.fantom.network');
+	} else if (chain === 'bsc') {
+		return new ethers.providers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
 	}
 	return (new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY));
 }
@@ -25,6 +27,8 @@ export function	getExplorer(chain) {
 		return ({explorer: 'polygonscan.com', apiKey: process.env.POLYGONSCAN_API_KEY});
 	} else if (chain === 'fantom') {
 		return ({explorer: 'ftmscan.com', apiKey: process.env.FTMSCAN_API_KEY});
+	} else if (chain === 'bsc') {
+		return ({explorer: 'bscscan.com', apiKey: process.env.BSC_API_KEY});
 	}
 	return ({explorer: 'etherscan.io', apiKey: process.env.ETHERSCAN_API_KEY});
 }
@@ -36,6 +40,8 @@ export function	getSymbol(chain) {
 		return ('matic');
 	} else if (chain === 'fantom') {
 		return ('fmt');
+	} else if (chain === 'bsc') {
+		return ('bnb');
 	}
 	return ('eth');
 }

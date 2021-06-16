@@ -180,6 +180,134 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	},
 
 }
+const	STRATEGIES_APE_TAX_BSC = {
+	'Nervy Mastermind ☸️🤔': {
+		parameters: {
+			title: 'Nervy Mastermind ☸️🤔',
+			href: 'https://ape.tax/nrv',
+			contractAddress: '0x7C1Db8938D8170A244635e9ae3AEb41663B6D858',
+			underlyingTokenAddress: '0x42F6f551ae042cBe50C739158b4f0CAC0Edb9096',
+			underlyingTokenSymbol: 'NRV',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'nerve-finance',
+			underlyingTokenIcon: '/tokens/nrv.png',
+			author: 'fp_crypto',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'BNB Farmer 🔶👨‍🌾': {
+		parameters: {
+			title: 'BNB Farmer 🔶👨‍🌾',
+			href: 'https://ape.tax/bnbfarmer',
+			contractAddress: '0x7E12d21eeEF120dc5E23c8e70162815A9071Dde9',
+			underlyingTokenAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+			underlyingTokenSymbol: 'WBNB',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'binancecoin',
+			underlyingTokenIcon: '/tokens/bnb.png',
+			author: 'poolpitako',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'BSC ETH 🕳️🐨': {
+		parameters: {
+			title: 'BSC ETH 🕳️🐨',
+			href: 'https://ape.tax/bsceth',
+			contractAddress: '0x9cBdd0f1d9FB5D1ea6f3d022D0896E57aF5f087f',
+			underlyingTokenAddress: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+			underlyingTokenSymbol: 'ETH',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: '/tokens/eth.svg',
+			author: 'fp_crypto',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'BSC\'s fUSDT proxy to ETH 😷🐙': {
+		parameters: {
+			title: 'BSC\'s fUSDT proxy to ETH 😷🐙',
+			href: 'https://ape.tax/bscfusdtproxyeth',
+			contractAddress: '0x2A3020a71Ab92D5CdBAfEB72f0b90D1DfdF1B6E2',
+			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+			underlyingTokenSymbol: 'fUSDT',
+			underlyingTokenDecimal: 6,
+			underlyingTokenCgID: 'tether',
+			underlyingTokenIcon: '/tokens/usdt.svg',
+			author: 'poolpitako',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'BSC\'s Frapped Ape ☕️🦧': {
+		parameters: {
+			title: 'BSC\'s Frapped Ape ☕️🦧',
+			href: 'https://ape.tax/bscfrappedape',
+			contractAddress: '0x626530FCD25a8c9A949B024AAbbAe4BAE7D5F320',
+			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+			underlyingTokenSymbol: 'fUSDT',
+			underlyingTokenDecimal: 6,
+			underlyingTokenCgID: 'tether',
+			underlyingTokenIcon: '/tokens/usdt.svg',
+			author: 'poolpitako',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'Ellipsoidal Farmer 🍩3️⃣': {
+		parameters: {
+			title: 'Ellipsoidal Farmer 🍩3️⃣',
+			href: 'https://ape.tax/ellipsoidal',
+			contractAddress: '0xC8057Fd6F7917b5398f52d861d50685E6AbbED14',
+			underlyingTokenAddress: '0xaF4dE8E872131AE328Ce21D909C74705d3Aaf452',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: '3EPS',
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: '/tokens/3eps.png',
+			author: 'akshaynexust',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'BSC\'s Ape Ape Baby 🧊👶': {
+		parameters: {
+			title: 'BSC\'s Ape Ape Baby 🧊👶',
+			href: 'https://ape.tax/bscbaby',
+			contractAddress: '0x78bef219b3348CD65387F6f7B27c9ee3Bf525704',
+			underlyingTokenAddress: '0xf16e81dce15b08f326220742020379b855b87df9',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'ICE',
+			underlyingTokenCgID: 'ice-token',
+			underlyingTokenIcon: '/tokens/ice.png',
+			author: 'poolpitako',
+		},
+		network: 'bsc',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	}
+}
 const	STRATEGIES_APE_TAX = {
 	'Wrapped Ultra Sound Money 🦇🔊': {
 		parameters: {
@@ -1043,4 +1171,4 @@ const	STRATEGIES_MISC = {
 	},
 }
 
-export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};
+export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX_BSC, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};

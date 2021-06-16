@@ -105,7 +105,7 @@ function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, det
 							</p>
 						</div>
 					</div>
-					{detectingStrategies ? <div className={'absolute bottom-2 flex w-full justify-center items-center pr-12'}>
+					{detectingStrategies ? <div className={'absolute bottom-1 flex w-full justify-center items-center pr-12'}>
 						<div className={'flex flex-row items-center'}>
 							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse'} />
 							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse mx-3'} style={{animationDelay: '1s'}} />

@@ -86,8 +86,10 @@ export const Web3ContextApp = ({children}) => {
 			}
 			const	injected = new InjectedConnector({
 				supportedChainIds: [
-					1, //ETH MAINNET
-					137, // MATIC MAINET
+					1, // ETH MAINNET
+					56, // BSC MAINNET
+					137, // MATIC MAINNET
+					250, // FANTOM MAINNET
 				]
 			})
 			activate(injected, undefined, true);
@@ -98,8 +100,10 @@ export const Web3ContextApp = ({children}) => {
 			}
 			const walletconnect = new WalletConnectConnector({
 				rpc: {
-					1: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
-					137: `https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`,
+					1: getProvider('ethereum'),
+					56: getProvider('bsc'),
+					137: getProvider('polygon'),
+					250: getProvider('fantom')
 				},
 				chainId: 1,
 				bridge: 'https://bridge.walletconnect.org',

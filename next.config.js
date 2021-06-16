@@ -13,10 +13,11 @@ module.exports = ({
 	],
 	env: {
 		ALCHEMY_KEY: process.env.ALCHEMY_KEY,
+		POLYGON_MATIC_VIRGIL: process.env.POLYGON_MATIC_VIRGIL,
 		ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY,
 		POLYGONSCAN_API_KEY: process.env.POLYGONSCAN_API_KEY,
-		POLYGON_MATIC_VIRGIL: process.env.POLYGON_MATIC_VIRGIL,
 		FTMSCAN_API_KEY: process.env.FTMSCAN_API_KEY,
+		BSC_API_KEY: process.env.BSC_API_KEY
 	},
 	optimization: {
 		minimize: true,

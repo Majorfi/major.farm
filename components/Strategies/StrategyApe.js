@@ -27,7 +27,7 @@ async function	DetectStrategyApe(parameters, address, network, normalTx = undefi
 				.some(tx => (
 					(
 						toAddress(tx.from) === toAddress(address) &&
-					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
+						toAddress(tx.to) === toAddress(parameters.contractAddress) &&
 					(
 						tx.input.startsWith(methods.YV_DEPOSIT) ||
 						tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
@@ -38,11 +38,6 @@ async function	DetectStrategyApe(parameters, address, network, normalTx = undefi
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
 					tx.input.startsWith(methods.YV_WITHDRAW)
-				)
-				||
-				(
-					tx.input.startsWith(methods.STANDARD_APPROVE) &&
-					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
 				)
 				))
 		);
