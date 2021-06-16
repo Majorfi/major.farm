@@ -130,7 +130,7 @@ function	SectionHead({network, address, parameters, date, APY}) {
 										<div className={'mt-1 w-full h-8 rounded bg-dark-600 relative overflow-hidden'}>
 											<div className={'absolute top-0 left-0 bottom-0 bg-accent-900'} style={{width: `${((vaultInformations?.totalAssets || 0) / (vaultInformations?.depositLimit || 1) * 100)}%`}} />
 											<div className={'absolute inset-0 flex justify-center items-center'}>
-												<p className={'inline text-base font-medium text-white text-opacity-90'}>{`${(vaultInformations?.totalAssets || 0)} / ${(vaultInformations?.depositLimit || 1)} DAI`}</p>
+												<p className={'inline text-base font-medium text-white text-opacity-90'}>{`${(vaultInformations?.totalAssets || 0)} / ${(vaultInformations?.depositLimit || 1)} ${parameters.underlyingTokenSymbol}`}</p>
 											</div>
 										</div>
 									</div>
