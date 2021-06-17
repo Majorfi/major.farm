@@ -11,6 +11,8 @@ import	Link							from	'next/link';
 import	useCurrencies					from	'contexts/useCurrencies';
 import	useWeb3							from	'contexts/useWeb3';
 import	LoginModal						from	'components/Modals/LoginModal';
+import	ContextMenuProgress				from	'components/Modals/TopMenuContext';
+import	{MenuAlt3Icon, PlusIcon}				from	'@heroicons/react/solid'
 
 function	Currency() {
 	const	{switchCurrency, baseCurrency} = useCurrencies();
@@ -23,9 +25,8 @@ function	Currency() {
 	)
 }
 
-function	Header({set_strategyModal}) {
-	const	{address, ens, active, deactivate, onDesactivate} = useWeb3();
-	const	[open, set_open] = useState(false);
+function	MenuButton({contextMenu, set_contextMenu, set_open}) {
+	const	{address, ens, active} = useWeb3();
 
 	function	renderWallet() {
 		if (ens) {
@@ -55,6 +56,34 @@ function	Header({set_strategyModal}) {
 	}
 
 	return (
+		<div className={'relative flex flex-row items-center text-left z-50 pointer-events-auto'}>
+			<button
+				suppressHydrationWarning
+				onClick={() => {
+					if (active) {
+						set_contextMenu(!contextMenu);
+					} else {
+						set_open(true);
+					}
+				}}
+				type={'button'}
+				className={'ml-8 inline-flex px-4 py-2 items-center shadow-md leading-4 font-normal rounded-md text-xs border border-white border-opacity-10 bg-dark-400 hover:bg-dark-300 overflow-auto focus:outline-none overflow-y-hidden'}
+				id={'options-menu'}
+				aria-expanded={'true'}
+				aria-haspopup={'true'}>
+				{renderWallet()}
+				<MenuAlt3Icon className={'ml-2 h-5 w-5 text-white-95'} aria-hidden={'true'} />
+			</button>
+			<ContextMenuProgress open={contextMenu} set_open={set_contextMenu} />
+		</div>
+	);
+}
+
+function	Header({set_strategyModal}) {
+	const	[open, set_open] = useState(false);
+	const	[contextMenu, set_contextMenu] = useState(false);
+
+	return (
 		<div className={'bg-dark-600 py-6 -mx-4 md:-mx-12 -mt-12 px-4 md:px-12 bg-opacity-30'}>
 			<div className={'flex flex-row justify-between items-center'}>
 				<Link href={'/'}>
@@ -73,29 +102,14 @@ function	Header({set_strategyModal}) {
 						className={'text-dark-100 hover:text-accent-900 transition-colors cursor-pointer font-medium text-md hidden md:flex flex-row items-center'}
 						style={{marginLeft: 'auto'}}
 						onClick={() => set_strategyModal(true)}>
-						<svg className={'mr-1 h-5 w-5'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
-							<path fillRule={'evenodd'} d={'M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'} clipRule={'evenodd'} />
-						</svg>
+						<PlusIcon className={'mr-1 h-5 w-5'} aria-hidden={'true'} />
 						<h2>{'Add strategy'}</h2>
 					</div>
 					<Currency />
-					<button
-						suppressHydrationWarning
-						onClick={() => {
-							if (active) {
-								deactivate();
-								onDesactivate();
-							} else {
-								set_open(!open);
-							}
-						}}
-						type={'button'}
-						className={'ml-8 inline-flex px-4 py-2 items-center shadow-md leading-4 font-normal rounded-md text-xs border border-white border-opacity-10 bg-dark-400 hover:bg-dark-300 overflow-auto focus:outline-none overflow-y-hidden'}
-						id={'options-menu'}
-						aria-expanded={'true'}
-						aria-haspopup={'true'}>
-						{renderWallet()}
-					</button>
+					<MenuButton
+						contextMenu={contextMenu}
+						set_contextMenu={set_contextMenu}
+						set_open={set_open} />
 				</div>
 			</div>
 			<LoginModal open={open} set_open={set_open} />

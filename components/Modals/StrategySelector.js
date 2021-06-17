@@ -110,7 +110,7 @@ function	SectionLists({set_list, list}) {
 }
 
 function	StrategySelectorModal({strategyModal, set_strategyModal}) {
-	const	{set_strategies, set_nonce} = useStrategies();
+	const	{strategies} = useStrategies();
 	const	[address, set_address] = useState('');
 	const	[chain, set_chain] = useState('ethereum');
 	const	[list, set_list] = useState('ape.tax');
@@ -144,7 +144,7 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 			}
 		}
 	
-		if (!result) {
+		if (!result || result.status === 'KO') {
 			return {status: 'KO', result: 'error'}
 		}
 		return {status: 'OK', result: {
@@ -231,14 +231,17 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 												return addToast(`Error : ${res.result}`, {appearance: 'error'});
 											}
 											const	populator = res.result;
-											set_strategies(s => [...s, {
-												strategy,
-												params: {
-													uuid: uuidv4(),
-													...populator,
-												}
-											}])
-											set_nonce(n => n + 1);
+											strategies.add({
+												uuid: uuidv4(),
+												name: strategy,
+												fees: populator.fees,
+												initialSeeds: populator.initialSeeds,
+												initialCrops: populator.initialCrops,
+												harvest: populator.harvest,
+												timestamp: populator.timestamp,
+												date: populator.date,
+												address: populator.address,
+											})
 											addToast('Strategy available', {appearance: 'success'});
 											set_strategyModal(false);
 										}}

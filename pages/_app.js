@@ -79,21 +79,21 @@ function	MyApp(props) {
 	const	{Component, pageProps} = props;
 	
 	return (
-		<CurrenciesContextApp>
-			<StrategiesContextApp>
-				<Web3ReactProvider getLibrary={getLibrary}>
-					<Web3ContextApp>
-						<ToastProvider autoDismiss>
+		<ToastProvider autoDismiss>
+			<CurrenciesContextApp>
+				<StrategiesContextApp>
+					<Web3ReactProvider getLibrary={getLibrary}>
+						<Web3ContextApp>
 							<AppWrapper
 								Component={Component}
 								pageProps={pageProps}
 								element={props.element}
 								router={props.router} />
-						</ToastProvider>
-					</Web3ContextApp>
-				</Web3ReactProvider>
-			</StrategiesContextApp>
-		</CurrenciesContextApp>
+						</Web3ContextApp>
+					</Web3ReactProvider>
+				</StrategiesContextApp>
+			</CurrenciesContextApp>
+		</ToastProvider>
 	);
 }
 

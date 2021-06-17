@@ -11,6 +11,7 @@ export default {
 	YV_DEPOSIT: '0xd0e30db0',
 	YV_DEPOSIT_VOWID: '0xb6b55f25',
 	YV_WITHDRAW: '0x3ccfd60b',
+	YV_TRANSFER: '0xa9059cbb',
 
 	YEARNV1_WITHDRAW: '0x2e1a7d4d',
 	YEARNV1_DEPOSIT: '0xb6b55f25',

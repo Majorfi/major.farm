@@ -5,18 +5,14 @@
 **	@Filename:				index.js
 ******************************************************************************/
 
-import	React, {useState}							from	'react';
-import	{useToasts}									from	'react-toast-notifications';
-import	{v4 as uuidv4}								from	'uuid';
-import	{ViewGridAddIcon, RefreshIcon, FireIcon}	from	'@heroicons/react/outline'
+import	React, {useState, useEffect, useCallback}	from	'react';
+import	{ArrowSmDownIcon, ArrowSmUpIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon}			from	'@heroicons/react/solid'
 import	useStrategies								from	'contexts/useStrategies';
-import	useWeb3										from	'contexts/useWeb3';
+import	useCurrencies								from	'contexts/useCurrencies';
 import	StrategySelectorModal						from	'components/Modals/StrategySelector';
 import	TopBar										from	'components/TopBar';
 import	useLocalStorage								from	'hook/useLocalStorage';
 import	STRATEGIES									from	'utils/strategies';
-import	* as api									from	'utils/API';
-import	{asyncForEach}								from	'utils';
 
 function	NewsBanner({short, long, uri, bannerID}) {
 	const	[newsBanner, set_newsBanner] = useLocalStorage(bannerID, true);
@@ -64,135 +60,124 @@ function	NewsBanner({short, long, uri, bannerID}) {
 	)
 }
 
-function	SectionCTA({onAddStrategy, onDetectStrategies, onRefreshStrategies, detectingStrategies}) {
+function Stats() {
+	const	{tokenPrices, currencyNonce, baseCurrency} = useCurrencies();
+	const	{strategies} = useStrategies();
+	const	[seedInvested, set_seedInvested] = useState(0);
+	const	[cropsYielding, set_cropsYielding] = useState(0);
+	const	[currentYield, set_currentYield] = useState(0);
+	const	[harvest, set_harvest] = useState(0);
+	const	[currentGas, set_currentGas] = useState(0);
+
+	const computeYieldValue = useCallback((_strategies) => {
+		const	result = _strategies.reduce((accumulator, s) => {
+			if (s?.isHarvested) {
+				return {
+					seeds: accumulator.seeds,
+					yield: accumulator.yield,
+					crops: accumulator.crops,
+					harvest: accumulator.harvest,
+					gas: accumulator.gas + (s?.lastGasValue || 0)
+				};
+			}
+			const	strategy = STRATEGIES[s.name];
+			return {
+				seeds: accumulator.seeds + (s?.initialSeeds || 0) * (tokenPrices[strategy?.parameters?.underlyingTokenCgID]?.price || 1),
+				yield: accumulator.yield + (s?.lastResult || 0),
+				crops: accumulator.crops + (s?.lastSharesValue || 0),
+				harvest: accumulator.harvest + (s?.lastHarvestValue || 0),
+				gas: accumulator.gas + (s?.lastGasValue || 0),
+			};
+		}, ({seeds: 0, yield: 0, crops: 0, harvest: 0, gas: 0}));
+		set_seedInvested(result.seeds);
+		set_currentYield(result.yield);
+		set_cropsYielding(result.crops);
+		set_harvest(result.harvest);
+		set_currentGas(result.gas);
+	}, [tokenPrices]);
+
+	useEffect(() => {
+		const	_strategies = strategies.get();
+		computeYieldValue(_strategies)
+	}, [strategies.nonce, strategies.get, computeYieldValue, strategies, currencyNonce])
+
+	function	renderValueToBaseCurrency(_value) {
+		if (baseCurrency === 'eur') {
+			return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(_value))
+		}
+		return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(_value))
+	}
+	function	renderValueToPercent(_value) {
+		return (new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 2}).format(_value))
+	}
+
+	function	OtherStat({title, value, HeroIcon}) {
+		return (
+			<div className={'p-4 flex flex-row items-center'}>
+				<div className={'inline-flex items-center justify-center h-10 w-10 rounded-md bg-dark-400 text-white-75 sm:h-12 sm:w-12'}>
+					<HeroIcon className={'h-6 w-6'} aria-hidden={'true'} />
+				</div>
+				<div className={'ml-4'}>
+					<dt className={'text-sm font-normal text-white-80'}>{title}</dt>
+					<dd className={'mt-1 flex justify-between items-baseline md:block lg:flex'}>
+						<div className={'flex items-baseline text-xl font-semibold text-accent-900'}>
+							{renderValueToBaseCurrency(value)}
+						</div>
+					</dd>
+				</div>
+			</div>
+		)
+	}
+
 	return (
-		<div className={'mt-12 shadow rounded-lg bg-dark-600 p-2 md:p-6 grid-flow-col md:grid grid-cols-3 md:divide-x-2 md:divide-dark-400'}>
-			<div className={'group flex px-1 md:px-6'}>
-				<div
-					onClick={onAddStrategy}
-					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>
-					<div>
-						<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
-							<ViewGridAddIcon className={'h-7 w-7'} aria-hidden={'true'} />
-						</span>
-					</div>
-					<div className={'ml-8'}>
-						<h3 className={'text-lg font-medium text-accent-900'}>
-							{'Add a strategy'}
-						</h3>
-						<p className={'mt-2 text-sm text-white-75'}>
-							{'Choose a specific strategy and start monitoring your Yield to see if you are profitable !'}
-						</p>
-					</div>
-				</div>
-			</div>
-			<div className={'group flex px-1 md:px-6'}>
-				<div
-					onClick={onDetectStrategies}
-					className={'flex flex-col p-6 hover:bg-dark-400 rounded transition-all cursor-pointer relative'}>
-					<div className={'flex flex-row'}>
-						<div>
-							<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
-								<FireIcon className={'h-7 w-7'} aria-hidden={'true'} />
-							</span>
-						</div>
-						<div className={'ml-8'}>
-							<h3 className={'text-lg font-medium text-accent-900'}>
-								{'Find your seeds'}
-							</h3>
-							<p className={'mt-2 text-sm text-white-75'}>
-								{'The easy way ! Just click and let us find the strategies you invested in !'}
-							</p>
-						</div>
-					</div>
-					{detectingStrategies ? <div className={'absolute bottom-1 flex w-full justify-center items-center pr-12'}>
-						<div className={'flex flex-row items-center'}>
-							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse'} />
-							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse mx-3'} style={{animationDelay: '1s'}} />
-							<div className={'w-3 h-3 rounded-full bg-accent-900 animate-pulse'} />
-						</div>
-					</div> : null}
-				</div>
-			</div>
-			<div className={'group flex px-1 md:px-6'}>
-				<div
-					onClick={onRefreshStrategies}
-					className={'flex flex-row p-6 hover:bg-dark-400 rounded transition-all cursor-pointer opacity-70 hover:opacity-100'}>
-					<div>
-						<span className={'rounded-lg inline-flex p-2 text-white bg-accent-900'}>
-							<RefreshIcon className={'h-7 w-7'} aria-hidden={'true'} />
-						</span>
-					</div>
-					<div className={'ml-8'}>
-						<h3 className={'text-lg font-medium text-accent-900'}>
-							{'Update strategies'}
-						</h3>
-						<p className={'mt-2 text-sm text-white-75'}>
-							{'Your strategies are outdated ? Refresh them to get the latest information.'}
-						</p>
+		<div>
+			<dl className={'mt-5 grid grid-cols-1 rounded-lg bg-dark-600 overflow-hidden shadow divide-y divide-dark-400'}>
+				<div className={'flex w-full justify-center'}>
+					<div className={'px-4 py-5 sm:p-6 text-center'}>
+						<dt className={'text-base font-normal text-white'}>{'Total Yield'}</dt>
+						<dd className={'mt-1 flex justify-between items-baseline'}>
+							<div className={'flex items-baseline text-2xl font-semibold text-accent-900'}>
+								{renderValueToBaseCurrency(currentYield)}
+							</div>
+
+							<div
+								className={`${currentYield > 0 ? 'text-green-400' : 'text-red-400'} bg-dark-400 inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 ml-4`}>
+								{currentYield > 0 ? (
+									<ArrowSmUpIcon
+										className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-400'}
+										aria-hidden={'true'} />
+								) : (
+									<ArrowSmDownIcon
+										className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-400'}
+										aria-hidden={'true'} />
+								)}
+
+								<span className={'sr-only'}>{currentYield > 0 ? 'Increased' : 'Decreased'}{' by'}</span>
+								{renderValueToPercent(((seedInvested + currentYield) - seedInvested) / seedInvested)}
+							</div>
+						</dd>
 					</div>
 				</div>
-			</div>
+
+				<dl className={'mt-0 grid grid-cols-1 rounded-lg bg-dark-600 overflow-hidden shadow divide-y divide-dark-400 md:grid-cols-4 md:divide-y-0 md:divide-x'}>
+					<OtherStat title={'Total Seeds Invested'} value={seedInvested} HeroIcon={ChartPieIcon} />
+					<OtherStat title={'Total Crops Yielding'} value={cropsYielding} HeroIcon={TrendingUpIcon} />
+					<OtherStat title={'Total Harvest'} value={harvest} HeroIcon={CurrencyEuroIcon} />
+					<OtherStat title={'Total Gas Cost'} value={currentGas} HeroIcon={FireIcon} />
+				</dl>
+
+			</dl>
 		</div>
-	);
+	)
 }
 
+
 function	Index() {
-	const	{addToast} = useToasts();
-	const	{address} = useWeb3();
-	const	{strategies, set_strategies, set_nonce} = useStrategies();
+	const	{strategies} = useStrategies();
 	const	[strategyModal, set_strategyModal] = useState(false);
-	const	[detectingStrategies, set_detectingStrategies] = useState(false);
 
-	function appendStrategy(title, newStrategy) {
-		set_strategies(_strategies => [..._strategies, {
-			strategy: title,
-			params: {
-				uuid: uuidv4(),
-				...newStrategy,
-			}
-		}]);
-		set_nonce(n => n + 1);
-	}
-	async function	detectStrategies() {
-		if (!address) {
-			addToast('Please, connect your wallet first', {appearance: 'error'});
-			return (null);
-		}
-		set_detectingStrategies(true);
-		addToast('Looking for strategies ...', {appearance: 'info'});
-		const	_address = address;
-		const	normalTx = {};
-		const	erc20Tx = {};
-		await asyncForEach(Object.values(STRATEGIES), async (s) => {
-			const	contractAddress = s?.parameters?.contractAddress;
-			if (!contractAddress) {
-				return;
-			}
-			const	detector = s?.detect;
-			if (!detector) {
-				return;
-			}
-			if (normalTx[s.network] === undefined) {
-				normalTx[s.network] = await api.retreiveTxFrom(s.network, _address);
-			}
-			if (erc20Tx[s.network] === undefined) {
-				erc20Tx[s.network] = await api.retreiveErc20TxFrom(s.network, _address);
-			}
-			const	hasSomeTx = await detector(s.parameters, _address, s.network, normalTx[s.network]);
-			if (hasSomeTx) {
-				const	newStrategy = await s.prepare(s.parameters, _address, s.network, normalTx[s.network], erc20Tx[s.network]);
-				newStrategy.date = new Date(newStrategy.timestamp * 1000);
-				newStrategy.address = _address;
-				appendStrategy(s?.parameters?.title, newStrategy);
-				addToast(`Strategy ${s.parameters.title} available`, {appearance: 'success'});
-			}
-		});
-		set_detectingStrategies(false);
-	}
-
-	function	renderStrategy(strategy, s) {
-		const	CurrentStrategy = STRATEGIES[strategy];
+	function	renderStrategy(strategy) {
+		const	CurrentStrategy = STRATEGIES[strategy.name];
 		if (!CurrentStrategy) {
 			return null;
 		}
@@ -200,7 +185,7 @@ function	Index() {
 			<CurrentStrategy.Strategy
 				parameters={CurrentStrategy?.parameters}
 				network={CurrentStrategy?.network || 'ethereum'}
-				{...s.params} /> 
+				{...strategy} /> 
 		)
 	}
 
@@ -214,20 +199,16 @@ function	Index() {
 					long={'Dollar Store Bento 💵🍱 and Magic Idle DAI 🏆🚀 from ape.tax are now available for tracking !'}
 					uri={'https://ape.tax'} />
 			</div>
-
-			<SectionCTA
-				onAddStrategy={() => set_strategyModal(true)}
-				onDetectStrategies={() => detectStrategies()}
-				onRefreshStrategies={() => addToast('Not implemented', {appearance: 'warning'})}
-				detectingStrategies={detectingStrategies} />
+			<Stats />
+			
 
 			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row mt-12'} id={'strategies'}>
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
-					{strategies.map((s) => (
+					{strategies.get().map((s) => (
 						<div
-							key={s.params?.uuid}
+							key={s.uuid}
 							style={{display: 'inherit'}}>
-							{renderStrategy(s.strategy, s)}
+							{renderStrategy(s)}
 						</div>
 					))}
 				</div>

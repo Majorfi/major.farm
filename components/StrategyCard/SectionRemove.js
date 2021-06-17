@@ -7,18 +7,15 @@
 
 import	React				from	'react';
 import	useStrategies		from	'contexts/useStrategies';
-import	{removeFromArray}	from	'utils';
 
 function	SectionRemove({uuid}) {
-	const	{strategies, set_strategies, set_nonce} = useStrategies();
+	const	{strategies} = useStrategies();
 
 	return (
 		<section
 			aria-label={'remove strategy'}
 			onClick={() => {
-				const	_strategies = strategies;
-				set_strategies(removeFromArray(_strategies, 'uuid', uuid));
-				set_nonce(n => n + 1);
+				strategies.removeByUUID(uuid)
 			}}
 			className={'absolute top-2 right-2 text-dark-400 hover:text-dark-200 cursor-pointer'}>
 			<svg className={'h-4 w-4'} xmlns={'http://www.w3.org/2000/svg'} viewBox={'0 0 20 20'} fill={'currentColor'} aria-hidden={'true'}>
