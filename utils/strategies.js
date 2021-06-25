@@ -88,6 +88,42 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 	},
 }
 const	STRATEGIES_APE_TAX_FANTOM = {
+	'Tied Tyler 🕴🪢': {
+		parameters: {
+			title: 'Tied Tyler 🕴🪢',
+			href: 'https://ape.tax/splitcameron',
+			contractAddress: '0xE95416c54f3e313E49306486b0ea9c2C6D623157',
+			underlyingTokenAddress: '0x92D5ebF3593a92888C25C0AbEF126583d4b5312E',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'fUSDT+DAI+USDC',
+			underlyingTokenCgID: 'tether',
+			underlyingTokenIcon: '/tokens/usdt.svg',
+			author: 'orbxball',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'Split Cameron 🕴🖖': {
+		parameters: {
+			title: 'Split Cameron 🕴🖖',
+			href: 'https://ape.tax/splitcameron',
+			contractAddress: '0x2A384a7Cd43fEe03aD01Cd629efe5c28e0d09557',
+			underlyingTokenAddress: '0x27E611FD27b276ACbd5Ffd632E5eAEBEC9761E40',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'DAI+USDC',
+			underlyingTokenCgID: 'usd-coin',
+			underlyingTokenIcon: '/tokens/usdc.svg',
+			author: 'orbxball',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
 	'FTM\'s Wandering Woofy 🧭🐶': {
 		parameters: {
 			title: 'FTM\'s Wandering Woofy 🧭🐶',

@@ -6,7 +6,7 @@
 ******************************************************************************/
 
 import	React, {useState, useEffect, useCallback}	from	'react';
-import	{ArrowSmDownIcon, ArrowSmUpIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon}			from	'@heroicons/react/solid'
+import	{ArrowSmDownIcon, ArrowSmUpIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon, MinusIcon}			from	'@heroicons/react/solid'
 import	useStrategies								from	'contexts/useStrategies';
 import	useCurrencies								from	'contexts/useCurrencies';
 import	StrategySelectorModal						from	'components/Modals/StrategySelector';
@@ -129,6 +129,28 @@ function Stats() {
 		)
 	}
 
+	let	statClassName = 'text-dark-200';
+	let	icon = (
+		<MinusIcon
+			className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-dark-200'}
+			aria-hidden={'true'} />
+	)
+	if (currentYield.toFixed(2) > 0) {
+		statClassName = 'text-green-400';
+		icon = (
+			<ArrowSmDownIcon
+				className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-400'}
+				aria-hidden={'true'} />
+		)
+	} else if (currentYield.toFixed(2) < 0) {
+		statClassName = 'text-red-400';
+		icon = (
+			<ArrowSmDownIcon
+				className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-400'}
+				aria-hidden={'true'} />
+		)
+	}
+
 	return (
 		<div>
 			<dl className={'mt-5 grid grid-cols-1 rounded-lg bg-dark-600 overflow-hidden shadow divide-y divide-dark-400'}>
@@ -141,18 +163,8 @@ function Stats() {
 							</div>
 
 							<div
-								className={`${currentYield > 0 ? 'text-green-400' : 'text-red-400'} bg-dark-400 inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 ml-4`}>
-								{currentYield > 0 ? (
-									<ArrowSmUpIcon
-										className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-400'}
-										aria-hidden={'true'} />
-								) : (
-									<ArrowSmDownIcon
-										className={'-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-400'}
-										aria-hidden={'true'} />
-								)}
-
-								<span className={'sr-only'}>{currentYield > 0 ? 'Increased' : 'Decreased'}{' by'}</span>
+								className={`${statClassName} bg-dark-400 inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 ml-4`}>
+								{icon}
 								{renderValueToPercent(((seedInvested + currentYield) - seedInvested) / seedInvested)}
 							</div>
 						</dd>

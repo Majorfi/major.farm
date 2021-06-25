@@ -434,13 +434,13 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 							address={parameters.contractAddress}
 							amount={parseFloat((underlyingEarned - shares).toFixed(10))}
 							value={((underlyingEarned - shares) * underlyingToBaseCurrency).toFixed(2)} />
-						<GroupElement
+						{harvest.toFixed(10) > 0 ? <GroupElement
 							network={network}
 							image={parameters.underlyingTokenIcon}
 							label={`Harvested ${parameters.underlyingTokenSymbol}`}
 							address={parameters.underlyingTokenAddress}
 							amount={parseFloat(harvest.toFixed(10))}
-							value={(harvest * underlyingToBaseCurrency).toFixed(2)} />
+							value={(harvest * underlyingToBaseCurrency).toFixed(2)} /> : null}
 						<GroupElement
 							network={network}
 							image={'⛽️'}
