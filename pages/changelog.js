@@ -73,6 +73,23 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-06-25'}
+					version={'0.1.1'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/tiedtyler'} target={'_blank'} rel={'noreferrer'}>{'Tied Tyler 🕴🪢'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/splitcameron'} target={'_blank'} rel={'noreferrer'}>{'Split Cameron 🕴🖖'}</a>{' on Fantom.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'The top banner is now displaying an overview of your position'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-06-15'}
 					version={'0.1.0'}
 					content={

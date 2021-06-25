@@ -207,12 +207,11 @@ function	Index() {
 			<div id={'newsbanner'} className={'space-y-0.5'}>
 				<NewsBanner
 					bannerID={'newsBanner-2'}
-					short={'💵🍱 and 🏆🚀 from ape.tax are now available'}
-					long={'Dollar Store Bento 💵🍱 and Magic Idle DAI 🏆🚀 from ape.tax are now available for tracking !'}
+					short={'🪢 and 🕴🖖 from ape.tax are now available'}
+					long={'🕴🪢 Tied Tyler & 🕴🖖 Split Cameron from ape.tax are now available for tracking !'}
 					uri={'https://ape.tax'} />
 			</div>
 			<Stats />
-			
 
 			<div className={'flex flex-wrap w-full mb-16 tabular-nums lining-nums space-y-6 flex-col lg:flex-row mt-12'} id={'strategies'}>
 				<div className={'grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 w-full gap-6'}>
