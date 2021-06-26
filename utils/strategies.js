@@ -7,7 +7,7 @@
 
 import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategies/StrategyBadgerWBTC';
 import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/Strategies/StrategyYVBoost';
-import	StrategyApe, {PrepareStrategyApe, DetectStrategyApe}				from	'components/Strategies/StrategyApe';
+import	StrategyYVaultV2, {PrepareStrategyYVaultV2, DetectStrategyYVaultV2}				from	'components/Strategies/StrategyYVaultV2';
 import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/Strategies/StrategyYearnV1';
 import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/Strategies/StrategyYearnV2';
 import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategies/StrategyYearnCrvV1';
@@ -28,9 +28,9 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Purple Twister 🟣🧬': {
 		parameters: {
@@ -46,9 +46,9 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Matic\'s Magic Idle DAI 🏆🚀': {
 		parameters: {
@@ -64,9 +64,9 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Matic\'s Wandering Woofy 🧭🐶': {
 		parameters: {
@@ -82,9 +82,9 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 		},
 		network: 'polygon',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 }
 const	STRATEGIES_APE_TAX_FANTOM = {
@@ -102,9 +102,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Split Cameron 🕴🖖': {
 		parameters: {
@@ -120,9 +120,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'FTM\'s Wandering Woofy 🧭🐶': {
 		parameters: {
@@ -138,9 +138,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Spooky Skeletons 🙀👻': {
 		parameters: {
@@ -156,9 +156,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'FTM\'s Frapped Ape ☕️🦧': {
 		parameters: {
@@ -174,9 +174,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Fantom\'s Ape Ape Baby 🧊👶': {
 		parameters: {
@@ -192,9 +192,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Fantom\'s Fury 👻⚡': {
 		parameters: {
@@ -210,9 +210,9 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 		},
 		network: 'fantom',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 
 }
@@ -231,9 +231,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'BNB Farmer 🔶👨‍🌾': {
 		parameters: {
@@ -249,9 +249,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'BSC ETH 🕳️🐨': {
 		parameters: {
@@ -267,9 +267,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'BSC\'s fUSDT proxy to ETH 😷🐙': {
 		parameters: {
@@ -285,9 +285,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'BSC\'s Frapped Ape ☕️🦧': {
 		parameters: {
@@ -303,9 +303,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Ellipsoidal Farmer 🍩3️⃣': {
 		parameters: {
@@ -321,9 +321,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'BSC\'s Ape Ape Baby 🧊👶': {
 		parameters: {
@@ -339,9 +339,9 @@ const	STRATEGIES_APE_TAX_BSC = {
 		},
 		network: 'bsc',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	}
 }
 const	STRATEGIES_APE_TAX = {
@@ -358,9 +358,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'The Frog Prince 🐸💋 2': {
 		parameters: {
@@ -376,9 +376,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Comfi Carousel 🛋🎠': {
 		parameters: {
@@ -394,9 +394,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Reflex me 📷💚': {
 		parameters: {
@@ -412,9 +412,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Old Grandmaster\'s DAI ♟👴': {
 		parameters: {
@@ -430,9 +430,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'ETH\'s Ape Ape Baby 🧊👶': {
 		parameters: {
@@ -448,9 +448,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Bank Sushi 🏦🍣': {
 		parameters: {
@@ -466,9 +466,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧': {
 		parameters: {
@@ -484,9 +484,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'True Idle T🛌': {
 		parameters: {
@@ -502,9 +502,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Idle Tether 🛌T': {
 		parameters: {
@@ -520,9 +520,9 @@ const	STRATEGIES_APE_TAX = {
 		},
 		network: 'ethereum',
 		list: 'ape.tax',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'Data AAVE 💿🕊': {
 		parameters: {
@@ -536,10 +536,10 @@ const	STRATEGIES_APE_TAX = {
 			author: '0xangelfish',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	},
 	'Full Metal Farmer 🧙‍♂️🧪': {
 		parameters: {
@@ -553,10 +553,10 @@ const	STRATEGIES_APE_TAX = {
 			author: 'akshaynexust',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	},
 	'sUSD Idle 🏆⚔️': {
 		parameters: {
@@ -570,10 +570,10 @@ const	STRATEGIES_APE_TAX = {
 			author: 'emilianobonassi',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	},
 	'WETH Gen Lender 🧬💰': {
 		parameters: {
@@ -587,10 +587,10 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	},
 	'WETH Iron Lender 🦾💰': {
 		parameters: {
@@ -604,10 +604,10 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	},
 	'st. Ether-ETH Pool 💧🎱': {
 		parameters: {
@@ -621,10 +621,10 @@ const	STRATEGIES_APE_TAX = {
 			author: 'arbingsam',
 		},
 		network: 'ethereum',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
 		list: 'ape.tax',
-		Strategy: StrategyApe
+		Strategy: StrategyYVaultV2
 	}
 }
 
@@ -828,25 +828,27 @@ const	STRATEGIES_YEARN_V1_CRV = {
 const	STRATEGIES_YEARN_V2 = {
 	'yvDAI - 🧪': {
 		parameters: {
-			title: 'yvDAI',
+			title: 'yvDAI - 🧪',
 			href: 'https://yearn.fi/invest/0x19D3364A399d251E894aC732651be8B0E4e85001',
 			contractAddress: '0x19D3364A399d251E894aC732651be8B0E4e85001',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x19D3364A399d251E894aC732651be8B0E4e85001/logo-128.png',
 			underlyingTokenAddress: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
 			underlyingTokenSymbol: 'DAI',
 			underlyingTokenCgID: 'dai',
-			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x19D3364A399d251E894aC732651be8B0E4e85001/logo-128.png',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
 	'yvsUSD - 🧪': {
 		parameters: {
-			title: 'yvsUSD',
+			title: 'yvsUSD - 🧪',
 			href: 'https://yearn.fi/invest/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396/logo-128.png',
 			contractAddress: '0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
 			underlyingTokenAddress: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
 			underlyingTokenSymbol: 'sUSD',
@@ -856,231 +858,283 @@ const	STRATEGIES_YEARN_V2 = {
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
-		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyApe
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-	'Yearn V2 - wETH': {
+	'yvUSDC - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - wETH',
-			href: 'https://yearn.fi/invest/0xa9fE4601811213c340e850ea305481afF02f5b28',
-			contractAddress: '0xa9fE4601811213c340e850ea305481afF02f5b28',
-			tokenIcon: '/tokens/yweth.png',
-			tokenSymbol: 'yvWETH',
-			tokenName: 'WETH yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-			underlyingTokenSymbol: 'WETH',
-			underlyingTokenName: 'Wrapped Ether',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'eth',
-			underlyingTokenIcon: '/tokens/eth.svg',
+			title: 'yvUSDC - 🧪',
+			href: 'https://yearn.fi/invest/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9/logo-128.png',
+			contractAddress: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
+			underlyingTokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+			underlyingTokenSymbol: 'USDC',
+			underlyingTokenCgID: 'usd-coin',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-	'Yearn V2 - YFI': {
+	'yvWBTC - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - YFI',
-			href: 'https://yearn.fi/invest/0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
-			contractAddress: '0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
-			tokenIcon: '/tokens/yyfi.png',
-			tokenSymbol: 'yvYFI',
-			tokenName: 'YFI yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e',
-			underlyingTokenSymbol: 'YFI',
-			underlyingTokenName: 'yearn.finance',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'yearn-finance',
-			underlyingTokenIcon: '/tokens/yfi.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
-	},
-	'Yearn V2 - wBTC': {
-		parameters: {
-			title: 'Yearn V2 - wBTC',
+			title: 'yvWBTC - 🧪',
 			href: 'https://yearn.fi/invest/0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E/logo-128.png',
 			contractAddress: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
-			tokenIcon: '/tokens/ywbtc.png',
-			tokenSymbol: 'yvWBTC',
-			tokenName: 'WBTC yVault',
-			tokenDecimal: 8,
-			underlyingTokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+			underlyingTokenAddress: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			underlyingTokenSymbol: 'WBTC',
-			underlyingTokenName: 'Wrapped BTC',
 			underlyingTokenDecimal: 8,
 			underlyingTokenCgID: 'btc',
-			underlyingTokenIcon: '/tokens/btc.svg',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-
-	'Yearn V2 - DAI': {
+	'yvUNI - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - DAI',
-			href: 'https://yearn.fi/invest/0x19D3364A399d251E894aC732651be8B0E4e85001',
-			contractAddress: '0x19D3364A399d251E894aC732651be8B0E4e85001',
-			tokenIcon: '/tokens/ydai.png',
-			tokenSymbol: 'yvDAI',
-			tokenName: 'DAI yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-			underlyingTokenSymbol: 'DAI',
-			underlyingTokenName: 'Dai Stablecoin',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'dai',
-			underlyingTokenIcon: '/tokens/dai.svg',
+			title: 'yvUNI - 🧪',
+			href: 'https://yearn.fi/invest/0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42/logo-128.png',
+			contractAddress: '0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
+			underlyingTokenAddress: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+			underlyingTokenSymbol: 'UNI',
+			underlyingTokenCgID: 'uniswap',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-	'Yearn V2 - USDC': {
+	'yvHEGIC - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - USDC',
-			href: 'https://yearn.fi/invest/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
-			contractAddress: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
-			tokenIcon: '/tokens/yusdc.png',
-			tokenSymbol: 'yvUSDC',
-			tokenName: 'USDC yVault',
-			tokenDecimal: 6,
-			underlyingTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-			underlyingTokenSymbol: 'USDC',
-			underlyingTokenName: 'USD Coin',
-			underlyingTokenDecimal: 6,
-			underlyingTokenCgID: 'usd-coin',
-			underlyingTokenIcon: '/tokens/usdc.svg',
+			title: 'yvHEGIC - 🧪',
+			href: 'https://yearn.fi/invest/0xe11ba472F74869176652C35D30dB89854b5ae84D',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xe11ba472F74869176652C35D30dB89854b5ae84D/logo-128.png',
+			contractAddress: '0xe11ba472F74869176652C35D30dB89854b5ae84D',
+			underlyingTokenAddress: '0x584bC13c7D411c00c01A62e8019472dE68768430',
+			underlyingTokenSymbol: 'HEGIC',
+			underlyingTokenCgID: 'hegic',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x584bC13c7D411c00c01A62e8019472dE68768430/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-	'Yearn V2 - USDT': {
+	'yvRAI - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - USDT',
+			title: 'yvRAI - 🧪',
+			href: 'https://yearn.fi/invest/0x873fB544277FD7b977B196a826459a69E27eA4ea',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x873fB544277FD7b977B196a826459a69E27eA4ea/logo-128.png',
+			contractAddress: '0x873fB544277FD7b977B196a826459a69E27eA4ea',
+			underlyingTokenAddress: '0x03ab458634910AaD20eF5f1C8ee96F1D6ac54919',
+			underlyingTokenSymbol: 'RAI',
+			underlyingTokenCgID: 'rai',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x03ab458634910AaD20eF5f1C8ee96F1D6ac54919/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvLINK - 🧪': {
+		parameters: {
+			title: 'yvLINK - 🧪',
+			href: 'https://yearn.fi/invest/0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2/logo-128.png',
+			contractAddress: '0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
+			underlyingTokenAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+			underlyingTokenSymbol: 'LINK',
+			underlyingTokenCgID: 'link',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvBOOST - 🧪': {
+		parameters: {
+			title: 'yvBOOST - 🧪',
+			href: 'https://yearn.fi/invest/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a/logo-128.png',
+			contractAddress: '0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
+			underlyingTokenAddress: '0xc5bDdf9843308380375a611c18B50Fb9341f502A',
+			underlyingTokenSymbol: 'yveCRV-DAO',
+			underlyingTokenCgID: 'yvboost',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xc5bDdf9843308380375a611c18B50Fb9341f502A/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvUSDT - 🧪': {
+		parameters: {
+			title: 'yvUSDT - 🧪',
 			href: 'https://yearn.fi/invest/0x7Da96a3891Add058AdA2E826306D812C638D87a7',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x7Da96a3891Add058AdA2E826306D812C638D87a7/logo-128.png',
 			contractAddress: '0x7Da96a3891Add058AdA2E826306D812C638D87a7',
-			tokenIcon: '/tokens/yusdt.png',
-			tokenSymbol: 'yvUSDT',
-			tokenName: 'USDT yVault',
-			tokenDecimal: 6,
-			underlyingTokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+			underlyingTokenAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
 			underlyingTokenSymbol: 'USDT',
-			underlyingTokenName: 'Tether USD',
 			underlyingTokenDecimal: 6,
 			underlyingTokenCgID: 'tether',
-			underlyingTokenIcon: '/tokens/usdt.svg',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 	},
-	'Yearn V2 - sUSD': {
+	'yv1INCH - 🧪': {
 		parameters: {
-			title: 'Yearn V2 - sUSD',
-			href: 'https://yearn.fi/invest/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
-			contractAddress: '0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
-			tokenIcon: '/tokens/ywbtc.png',
-			tokenSymbol: 'yvsUSD',
-			tokenName: 'sUSD yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
-			underlyingTokenSymbol: 'sUSD',
-			underlyingTokenName: 'Synth sUSD',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'nusd',
-			underlyingTokenIcon: '/tokens/susd.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
-	},
-	'Yearn V2 - SNX': {
-		parameters: {
-			title: 'Yearn V2 - SNX',
-			href: 'https://yearn.fi/invest/0xF29AE508698bDeF169B89834F76704C3B205aedf',
-			contractAddress: '0xF29AE508698bDeF169B89834F76704C3B205aedf',
-			tokenIcon: '/tokens/yvsnx.png',
-			tokenSymbol: 'yvSNX',
-			tokenName: 'SNX yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f',
-			underlyingTokenSymbol: 'SNX',
-			underlyingTokenDecimal: 18,
-			underlyingTokenName: 'Synthetix Network Token',
-			underlyingTokenCgID: 'havven',
-			underlyingTokenIcon: '/tokens/snx.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
-	},
-	'Yearn V2 - UNI': {
-		parameters: {
-			title: 'Yearn V2 - UNI',
-			href: 'https://yearn.fi/invest/0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
-			contractAddress: '0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
-			tokenIcon: '/tokens/yvuni.png',
-			tokenSymbol: 'yvUNI',
-			tokenName: 'UNI yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-			underlyingTokenSymbol: 'UNI',
-			underlyingTokenName: 'Uniswap',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'uniswap',
-			underlyingTokenIcon: '/tokens/uni.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
-	},
-	'Yearn V2 - 1Inch': {
-		parameters: {
-			title: 'Yearn V2 - 1Inch',
+			title: 'yv1INCH - 🧪',
 			href: 'https://yearn.fi/invest/0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67',
 			contractAddress: '0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67',
-			tokenIcon: '/tokens/yv1inch.png',
-			tokenSymbol: 'yv1INCH',
-			tokenName: '1INCH yVault',
-			tokenDecimal: 18,
-			underlyingTokenAddress: '0x111111111117dc0aa78b770fa6a738034120c302',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67/logo-128.png',
+			underlyingTokenAddress: '0x111111111117dC0aa78b770fA6A738034120C302',
 			underlyingTokenSymbol: '1INCH',
-			underlyingTokenName: '1INCH Token',
-			underlyingTokenDecimal: 18,
 			underlyingTokenCgID: '1inch',
-			underlyingTokenIcon: '/tokens/1inch.png',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x111111111117dC0aa78b770fA6A738034120C302/logo-128.png',
 			author: 'iearnfinance',
 		},
 		network: 'ethereum',
 		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV2
-	}
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvWETH - 🧪': {
+		parameters: {
+			title: 'yvWETH - 🧪',
+			href: 'https://yearn.fi/invest/0xa9fE4601811213c340e850ea305481afF02f5b28',
+			contractAddress: '0xa9fE4601811213c340e850ea305481afF02f5b28',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa9fE4601811213c340e850ea305481afF02f5b28/logo-128.png',
+			underlyingTokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+			underlyingTokenSymbol: 'WETH',
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvWETH2 - 🧪': {
+		parameters: {
+			title: 'yvWETH2 - 🧪',
+			href: 'https://yearn.fi/invest/0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
+			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa258C4606Ca8206D8aA700cE2143D7db854D168c/logo-128.png',
+			underlyingTokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+			underlyingTokenSymbol: 'WETH',
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yUSD - 🧪': {
+		parameters: {
+			title: 'yUSD - 🧪',
+			href: 'https://yearn.fi/invest/0x4B5BfD52124784745c1071dcB244C6688d2533d3',
+			contractAddress: '0x4B5BfD52124784745c1071dcB244C6688d2533d3',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x4B5BfD52124784745c1071dcB244C6688d2533d3/logo-128.png',
+			underlyingTokenAddress: '0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8',
+			underlyingTokenSymbol: 'yCRV',
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvWBTC2 - 🧪': {
+		parameters: {
+			title: 'yvWBTC2 - 🧪',
+			href: 'https://yearn.fi/invest/0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5',
+			contractAddress: '0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5/logo-128.png',
+			underlyingTokenAddress: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+			underlyingTokenSymbol: 'WBTC',
+			underlyingTokenDecimal: 8,
+			underlyingTokenCgID: 'btc',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvSNX - 🧪': {
+		parameters: {
+			title: 'yvSNX - 🧪',
+			href: 'https://yearn.fi/invest/0xF29AE508698bDeF169B89834F76704C3B205aedf',
+			contractAddress: '0xF29AE508698bDeF169B89834F76704C3B205aedf',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xF29AE508698bDeF169B89834F76704C3B205aedf/logo-128.png',
+			underlyingTokenAddress: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
+			underlyingTokenSymbol: 'SNX',
+			underlyingTokenCgID: 'havven',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'yvYFI - 🧪': {
+		parameters: {
+			title: 'yvYFI - 🧪',
+			href: 'https://yearn.fi/invest/0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
+			contractAddress: '0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
+			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1/logo-128.png',
+			underlyingTokenAddress: '0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e',
+			underlyingTokenSymbol: 'YFI',
+			underlyingTokenCgID: 'yearn-finance',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 }
 const	STRATEGIES_YEARN_V2_CRV = {
 	'Yearn V2 - crvSTETH': {
@@ -1138,4 +1192,4 @@ const	STRATEGIES_MISC = {
 	},
 }
 
-export default {...STRATEGIES_YEARN_V1_CRV, ...STRATEGIES_YEARN_V1, ...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX_BSC, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};
+export default {...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX_BSC, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};

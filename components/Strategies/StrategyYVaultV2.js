@@ -18,7 +18,7 @@ import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 import	{getProvider, getSymbol}					from	'utils/chains';
 
-async function	DetectStrategyApe(parameters, address, network, normalTx = undefined) {
+async function	DetectStrategyYVaultV2(parameters, address, network, normalTx = undefined) {
 	if (!normalTx)
 		normalTx = await api.retreiveTxFrom(network, address);
 
@@ -50,7 +50,7 @@ async function	DetectStrategyApe(parameters, address, network, normalTx = undefi
 	return hasSomeTx;
 }
 
-async function	PrepareStrategyApe(parameters, address, network, normalTx = undefined, erc20Tx = undefined) {
+async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = undefined, erc20Tx = undefined) {
 	let		timestamp = undefined;
 	if (!normalTx)
 		normalTx = await api.retreiveTxFrom(network, address);
@@ -156,7 +156,7 @@ async function	PrepareStrategyApe(parameters, address, network, normalTx = undef
 }
 
 
-function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
+function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{strategies} = useStrategies();
 	const	{tokenPrices, currencyNonce} = useCurrencies();
 	const	[isHarvested, set_isHarvested] = useState(false);
@@ -257,7 +257,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 				<Group title={'Crops'}>
 					<GroupElement
 						network={network}
-						image={'/tokens/yGeneric.svg'}
+						image={parameters.tokenIcon || '/tokens/yGeneric.svg'}
 						label={`yv${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
 						amount={parseFloat(shares.toFixed(10))}
@@ -286,7 +286,7 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 					<Group title={'Yield'}>
 						<GroupElement
 							network={network}
-							image={'/tokens/yGeneric.svg'}
+							image={parameters.tokenIcon || '/tokens/yGeneric.svg'}
 							label={`yv${parameters.underlyingTokenSymbol}`}
 							address={parameters.contractAddress}
 							amount={cropsYielded.toFixed(10)}
@@ -313,5 +313,5 @@ function	StrategyApe({parameters, network, address, uuid, fees, initialSeeds, in
 	)
 }
 
-export {PrepareStrategyApe, DetectStrategyApe};
-export default StrategyApe;
+export {PrepareStrategyYVaultV2, DetectStrategyYVaultV2};
+export default StrategyYVaultV2;

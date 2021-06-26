@@ -44,7 +44,7 @@ function	GroupElement({network, image, label, amount, value, address, details = 
 									src={currentImage}
 									width={16}
 									height={16}
-									quality={100}
+									quality={95}
 									loading={'eager'} />
 							</div>
 						&nbsp;&nbsp;
