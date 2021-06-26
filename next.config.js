@@ -29,7 +29,8 @@ module.exports = ({
 	},
 	images: {
 		domains: [
-			'tokens.1inch.exchange'
+			'tokens.1inch.exchange',
+			'raw.githack.com'
 		],
 	},
 	webpack: (config, {webpack}) => {

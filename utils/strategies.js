@@ -628,27 +628,7 @@ const	STRATEGIES_APE_TAX = {
 	}
 }
 
-// eslint-disable-next-line no-unused-vars
-const	STRATEGIES_YEARN_V1_DEPRECIED = {
-	'Yearn V1 - mUSD': {
-		parameters: {
-			title: 'Yearn V1 - mUSD',
-			href: 'https://yearn.finance/vaults/0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
-			contractAddress: '0xE0db48B4F71752C4bEf16De1DBD042B82976b8C7',
-			tokenIcon: '/tokens/ymusd.png',
-			underlyingTokenAddress: '0xe2f2a5c287993345a840db3b0845fbc70f5935a5',
-			underlyingTokenSymbol: 'mUSD',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'mstable-usd',
-			underlyingTokenIcon: '/tokens/musd.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV1
-	},
-}
+
 const	STRATEGIES_YEARN_V1 = {
 	'Yearn V1 - DAI': {
 		parameters: {
@@ -722,89 +702,6 @@ const	STRATEGIES_YEARN_V1 = {
 	}
 }
 
-// eslint-disable-next-line no-unused-vars
-const	STRATEGIES_YEARN_V1_CRV_DEPRECIED = {
-	'Yearn V1 - crvLINK': {
-		parameters: {
-			title: 'Yearn V1 - crvLINK',
-			href: 'https://yearn.fi/invest/0x96Ea6AF74Af09522fCB4c28C269C26F59a31ced6',
-			contractAddress: '0x96Ea6AF74Af09522fCB4c28C269C26F59a31ced6',
-			tokenIcon: '/tokens/yvlinkCRV.png',
-			tokenSymbol: 'yvlinkCRV',
-			underlyingTokenAddress: '0xcee60cfa923170e4f8204ae08b4fa6a3f5656f3a',
-			underlyingTokenSymbol: 'linkCRV',
-			underlyingTokenName: 'Curve.fi LINK/sLINK',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'linkCRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvMUSD': {
-		parameters: {
-			title: 'Yearn V1 - crvMUSD',
-			href: 'https://yearn.fi/invest/0x0fcdaedfb8a7dfda2e9838564c5a1665d856afdf',
-			contractAddress: '0x0fcdaedfb8a7dfda2e9838564c5a1665d856afdf',
-			tokenIcon: '/tokens/yvmusdCRV.png',
-			tokenSymbol: 'yvmusd3CRV',
-			underlyingTokenAddress: '0x1aef73d49dedc4b1778d0706583995958dc862e6',
-			underlyingTokenSymbol: 'musd3CRV',
-			underlyingTokenName: 'Curve.fi MUSD/3Crv',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'musd3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvUSDN': {
-		parameters: {
-			title: 'Yearn V1 - crvUSDN',
-			href: 'https://yearn.fi/invest/0xfe39ce91437c76178665d64d7a2694b0f6f17fe3',
-			contractAddress: '0xfe39ce91437c76178665d64d7a2694b0f6f17fe3',
-			tokenIcon: '/tokens/yvusdn3CRV.png',
-			tokenSymbol: 'yvusdn3CRV',
-			underlyingTokenAddress: '0x4f3e8f405cf5afc05d68142f3783bdfe13811522',
-			underlyingTokenSymbol: 'usdn3CRV',
-			underlyingTokenName: 'Curve.fi USDN/3Crv',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'usdn3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvUST': {
-		parameters: {
-			title: 'Yearn V1 - crvUST',
-			href: 'https://yearn.fi/invest/0xf6c9e9af314982a4b38366f4abfaa00595c5a6fc',
-			contractAddress: '0xf6c9e9af314982a4b38366f4abfaa00595c5a6fc',
-			tokenIcon: '/tokens/yvust3CRV.png',
-			tokenSymbol: 'yvust3CRV',
-			underlyingTokenAddress: '0x94e131324b6054c0d789b190b2dac504e4361b53',
-			underlyingTokenSymbol: 'ust3CRV',
-			underlyingTokenName: 'Curve.fi UST/3Crv',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'ust3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	}
-}
 const	STRATEGIES_YEARN_V1_CRV = {
 	'Yearn V1 - crvEURS': {
 		parameters: {
@@ -929,6 +826,40 @@ const	STRATEGIES_YEARN_V1_CRV = {
 }
 
 const	STRATEGIES_YEARN_V2 = {
+	'yvDAI - 🧪': {
+		parameters: {
+			title: 'yvDAI',
+			href: 'https://yearn.fi/invest/0x19D3364A399d251E894aC732651be8B0E4e85001',
+			contractAddress: '0x19D3364A399d251E894aC732651be8B0E4e85001',
+			underlyingTokenAddress: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+			underlyingTokenSymbol: 'DAI',
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x19D3364A399d251E894aC732651be8B0E4e85001/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
+	'yvsUSD - 🧪': {
+		parameters: {
+			title: 'yvsUSD',
+			href: 'https://yearn.fi/invest/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
+			contractAddress: '0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
+			underlyingTokenAddress: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
+			underlyingTokenSymbol: 'sUSD',
+			underlyingTokenCgID: 'nusd',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x57Ab1ec28D129707052df4dF418D58a2D46d5f51/logo-128.png',
+			author: 'iearnfinance',
+		},
+		network: 'ethereum',
+		list: 'yearn',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyApe(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyApe(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyApe
+	},
 	'Yearn V2 - wETH': {
 		parameters: {
 			title: 'Yearn V2 - wETH',
@@ -1071,7 +1002,7 @@ const	STRATEGIES_YEARN_V2 = {
 			tokenSymbol: 'yvsUSD',
 			tokenName: 'sUSD yVault',
 			tokenDecimal: 18,
-			underlyingTokenAddress: '0x57ab1ec28d129707052df4df418d58a2d46d5f51',
+			underlyingTokenAddress: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
 			underlyingTokenSymbol: 'sUSD',
 			underlyingTokenName: 'Synth sUSD',
 			underlyingTokenDecimal: 18,

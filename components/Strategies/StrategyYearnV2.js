@@ -185,9 +185,9 @@ async function	PrepareStrategyYearnV2(parameters, address, network) {
 
 	return ({
 		fees: await computeFees(),
-		seeds: Object.values(seeds).map(e => e),
-		crops: Object.values(crops).map(e => e),
-		harvest: Object.values(harvest).map(e => e),
+		seeds: Object.values(seeds).map(e => e) || [],
+		crops: Object.values(crops).map(e => e) || [],
+		harvest: Object.values(harvest).map(e => e) || [],
 		timestamp,
 	})
 }
@@ -259,7 +259,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 	**************************************************************************/
 	useEffect(() => {
 		let		_cumulativeSeedsPrice = 0;
-		seeds.forEach((seed) => {
+		seeds?.forEach((seed) => {
 			const tokenPrice = seed.symbol === parameters.underlyingTokenSymbol ? underlyingToBaseCurrency : tokenPrices[seed.id || seed.symbol]?.price || 0;
 			_cumulativeSeedsPrice += (seed.value * tokenPrice);
 		});
@@ -348,7 +348,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 
 	function	renderSeeds() {
 		return (
-			seeds.map((seed, i) => {
+			seeds?.map((seed, i) => {
 				const tokenPrice = seed.symbol === parameters.underlyingTokenSymbol ? underlyingToBaseCurrency : tokenPrices[seed.id || seed.symbol]?.price || 0;
 				return <GroupElement
 					network={network}
@@ -364,7 +364,7 @@ function	StrategyYearnV2({parameters, network, address, uuid, fees, seeds, crops
 
 	function	renderCrops() {
 		return (
-			crops.map((crop, i) => {
+			crops?.map((crop, i) => {
 				return <GroupElement
 					network={network}
 					key={`crop_${crop.name}_${i}`}
