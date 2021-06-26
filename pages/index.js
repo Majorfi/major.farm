@@ -114,7 +114,7 @@ const faqs = [
 		question: 'What do you do with my data',
 		answer: (
 			<p>
-				{'What data ? There is no backend/db, and the '}<a href={'https://vercel.com/analytics'} target={'_blank'} rel={'noreferrer'}>{'only cookie used'}</a> {'is one that indicates how long it takes to render the page (the speed of the app).'}
+				{'There is no backend/db, everything about your vault are onchain or on your device. On the cookie side, we are using '}<a href={'https://vercel.com/analytics'} target={'_blank'} rel={'noreferrer'}>{'Vercel'}</a> {' that indicates how long it takes to render the page (the speed of the app), and you can check more analytics on '}<a href={'https://plausible.io/major.farm'} target={'_blank'} rel={'noreferrer'}>{'Plausible'}</a>{'.'}
 			</p>
 		),
 	},

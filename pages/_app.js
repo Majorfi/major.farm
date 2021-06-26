@@ -60,6 +60,8 @@ function	AppWrapper(props) {
 					<Link href={'/changelog'}>
 						<p className={'hover:text-accent-900 hover:underline cursor-pointer'}>{'Changelog'}</p>
 					</Link>
+					<p>{'-'}</p>
+					<a href={'https://plausible.io/major.farm'} target={'_blank'} className={'hover:text-accent-900 hover:underline cursor-pointer'} rel={'noreferrer'}>{'Analytics'}</a>
 				</div>
 				<div className={'py-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>
 					<p>{'Donation : major-tom.eth'}</p>

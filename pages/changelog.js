@@ -73,6 +73,19 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-06-26'}
+					version={'0.1.2'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Upgrading the strategy for Yearn from v0 to v1 (same as ape.tax). Experimental, but should work for the standard V2 Vaults.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the homepage on the analytics to talk about the '}<a href={'https://plausible.io/major.farm'} target={'_blank'} rel={'noreferrer'}>{'Plausible analytics'}</a>{' we are using for Major.farm'}
+							</li>
+						</ul>
+					} />
+				<ChangeItem
 					date={'2021-06-25'}
 					version={'0.1.1'}
 					content={
