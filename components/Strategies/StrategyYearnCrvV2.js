@@ -48,11 +48,11 @@ async function	PrepareStrategyYearnCrvV2(parameters, address, network) {
 				.filter(tx => ((
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YEARNV1_DEPOSIT)
+					tx.input.startsWith(methods.YV_DEPOSIT)
 				) || (
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YEARNV1_WITHDRAW)
+					tx.input.startsWith(methods.YV_WITHDRAW)
 				) || (
 					tx.input.startsWith(methods.STANDARD_APPROVE) &&
 					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())

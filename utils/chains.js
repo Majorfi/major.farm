@@ -39,7 +39,7 @@ export function	getSymbol(chain) {
 	} else if (chain === 'polygon') {
 		return ('matic');
 	} else if (chain === 'fantom') {
-		return ('fmt');
+		return ('fantom');
 	} else if (chain === 'bsc') {
 		return ('bnb');
 	}

@@ -13,7 +13,10 @@ module.exports = {
 			teal: colors.teal,
 			green: colors.green,
 			red: colors.red,
+			blue: colors.blue,
+			pink: colors.pink,
 			white: colors.white,
+			purple: colors.purple,
 			accent: {
 				900: '#f9b12a',
 				800: '#f9b83f',

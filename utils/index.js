@@ -27,6 +27,12 @@ export const address = ethers.utils.getAddress;
 
 export const bigNumber = ethers.BigNumber;
 
+export const countBy = (objs, property) => [...new Set(objs.map(obj => obj[property]))].length;
+
+export const splitBy = (arr, prop, modifier) => arr.reduce((prev, curr) => (prev[modifier(curr[prop])] = ++prev[modifier(curr[prop])] || 1, prev), {});
+
+export const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+
 export const sortBy = (arr, k) => arr.concat().sort((b, a) => (a[k] > b[k]) ? 1 : ((a[k] < b[k]) ? -1 : 0));
 
 export const partition = (arr, criteria) => arr.reduce((acc, i) => (acc[criteria(i) ? 0 : 1].push(i), acc), [[], []]);

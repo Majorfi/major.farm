@@ -6,7 +6,7 @@
 ******************************************************************************/
 
 import	React, {useState, useEffect, useCallback}	from	'react';
-import	{ArrowSmDownIcon, ArrowSmUpIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon, MinusIcon}			from	'@heroicons/react/solid'
+import	{ArrowSmDownIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon, MinusIcon}			from	'@heroicons/react/solid'
 import	useStrategies								from	'contexts/useStrategies';
 import	useCurrencies								from	'contexts/useCurrencies';
 import	StrategySelectorModal						from	'components/Modals/StrategySelector';

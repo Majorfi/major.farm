@@ -213,6 +213,9 @@ input[type=number] {
 .w-fit {
 	width: fit-content;
 }
+.h-fit {
+	height: fit-content;
+}
 .w-max {
 	width: max-content;
 }

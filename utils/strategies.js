@@ -8,15 +8,13 @@
 import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategies/StrategyBadgerWBTC';
 import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/Strategies/StrategyYVBoost';
 import	StrategyYVaultV2, {PrepareStrategyYVaultV2, DetectStrategyYVaultV2}				from	'components/Strategies/StrategyYVaultV2';
-import	StrategyYearnV1, {PrepareStrategyYearnV1}		from	'components/Strategies/StrategyYearnV1';
-import	StrategyYearnV2, {PrepareStrategyYearnV2}		from	'components/Strategies/StrategyYearnV2';
-import	StrategyYearnCrvV1, {PrepareStrategyYearnCrvV1}	from	'components/Strategies/StrategyYearnCrvV1';
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/Strategies/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX_POLYGON = {
 	'Dollar Store Bento 💵🍱': {
 		parameters: {
 			title: 'Dollar Store Bento 💵🍱',
+			slug: 'dollar-store-bento',
 			href: 'https://ape.tax/dollarstorebento',
 			contractAddress: '0x32A2d6F07079b6CdFe942B198773cDA1398544b1',
 			underlyingTokenAddress: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
@@ -35,6 +33,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 	'Purple Twister 🟣🧬': {
 		parameters: {
 			title: 'Purple Twister 🟣🧬',
+			slug: 'purple-twister',
 			href: 'https://ape.tax/purpletwister',
 			contractAddress: '0xCcba0B868106d55704cb7ff19782C829dc949feB',
 			underlyingTokenAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
@@ -53,6 +52,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 	'Matic\'s Magic Idle DAI 🏆🚀': {
 		parameters: {
 			title: 'Matic\'s Magic Idle DAI 🏆🚀',
+			slug: 'matic-s-magic-idle-dai',
 			href: 'https://ape.tax/matic-idle-dai',
 			contractAddress: '0x9Cfeb5e00a38ed1c9950dBadC0821ce4cb648a90',
 			underlyingTokenAddress: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
@@ -71,6 +71,7 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 	'Matic\'s Wandering Woofy 🧭🐶': {
 		parameters: {
 			title: 'Matic\'s Wandering Woofy 🧭🐶',
+			slug: 'matic-s-wandering-woofy',
 			href: 'https://ape.tax/matic_woofy',
 			contractAddress: '0xEAFB3Ee25B5a9a1b35F193A4662E3bDba7A95BEb',
 			underlyingTokenAddress: '0xd0660cd418a64a1d44e9214ad8e459324d8157f1',
@@ -91,6 +92,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'Tied Tyler 🕴🪢': {
 		parameters: {
 			title: 'Tied Tyler 🕴🪢',
+			slug: 'tied-tyler',
 			href: 'https://ape.tax/splitcameron',
 			contractAddress: '0xE95416c54f3e313E49306486b0ea9c2C6D623157',
 			underlyingTokenAddress: '0x92D5ebF3593a92888C25C0AbEF126583d4b5312E',
@@ -109,6 +111,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'Split Cameron 🕴🖖': {
 		parameters: {
 			title: 'Split Cameron 🕴🖖',
+			slug: 'split-cameron',
 			href: 'https://ape.tax/splitcameron',
 			contractAddress: '0x2A384a7Cd43fEe03aD01Cd629efe5c28e0d09557',
 			underlyingTokenAddress: '0x27E611FD27b276ACbd5Ffd632E5eAEBEC9761E40',
@@ -127,6 +130,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'FTM\'s Wandering Woofy 🧭🐶': {
 		parameters: {
 			title: 'FTM\'s Wandering Woofy 🧭🐶',
+			slug: 'ftm-s-wandering-woofy',
 			href: 'https://ape.tax/ftm_woofy',
 			contractAddress: '0x6fCE944d1f2f877B3972e0E8ba81d27614D62BeD',
 			underlyingTokenAddress: '0xd0660cd418a64a1d44e9214ad8e459324d8157f1',
@@ -145,6 +149,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'Spooky Skeletons 🙀👻': {
 		parameters: {
 			title: 'Spooky Skeletons 🙀👻',
+			slug: 'spooky-skeletons',
 			href: 'https://ape.tax/spooky',
 			contractAddress: '0x79330397e161C67703e9bce2cA2Db73937D5fc7e',
 			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
@@ -163,6 +168,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'FTM\'s Frapped Ape ☕️🦧': {
 		parameters: {
 			title: 'FTM\'s Frapped Ape ☕️🦧',
+			slug: 'ftm-s-frapped-ape',
 			href: 'https://ape.tax/ftmfrappedape',
 			contractAddress: '0x1E9eC284BA99E14436f809291eBF7dC8CCDB12e1',
 			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
@@ -181,6 +187,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'Fantom\'s Ape Ape Baby 🧊👶': {
 		parameters: {
 			title: 'Fantom\'s Ape Ape Baby 🧊👶',
+			slug: 'fantom-s-ape-ape-baby',
 			href: 'https://ape.tax/fantombaby',
 			contractAddress: '0xEea0714eC1af3b0D41C624Ba5ce09aC92F4062b1',
 			underlyingTokenAddress: '0xf16e81dce15b08f326220742020379b855b87df9',
@@ -199,6 +206,7 @@ const	STRATEGIES_APE_TAX_FANTOM = {
 	'Fantom\'s Fury 👻⚡': {
 		parameters: {
 			title: 'Fantom\'s Fury 👻⚡',
+			slug: 'fantom-s-fury',
 			href: 'https://ape.tax/fantomsfury',
 			contractAddress: '0x36e7aF39b921235c4b01508BE38F27A535851a5c',
 			underlyingTokenAddress: '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83',
@@ -220,6 +228,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'Nervy Mastermind ☸️🤔': {
 		parameters: {
 			title: 'Nervy Mastermind ☸️🤔',
+			slug: 'nervy-mastermind',
 			href: 'https://ape.tax/nrv',
 			contractAddress: '0x7C1Db8938D8170A244635e9ae3AEb41663B6D858',
 			underlyingTokenAddress: '0x42F6f551ae042cBe50C739158b4f0CAC0Edb9096',
@@ -238,6 +247,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'BNB Farmer 🔶👨‍🌾': {
 		parameters: {
 			title: 'BNB Farmer 🔶👨‍🌾',
+			slug: 'bnb-farmer',
 			href: 'https://ape.tax/bnbfarmer',
 			contractAddress: '0x7E12d21eeEF120dc5E23c8e70162815A9071Dde9',
 			underlyingTokenAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
@@ -256,6 +266,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'BSC ETH 🕳️🐨': {
 		parameters: {
 			title: 'BSC ETH 🕳️🐨',
+			slug: 'bsc-eth',
 			href: 'https://ape.tax/bsceth',
 			contractAddress: '0x9cBdd0f1d9FB5D1ea6f3d022D0896E57aF5f087f',
 			underlyingTokenAddress: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
@@ -274,6 +285,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'BSC\'s fUSDT proxy to ETH 😷🐙': {
 		parameters: {
 			title: 'BSC\'s fUSDT proxy to ETH 😷🐙',
+			slug: 'bsc-s-f-usdt-proxy-to-eth',
 			href: 'https://ape.tax/bscfusdtproxyeth',
 			contractAddress: '0x2A3020a71Ab92D5CdBAfEB72f0b90D1DfdF1B6E2',
 			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
@@ -292,6 +304,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'BSC\'s Frapped Ape ☕️🦧': {
 		parameters: {
 			title: 'BSC\'s Frapped Ape ☕️🦧',
+			slug: 'bsc-s-frapped-ape',
 			href: 'https://ape.tax/bscfrappedape',
 			contractAddress: '0x626530FCD25a8c9A949B024AAbbAe4BAE7D5F320',
 			underlyingTokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
@@ -310,6 +323,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'Ellipsoidal Farmer 🍩3️⃣': {
 		parameters: {
 			title: 'Ellipsoidal Farmer 🍩3️⃣',
+			slug: 'ellipsoidal-farmer-3',
 			href: 'https://ape.tax/ellipsoidal',
 			contractAddress: '0xC8057Fd6F7917b5398f52d861d50685E6AbbED14',
 			underlyingTokenAddress: '0xaF4dE8E872131AE328Ce21D909C74705d3Aaf452',
@@ -328,6 +342,7 @@ const	STRATEGIES_APE_TAX_BSC = {
 	'BSC\'s Ape Ape Baby 🧊👶': {
 		parameters: {
 			title: 'BSC\'s Ape Ape Baby 🧊👶',
+			slug: 'bsc-s-ape-ape-baby',
 			href: 'https://ape.tax/bscbaby',
 			contractAddress: '0x78bef219b3348CD65387F6f7B27c9ee3Bf525704',
 			underlyingTokenAddress: '0xf16e81dce15b08f326220742020379b855b87df9',
@@ -348,6 +363,7 @@ const	STRATEGIES_APE_TAX = {
 	'Wrapped Ultra Sound Money 🦇🔊': {
 		parameters: {
 			title: 'Wrapped Ultra Sound Money 🦇🔊',
+			slug: 'wrapped-ultra-sound-money',
 			href: 'https://ape.tax/ultrasoundmoney',
 			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
 			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -365,6 +381,7 @@ const	STRATEGIES_APE_TAX = {
 	'The Frog Prince 🐸💋 2': {
 		parameters: {
 			title: 'The Frog Prince 🐸💋 2',
+			slug: 'the-frog-prince-2',
 			href: 'https://ape.tax/frogprince2',
 			contractAddress: '0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
 			underlyingTokenAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
@@ -383,6 +400,7 @@ const	STRATEGIES_APE_TAX = {
 	'Comfi Carousel 🛋🎠': {
 		parameters: {
 			title: 'Comfi Carousel 🛋🎠',
+			slug: 'comfi-carousel',
 			href: 'https://ape.tax/complifiusdc',
 			contractAddress: '0x71955515ADF20cBDC699B8bC556Fc7Fd726B31B0',
 			underlyingTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
@@ -401,6 +419,7 @@ const	STRATEGIES_APE_TAX = {
 	'Reflex me 📷💚': {
 		parameters: {
 			title: 'Reflex me 📷💚',
+			slug: 'reflex-me',
 			href: 'https://ape.tax/rai',
 			contractAddress: '0x4856a7efbbfcae92ab13c5e2e322fc77647bb856',
 			underlyingTokenAddress: '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919',
@@ -419,6 +438,7 @@ const	STRATEGIES_APE_TAX = {
 	'Old Grandmaster\'s DAI ♟👴': {
 		parameters: {
 			title: 'Old Grandmaster\'s DAI ♟👴',
+			slug: 'old-grandmaster-s-dai',
 			href: 'https://ape.tax/grandmastersdai',
 			contractAddress: '0xB98Df7163E61bf053564bde010985f67279BBCEC',
 			underlyingTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
@@ -437,6 +457,7 @@ const	STRATEGIES_APE_TAX = {
 	'ETH\'s Ape Ape Baby 🧊👶': {
 		parameters: {
 			title: 'ETH\'s Ape Ape Baby 🧊👶',
+			slug: 'eth-s-ape-ape-baby',
 			href: 'https://ape.tax/ethbaby',
 			contractAddress: '0xD2C65E20C3fDE3F18097e7414e65596e0C83B1a9',
 			underlyingTokenAddress: '0xf16e81dce15b08f326220742020379b855b87df9',
@@ -455,6 +476,7 @@ const	STRATEGIES_APE_TAX = {
 	'Bank Sushi 🏦🍣': {
 		parameters: {
 			title: 'Bank Sushi 🏦🍣',
+			slug: 'bank-sushi',
 			href: 'https://ape.tax/sushibank',
 			contractAddress: '0xb32747b4045479b77a8b8eb44029ba12580214f8',
 			underlyingTokenAddress: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
@@ -473,6 +495,7 @@ const	STRATEGIES_APE_TAX = {
 	'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧': {
 		parameters: {
 			title: 'Pool with Us 🏊‍♂️👩‍👩‍👧‍👧',
+			slug: 'pool-with-us',
 			href: 'https://ape.tax/poolwithus',
 			contractAddress: '0x2F194Da57aa855CAa02Ea3Ab991fa5d38178B9e6',
 			underlyingTokenAddress: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
@@ -491,6 +514,7 @@ const	STRATEGIES_APE_TAX = {
 	'True Idle T🛌': {
 		parameters: {
 			title: 'True Idle T🛌',
+			slug: 'true-idle-t',
 			href: 'https://ape.tax/trueidle',
 			contractAddress: '0x49b3E44e54b6220aF892DbA48ae45F1Ea6bC4aE9',
 			underlyingTokenAddress: '0x0000000000085d4780b73119b644ae5ecd22b376',
@@ -509,6 +533,7 @@ const	STRATEGIES_APE_TAX = {
 	'Idle Tether 🛌T': {
 		parameters: {
 			title: 'Idle Tether 🛌T',
+			slug: 'idle-tether-t',
 			href: 'https://ape.tax/idletether',
 			contractAddress: '0xAf322a2eDf31490250fdEb0D712621484b09aBB6',
 			underlyingTokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -527,6 +552,7 @@ const	STRATEGIES_APE_TAX = {
 	'Data AAVE 💿🕊': {
 		parameters: {
 			title: 'Data AAVE 💿🕊',
+			slug: 'data-aave',
 			href: 'https://ape.tax/dataaave',
 			contractAddress: '0xAc1C90b9c76d56BA2e24F3995F7671c745f8f308',
 			underlyingTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
@@ -544,6 +570,7 @@ const	STRATEGIES_APE_TAX = {
 	'Full Metal Farmer 🧙‍♂️🧪': {
 		parameters: {
 			title: 'Full Metal Farmer 🧙‍♂️🧪',
+			slug: 'full-metal-farmer',
 			href: 'https://ape.tax/fullmetalfarmer',
 			contractAddress: '0x56A5Fd5104a4956898753dfb060ff32882Ae0eb4',
 			underlyingTokenAddress: '0xdbdb4d16eda451d0503b854cf79d55697f90c8df',
@@ -561,6 +588,7 @@ const	STRATEGIES_APE_TAX = {
 	'sUSD Idle 🏆⚔️': {
 		parameters: {
 			title: 'sUSD Idle 🏆⚔️',
+			slug: 's-usd-idle',
 			href: 'https://ape.tax/susdidle',
 			contractAddress: '0x3466c90017F82DDA939B01E8DBd9b0f97AEF8DfC',
 			underlyingTokenAddress: '0x57ab1ec28d129707052df4df418d58a2d46d5f51',
@@ -578,6 +606,7 @@ const	STRATEGIES_APE_TAX = {
 	'WETH Gen Lender 🧬💰': {
 		parameters: {
 			title: 'WETH Gen Lender 🧬💰',
+			slug: 'weth-gen-lender',
 			href: 'https://ape.tax/wethgenlender',
 			contractAddress: '0xac333895ce1a73875cf7b4ecdc5a743c12f3d82b',
 			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -595,6 +624,7 @@ const	STRATEGIES_APE_TAX = {
 	'WETH Iron Lender 🦾💰': {
 		parameters: {
 			title: 'WETH Iron Lender 🦾💰',
+			slug: 'weth-iron-lender',
 			href: 'https://ape.tax/ironlender',
 			contractAddress: '0xED0244B688cF059f32f45E38A6ac6E479D6755f6',
 			underlyingTokenAddress: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -612,6 +642,7 @@ const	STRATEGIES_APE_TAX = {
 	'st. Ether-ETH Pool 💧🎱': {
 		parameters: {
 			title: 'st. Ether-ETH Pool 💧🎱',
+			slug: 'st-ether-eth-pool',
 			href: 'https://ape.tax/stecrv',
 			contractAddress: '0xdCD90C7f6324cfa40d7169ef80b12031770B4325',
 			underlyingTokenAddress: '0x06325440d014e39736583c165c2963ba99faf14e',
@@ -627,208 +658,11 @@ const	STRATEGIES_APE_TAX = {
 		Strategy: StrategyYVaultV2
 	}
 }
-
-
-const	STRATEGIES_YEARN_V1 = {
-	'Yearn V1 - DAI': {
-		parameters: {
-			title: 'Yearn V1 - DAI',
-			href: 'https://yearn.finance/vaults/0xACd43E627e64355f1861cEC6d3a6688B31a6F952',
-			contractAddress: '0xACd43E627e64355f1861cEC6d3a6688B31a6F952',
-			tokenIcon: '/tokens/ydai.png',
-			underlyingTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-			underlyingTokenSymbol: 'DAI',
-			underlyingTokenCgID: 'dai',
-			underlyingTokenIcon: '/tokens/dai.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV1
-	},
-	'Yearn V1 - TUSD': {
-		parameters: {
-			title: 'Yearn V1 - TUSD',
-			href: 'https://yearn.finance/vaults/0x37d19d1c4E1fa9DC47bD1eA12f742a0887eDa74a',
-			contractAddress: '0x37d19d1c4E1fa9DC47bD1eA12f742a0887eDa74a',
-			tokenIcon: '/tokens/ytusd.png',
-			underlyingTokenAddress: '0x0000000000085d4780b73119b644ae5ecd22b376',
-			underlyingTokenSymbol: 'TUSD',
-			underlyingTokenCgID: 'true-usd',
-			underlyingTokenIcon: '/tokens/tusd.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV1
-	},
-	'Yearn V1 - USDC': {
-		parameters: {
-			title: 'Yearn V1 - USDC',
-			href: 'https://yearn.finance/vaults/0x597aD1e0c13Bfe8025993D9e79C69E1c0233522e',
-			contractAddress: '0x597aD1e0c13Bfe8025993D9e79C69E1c0233522e',
-			tokenIcon: '/tokens/yusdc.png',
-			underlyingTokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-			underlyingTokenSymbol: 'USDC',
-			underlyingTokenDecimal: 6,
-			underlyingTokenCgID: 'usd-coin',
-			underlyingTokenIcon: '/tokens/usdc.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV1
-	},
-	'Yearn V1 - USDT': {
-		parameters: {
-			title: 'Yearn V1 - USDT',
-			href: 'https://yearn.finance/vaults/0x2f08119C6f07c006695E079AAFc638b8789FAf18',
-			contractAddress: '0x2f08119C6f07c006695E079AAFc638b8789FAf18',
-			tokenIcon: '/tokens/yusdt.png',
-			underlyingTokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-			underlyingTokenSymbol: 'USDT',
-			underlyingTokenDecimal: 6,
-			underlyingTokenCgID: 'tether',
-			underlyingTokenIcon: '/tokens/usdt.svg',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnV1
-	}
-}
-
-const	STRATEGIES_YEARN_V1_CRV = {
-	'Yearn V1 - crvEURS': {
-		parameters: {
-			title: 'Yearn V1 - crvEURS',
-			href: 'https://yearn.fi/invest/0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
-			contractAddress: '0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
-			tokenIcon: '/tokens/yveursCRV.png',
-			tokenSymbol: 'yveursCRV',
-			underlyingTokenAddress: '0x194ebd173f6cdace046c53eacce9b953f28411d1',
-			underlyingTokenSymbol: 'eursCRV',
-			underlyingTokenName: 'Curve.fi EURS/sEUR',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'eursCRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvSUSD': {
-		parameters: {
-			title: 'Yearn V1 - crvSUSD',
-			href: 'https://yearn.fi/invest/0x5533ed0a3b83f70c3c4a1f69ef5546d3d4713e44',
-			contractAddress: '0x5533ed0a3b83f70c3c4a1f69ef5546d3d4713e44',
-			tokenIcon: '/tokens/yvcrvPlain3andSUSD.png',
-			tokenSymbol: 'yvcrvPlain3andSUSD',
-			underlyingTokenAddress: '0xc25a3a3b969415c80451098fa907ec722572917f',
-			underlyingTokenSymbol: 'crvPlain3andSUSD',
-			underlyingTokenName: 'Curve.fi DAI/USDC/USDT/sUSD',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'crvPlain3andSUSD',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvHUSD': {
-		parameters: {
-			title: 'Yearn V1 - crvHUSD',
-			href: 'https://yearn.fi/invest/0x39546945695dcb1c037c836925b355262f551f55',
-			contractAddress: '0x39546945695dcb1c037c836925b355262f551f55',
-			tokenIcon: '/tokens/yvhusd3CRV.png',
-			tokenSymbol: 'yvhusd3CRV',
-			underlyingTokenAddress: '0x5b5cfe992adac0c9d48e05854b2d91c73a003858',
-			underlyingTokenSymbol: 'husd3CRV',
-			underlyingTokenName: 'Curve.fi HUSD/3Crv',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'husd3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvAAVE': {
-		parameters: {
-			title: 'Yearn V1 - crvDUSD',
-			href: 'https://yearn.fi/invest/0x98B058b2CBacF5E99bC7012DF757ea7CFEbd35BC',
-			contractAddress: '0x03403154afc09ce8e44c3b185c82c6ad5f86b9ab',
-			tokenIcon: '/tokens/yva3CRV.png',
-			tokenSymbol: 'yva3CRV',
-			underlyingTokenAddress: '0xfd2a8fa60abd58efe3eee34dd494cd491dc14900',
-			underlyingTokenSymbol: 'a3CRV',
-			underlyingTokenName: 'Curve.fi aDAI/aUSDC/aUSDT',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'a3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'Yearn V1 - crvUSDP': {
-		parameters: {
-			title: 'yearn V1 - crvUSDP',
-			href: 'https://yearn.fi/invest/0x1b5eb1173d2bf770e50f10410c9a96f7a8eb6e75',
-			contractAddress: '0x1b5eb1173d2bf770e50f10410c9a96f7a8eb6e75',
-			tokenIcon: '/tokens/yvusdp3CRV.png',
-			tokenSymbol: 'yvusdp3CRV',
-			underlyingTokenAddress: '0x7eb40e450b9655f4b3cc4259bcc731c63ff55ae6',
-			underlyingTokenSymbol: 'usdp3CRV',
-			underlyingTokenName: 'Curve.fi USDP/3Crv',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'usdp3CRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},
-	'yearn V1 - crvAETH': {
-		parameters: {
-			title: 'yearn V1 - crvAETH',
-			href: 'https://yearn.fi/invest/0xe625f5923303f1ce7a43acfefd11fd12f30dbca4',
-			contractAddress: '0xe625f5923303f1ce7a43acfefd11fd12f30dbca4',
-			tokenIcon: '/tokens/yvankrCRV.png',
-			tokenSymbol: 'yvankrCRV',
-			underlyingTokenAddress: '0xaa17a236f2badc98ddc0cf999abb47d47fc0a6cf',
-			underlyingTokenSymbol: 'ankrCRV',
-			underlyingTokenName: 'Curve.fi ETH/aETH',
-			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'ankrCRV',
-			underlyingTokenIcon: '/tokens/curve.png',
-			author: 'iearnfinance',
-		},
-		network: 'ethereum',
-		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV1(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV1
-	},	
-}
-
 const	STRATEGIES_YEARN_V2 = {
 	'yvDAI - 🧪': {
 		parameters: {
 			title: 'yvDAI - 🧪',
+			slug: 'yv-dai',
 			href: 'https://yearn.fi/invest/0x19D3364A399d251E894aC732651be8B0E4e85001',
 			contractAddress: '0x19D3364A399d251E894aC732651be8B0E4e85001',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x19D3364A399d251E894aC732651be8B0E4e85001/logo-128.png',
@@ -847,6 +681,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvsUSD - 🧪': {
 		parameters: {
 			title: 'yvsUSD - 🧪',
+			slug: 'yvs-usd',
 			href: 'https://yearn.fi/invest/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396/logo-128.png',
 			contractAddress: '0xa5cA62D95D24A4a350983D5B8ac4EB8638887396',
@@ -865,6 +700,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvUSDC - 🧪': {
 		parameters: {
 			title: 'yvUSDC - 🧪',
+			slug: 'yv-usdc',
 			href: 'https://yearn.fi/invest/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9/logo-128.png',
 			contractAddress: '0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9',
@@ -883,6 +719,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvWBTC - 🧪': {
 		parameters: {
 			title: 'yvWBTC - 🧪',
+			slug: 'yv-wbtc',
 			href: 'https://yearn.fi/invest/0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E/logo-128.png',
 			contractAddress: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
@@ -902,6 +739,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvUNI - 🧪': {
 		parameters: {
 			title: 'yvUNI - 🧪',
+			slug: 'yv-uni',
 			href: 'https://yearn.fi/invest/0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42/logo-128.png',
 			contractAddress: '0xFBEB78a723b8087fD2ea7Ef1afEc93d35E8Bed42',
@@ -920,6 +758,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvHEGIC - 🧪': {
 		parameters: {
 			title: 'yvHEGIC - 🧪',
+			slug: 'yv-hegic',
 			href: 'https://yearn.fi/invest/0xe11ba472F74869176652C35D30dB89854b5ae84D',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xe11ba472F74869176652C35D30dB89854b5ae84D/logo-128.png',
 			contractAddress: '0xe11ba472F74869176652C35D30dB89854b5ae84D',
@@ -938,6 +777,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvRAI - 🧪': {
 		parameters: {
 			title: 'yvRAI - 🧪',
+			slug: 'yv-rai',
 			href: 'https://yearn.fi/invest/0x873fB544277FD7b977B196a826459a69E27eA4ea',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x873fB544277FD7b977B196a826459a69E27eA4ea/logo-128.png',
 			contractAddress: '0x873fB544277FD7b977B196a826459a69E27eA4ea',
@@ -956,6 +796,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvLINK - 🧪': {
 		parameters: {
 			title: 'yvLINK - 🧪',
+			slug: 'yv-link',
 			href: 'https://yearn.fi/invest/0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2/logo-128.png',
 			contractAddress: '0x671a912C10bba0CFA74Cfc2d6Fba9BA1ed9530B2',
@@ -974,6 +815,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvBOOST - 🧪': {
 		parameters: {
 			title: 'yvBOOST - 🧪',
+			slug: 'yv-boost',
 			href: 'https://yearn.fi/invest/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a/logo-128.png',
 			contractAddress: '0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
@@ -992,6 +834,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvUSDT - 🧪': {
 		parameters: {
 			title: 'yvUSDT - 🧪',
+			slug: 'yv-usdt',
 			href: 'https://yearn.fi/invest/0x7Da96a3891Add058AdA2E826306D812C638D87a7',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x7Da96a3891Add058AdA2E826306D812C638D87a7/logo-128.png',
 			contractAddress: '0x7Da96a3891Add058AdA2E826306D812C638D87a7',
@@ -1011,6 +854,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yv1INCH - 🧪': {
 		parameters: {
 			title: 'yv1INCH - 🧪',
+			slug: 'yv-1-inch',
 			href: 'https://yearn.fi/invest/0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67',
 			contractAddress: '0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xB8C3B7A2A618C552C23B1E4701109a9E756Bab67/logo-128.png',
@@ -1029,6 +873,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvWETH - 🧪': {
 		parameters: {
 			title: 'yvWETH - 🧪',
+			slug: 'yv-weth',
 			href: 'https://yearn.fi/invest/0xa9fE4601811213c340e850ea305481afF02f5b28',
 			contractAddress: '0xa9fE4601811213c340e850ea305481afF02f5b28',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa9fE4601811213c340e850ea305481afF02f5b28/logo-128.png',
@@ -1047,6 +892,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvWETH2 - 🧪': {
 		parameters: {
 			title: 'yvWETH2 - 🧪',
+			slug: 'yv-weth-2',
 			href: 'https://yearn.fi/invest/0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
 			contractAddress: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xa258C4606Ca8206D8aA700cE2143D7db854D168c/logo-128.png',
@@ -1065,6 +911,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yUSD - 🧪': {
 		parameters: {
 			title: 'yUSD - 🧪',
+			slug: 'y-usd',
 			href: 'https://yearn.fi/invest/0x4B5BfD52124784745c1071dcB244C6688d2533d3',
 			contractAddress: '0x4B5BfD52124784745c1071dcB244C6688d2533d3',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x4B5BfD52124784745c1071dcB244C6688d2533d3/logo-128.png',
@@ -1083,6 +930,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvWBTC2 - 🧪': {
 		parameters: {
 			title: 'yvWBTC2 - 🧪',
+			slug: 'yv-wbtc-2',
 			href: 'https://yearn.fi/invest/0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5',
 			contractAddress: '0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xcB550A6D4C8e3517A939BC79d0c7093eb7cF56B5/logo-128.png',
@@ -1102,6 +950,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvSNX - 🧪': {
 		parameters: {
 			title: 'yvSNX - 🧪',
+			slug: 'yv-snx',
 			href: 'https://yearn.fi/invest/0xF29AE508698bDeF169B89834F76704C3B205aedf',
 			contractAddress: '0xF29AE508698bDeF169B89834F76704C3B205aedf',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xF29AE508698bDeF169B89834F76704C3B205aedf/logo-128.png',
@@ -1120,6 +969,7 @@ const	STRATEGIES_YEARN_V2 = {
 	'yvYFI - 🧪': {
 		parameters: {
 			title: 'yvYFI - 🧪',
+			slug: 'yv-yfi',
 			href: 'https://yearn.fi/invest/0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
 			contractAddress: '0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1',
 			tokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0xE14d13d8B3b85aF791b2AADD661cDBd5E6097Db1/logo-128.png',
@@ -1140,6 +990,7 @@ const	STRATEGIES_YEARN_V2_CRV = {
 	'Yearn V2 - crvSTETH': {
 		parameters: {
 			title: 'Yearn V2 - crvSTETH',
+			slug: 'yearn-v-2-crv-steth',
 			href: 'https://yearn.fi/invest/0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
 			contractAddress: '0xdcd90c7f6324cfa40d7169ef80b12031770b4325',
 			tokenIcon: '/tokens/yvCurve-stETH.png',
@@ -1163,6 +1014,7 @@ const	STRATEGIES_MISC = {
 	'Yearn YVBoost': {
 		parameters: {
 			title: 'Yearn YVBoost',
+			slug: 'yearn-yv-boost',
 			href: 'https://yearn.fi/invest/0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
 			contractAddress: '0x9d409a0A012CFbA9B15F6D4B36Ac57A46966Ab9a',
 			tokenIcon: '/tokens/yvboost.png',
@@ -1180,16 +1032,16 @@ const	STRATEGIES_MISC = {
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV2
 	},
-	'Badger WBTC': {
-		list: 'misc',
-		prepare: (a) => PrepareStrategyBadgerWBTC(a),
-		Strategy: StrategyBadgerWBTC
-	},
-	'yvBoost': {
-		list: 'misc',
-		prepare: (a) => PrepareStrategyYVBoost(a),
-		Strategy: StrategyYVBoost
-	},
+	// 'Badger WBTC': {
+	// 	list: 'misc',
+	// 	prepare: (a) => PrepareStrategyBadgerWBTC(a),
+	// 	Strategy: StrategyBadgerWBTC
+	// },
+	// 'yvBoost': {
+	// 	list: 'misc',
+	// 	prepare: (a) => PrepareStrategyYVBoost(a),
+	// 	Strategy: StrategyYVBoost
+	// },
 }
 
 export default {...STRATEGIES_YEARN_V2, ...STRATEGIES_YEARN_V2_CRV, ...STRATEGIES_APE_TAX_POLYGON, ...STRATEGIES_APE_TAX_FANTOM, ...STRATEGIES_APE_TAX_BSC, ...STRATEGIES_APE_TAX, ...STRATEGIES_MISC};

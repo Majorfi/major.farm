@@ -86,7 +86,7 @@ function	Header({set_strategyModal}) {
 	return (
 		<div className={'bg-dark-600 py-6 -mx-4 md:-mx-12 -mt-12 px-4 md:px-12 bg-opacity-30'}>
 			<div className={'flex flex-row justify-between items-center'}>
-				<Link href={'/'}>
+				<Link href={'/app'}>
 					<div className={'flex flex-row items-center text-white cursor-pointer'}>
 						<div>
 							<Image src={'/sprout.svg'} width={30} height={30} />

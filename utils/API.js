@@ -34,14 +34,14 @@ export async function	fetchCryptoPrice(from, to) {
 
 export async function	retreiveTxFrom(network, address) {
 	const	{explorer, apiKey} = getExplorer(network);
-	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`).then(e => e.data)
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=5000&sort=desc&apikey=${apiKey}`).then(e => e.data)
 
 	return result || [];
 }
 
 export async function	retreiveErc20TxFrom(network, address) {
 	const	{explorer, apiKey} = getExplorer(network);
-	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`).then(e => e.data)
+	const	{result} = await axios.get(`https://api.${explorer}/api?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&page=1&offset=5000&sort=desc&apikey=${apiKey}`).then(e => e.data)
 
 	return result || [];
 }
