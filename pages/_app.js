@@ -5,7 +5,7 @@
 **	@Filename:				_app.js
 ******************************************************************************/
 
-import	React						from	'react';
+import	React, {useState}						from	'react';
 import	NProgress					from	'nprogress';
 import	Router						from	'next/router';
 import	Head						from	'next/head';
@@ -16,6 +16,8 @@ import	{StrategiesContextApp}		from	'contexts/useStrategies';
 import	{Web3ContextApp}			from	'contexts/useWeb3';
 import	{Web3ReactProvider}			from	'@web3-react-fork/core';
 import	{ethers}					from	'ethers';
+import	TopBar						from	'components/TopBar';
+import	StrategySelectorModal		from	'components/Modals/StrategySelector';
 
 import	'style/Default.css'
 import	'tailwindcss/tailwind.css';
@@ -26,6 +28,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function	AppWrapper(props) {
 	const	{Component, pageProps, router} = props;
+	const	[strategyModal, set_strategyModal] = useState(false);
 
 	return (
 		<>
@@ -43,11 +46,15 @@ function	AppWrapper(props) {
 			<div className={'withAnim transition-opacity bg-dark-900 min-h-screen'}>
 				<div id={'app'} className={'flex'}>
 					<div className={'p-4 pt-12 md:p-12 w-full'} style={{minHeight: '90vh'}}>
+						{router.asPath !== '/' ? <TopBar set_strategyModal={set_strategyModal} /> : null}
 						<Component
 							key={router.route}
 							element={props.element}
 							router={props.router}
 							{...pageProps} />
+						<StrategySelectorModal
+							strategyModal={strategyModal}
+							set_strategyModal={set_strategyModal} />
 					</div>
 				</div>
 				<div className={'mt-10 space-x-3 text-xs text-center flex flex-row justify-center items-center text-dark-200'}>

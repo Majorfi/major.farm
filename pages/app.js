@@ -9,8 +9,6 @@ import	React, {useState, useEffect, useCallback}	from	'react';
 import	{ArrowSmDownIcon, FireIcon, TrendingUpIcon, ChartPieIcon, CurrencyEuroIcon, MinusIcon}			from	'@heroicons/react/solid'
 import	useStrategies								from	'contexts/useStrategies';
 import	useCurrencies								from	'contexts/useCurrencies';
-import	StrategySelectorModal						from	'components/Modals/StrategySelector';
-import	TopBar										from	'components/TopBar';
 import	useLocalStorage								from	'hook/useLocalStorage';
 import	STRATEGIES									from	'utils/strategies';
 import	{formatValue, formatPercent}				from	'utils';
@@ -177,7 +175,6 @@ function Stats() {
 
 function	Index() {
 	const	{strategies} = useStrategies();
-	const	[strategyModal, set_strategyModal] = useState(false);
 
 	function	renderStrategy(strategy) {
 		const	CurrentStrategy = STRATEGIES[strategy.name];
@@ -194,13 +191,12 @@ function	Index() {
 
 	return (
 		<div>
-			<TopBar set_strategyModal={set_strategyModal} />
 			<div id={'newsbanner'} className={'space-y-0.5'}>
 				<NewsBanner
-					bannerID={'newsBanner-2'}
-					short={'🪢 and 🕴🖖 from ape.tax are now available'}
-					long={'🕴🪢 Tied Tyler & 🕴🖖 Split Cameron from ape.tax are now available for tracking !'}
-					uri={'https://ape.tax'} />
+					bannerID={'newsBanner-3'}
+					short={'DAI Hard 2 💪💪 from ape.tax is now available'}
+					long={'DAI Hard 2 💪💪 from ape.tax is now available for tracking !'}
+					uri={'https://ape.tax/daihard2'} />
 			</div>
 			<Stats />
 
@@ -215,9 +211,6 @@ function	Index() {
 					))}
 				</div>
 			</div>
-			<StrategySelectorModal
-				strategyModal={strategyModal}
-				set_strategyModal={set_strategyModal} />
 		</div>
 	);
 }

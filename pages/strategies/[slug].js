@@ -381,8 +381,6 @@ function	StrategyCard({strategy}) {
 function	Index({strategy}) {
 	return (
 		<div>
-			<TopBar set_strategyModal={() => null} />
-
 			<div className={'w-full space-y-6 mt-12 max-w-screen-2xl mx-auto flex flex-col'}>
 				<Link passHref href={'/app'}>
 					<div className={'flex flex-row items-center -mt-4 mb-4 text-gray-400 cursor-pointer space-x-2 hover:text-accent-900 hover:underline transition-colors'}>

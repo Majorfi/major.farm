@@ -360,6 +360,25 @@ const	STRATEGIES_APE_TAX_BSC = {
 	}
 }
 const	STRATEGIES_APE_TAX = {
+	'DAI Hard 2 💪💪': {
+		parameters: {
+			title: 'DAI Hard 2 💪💪',
+			slug: 'dai-hard-2',
+			href: 'https://ape.tax/daihard2',
+			contractAddress: '0x63739d137EEfAB1001245A8Bd1F3895ef3e186E7',
+			underlyingTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
+			underlyingTokenSymbol: 'DAI',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: '/tokens/dai.svg',
+			author: 'arbingsam',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'Wrapped Ultra Sound Money 🦇🔊': {
 		parameters: {
 			title: 'Wrapped Ultra Sound Money 🦇🔊',
