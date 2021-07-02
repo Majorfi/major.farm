@@ -13,6 +13,7 @@ import	StrategySelectorModal						from	'components/Modals/StrategySelector';
 import	TopBar										from	'components/TopBar';
 import	useLocalStorage								from	'hook/useLocalStorage';
 import	STRATEGIES									from	'utils/strategies';
+import	{formatValue, formatPercent}				from	'utils';
 
 function	NewsBanner({short, long, uri, bannerID}) {
 	const	[newsBanner, set_newsBanner] = useLocalStorage(bannerID, true);
@@ -101,16 +102,6 @@ function Stats() {
 		computeYieldValue(_strategies)
 	}, [strategies.nonce, strategies.get, computeYieldValue, strategies, currencyNonce])
 
-	function	renderValueToBaseCurrency(_value) {
-		if (baseCurrency === 'eur') {
-			return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(_value))
-		}
-		return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(_value))
-	}
-	function	renderValueToPercent(_value) {
-		return (new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 2}).format(_value))
-	}
-
 	function	OtherStat({title, value, HeroIcon}) {
 		return (
 			<div className={'p-4 flex flex-row items-center'}>
@@ -121,7 +112,7 @@ function Stats() {
 					<dt className={'text-sm font-normal text-white-80'}>{title}</dt>
 					<dd className={'mt-1 flex justify-between items-baseline md:block lg:flex'}>
 						<div className={'flex items-baseline text-xl font-semibold text-accent-900'}>
-							{renderValueToBaseCurrency(value)}
+							{formatValue(value, baseCurrency)}
 						</div>
 					</dd>
 				</div>
@@ -159,13 +150,13 @@ function Stats() {
 						<dt className={'text-base font-normal text-white'}>{'Total Yield'}</dt>
 						<dd className={'mt-1 flex justify-between items-baseline'}>
 							<div className={'flex items-baseline text-2xl font-semibold text-accent-900'}>
-								{renderValueToBaseCurrency(currentYield)}
+								{formatValue(currentYield, baseCurrency)}
 							</div>
 
 							<div
 								className={`${statClassName} bg-dark-400 inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 ml-4`}>
 								{icon}
-								{renderValueToPercent(((seedInvested + currentYield) - seedInvested) / seedInvested)}
+								{formatPercent(((seedInvested + currentYield) - seedInvested) / seedInvested)}
 							</div>
 						</dd>
 					</div>

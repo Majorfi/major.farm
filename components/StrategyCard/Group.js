@@ -9,6 +9,7 @@ import	React, {useState, useEffect}	from	'react';
 import	Image							from	'next/image';
 import	useCurrencies					from	'contexts/useCurrencies';
 import	{getExplorer}					from	'utils/chains';
+import	{formatValue, formatAmount}		from	'utils';
 
 function	GroupElement({network, image, label, amount, value, address, details = undefined}) {
 	const	[currentImage, set_currentImage] = useState(image)
@@ -18,19 +19,6 @@ function	GroupElement({network, image, label, amount, value, address, details = 
 		set_currentImage(image);
 	}, [image])
 
-	function	renderValue() {
-		if (baseCurrency === 'eur') {
-			return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(value))
-		}
-		return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(value))
-	}
-
-	function	renderAmount() {
-		if (baseCurrency === 'eur') {
-			return (new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
-		}
-		return (new Intl.NumberFormat('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
-	}
 
 	return (
 		<div className={'text-white text-opacity-80 pt-2 flex flex-row w-full items-baseline'}>
@@ -69,9 +57,9 @@ function	GroupElement({network, image, label, amount, value, address, details = 
 						</div>
 				}
 			</div>
-			<p className={'w-1/3 text-right'}>{renderAmount()}</p>
+			<p className={'w-1/3 text-right'}>{formatAmount(amount, baseCurrency)}</p>
 			<div className={'w-1/3 text-right'}>
-				<p>{renderValue()}</p>
+				<p>{formatValue(value, baseCurrency)}</p>
 				{details ? <p className={'font-light italic text-xs text-dark-100'}>
 					{details}
 				</p> : null}

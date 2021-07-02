@@ -81,3 +81,25 @@ export async function asyncForEach(array, callback) {
 export async function asyncFilter(arr, predicate) {
 	return Promise.all(arr.map(predicate)).then((results) => arr.filter((_v, index) => results[index]))
 }
+
+export function	formatValue(value, baseCurrency = 'eur') {
+	if (baseCurrency === 'eur') {
+		return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(value))
+	}
+	return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(value))
+}
+export function	formatAmount(amount, baseCurrency = 'eur') {
+	if (baseCurrency === 'eur') {
+		return (new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
+	}
+	return (new Intl.NumberFormat('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
+}
+export function	formatDate(timestamp, baseCurrency = 'eur') {
+	if (baseCurrency === 'eur') {
+		return (new Date(timestamp)).toLocaleString('fr-FR');
+	}
+	return (new Date(timestamp)).toLocaleString('en-US');
+}
+export function	formatPercent(percent) {
+	return (new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 2}).format(percent))
+}

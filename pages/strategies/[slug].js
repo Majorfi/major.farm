@@ -6,6 +6,7 @@
 ******************************************************************************/
 
 import	React, {useState, useEffect}								from	'react';
+import	Link														from	'next/link';
 import	{ethers}													from	'ethers';
 import	useCurrencies												from	'contexts/useCurrencies';
 import	TopBar														from	'components/TopBar';
@@ -14,9 +15,9 @@ import	Image														from	'next/image';
 import	{Line}														from	'react-chartjs-2';
 import	* as API													from	'utils/API'
 import	{getProvider, getExplorer, getSymbol}						from	'utils/chains';
-import	{address, chunk, bigNumber, countBy, splitBy}				from	'utils';
+import	{address, chunk, bigNumber, countBy, splitBy, formatValue, formatDate, formatAmount}	from	'utils';
 import	SIGNATURES, {getSignatureTitle, findSignatureTitle}			from	'utils/methodsSignatures';
-import	{CheckIcon, DownloadIcon, ShieldCheckIcon, UploadIcon}					from	'@heroicons/react/outline';
+import	{CheckIcon, DownloadIcon, ShieldCheckIcon, UploadIcon}		from	'@heroicons/react/outline';
 import	{ChevronLeftIcon, ChevronRightIcon} 						from	'@heroicons/react/solid';
 
 const optionsLineChart = {
@@ -87,10 +88,17 @@ function	StrategyCard({strategy}) {
 		const	numberOfInteractors = countBy(transactions, 'from');
 		const	typeOfActions = splitBy(transactions, 'input', (e) => findSignatureTitle(e.slice(0, 10)))
 		const	chunckedTransactions = chunk(transactions, Math.round(transactions.length / 20))
-		const	pricesPerShare = (await Promise.all(
-			chunckedTransactions.map(async e => ({date: renderDate(e[0]?.timeStamp * 1000), pricePerShare: await smartContract.pricePerShare({blockTag: Number(e[0]?.blockNumber)})}))
-		)).reverse();
+		
+		let		pricesPerShare = [];
+		try {
+			pricesPerShare = (await Promise.all(
+				chunckedTransactions.map(async e => ({date: formatDate(e[0]?.timeStamp * 1000, baseCurrency), pricePerShare: await smartContract.pricePerShare({blockTag: Number(e[0]?.blockNumber)})}))
+			)).reverse();
+		} catch(e) {
+			console.error(e);
+		}
 		pricesPerShare[0] = {date: 'Inception', pricePerShare: ethers.utils.parseUnits('1', decimals)};
+		pricesPerShare[pricesPerShare.length] = {date: 'Now', pricePerShare: _pricePerShare};
 
 		set_data({
 			labels: [...pricesPerShare.map(e => `Date ${e.date}`)],
@@ -120,8 +128,6 @@ function	StrategyCard({strategy}) {
 			return (e);
 		})
 
-		console.log([...transactionsUpdated, ...transactionsERC20Updated].sort((a, b) => b.blockNumber - a.blockNumber))
-
 		set_vaultInteractions({
 			transactionsList: [...transactionsUpdated, ...transactionsERC20Updated].sort((a, b) => b.blockNumber - a.blockNumber),
 			numberOfTransactions: transactions.length,
@@ -137,25 +143,6 @@ function	StrategyCard({strategy}) {
 		getStrategyData(strategy.parameters?.contractAddress);
 	}, []);
 
-	function	renderValue(value) {
-		if (baseCurrency === 'eur') {
-			return (new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(value))
-		}
-		return (new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(value))
-	}
-	function	renderAmount(amount) {
-		if (baseCurrency === 'eur') {
-			return (new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
-		}
-		return (new Intl.NumberFormat('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 8}).format(amount))
-	}
-	function	renderDate(timestamp) {
-		if (baseCurrency === 'eur') {
-			return (new Date(timestamp)).toLocaleString('fr-FR');
-		}
-		return (new Date(timestamp)).toLocaleString('en-US');
-	}
-
 	return (
 		<>
 			<div className={'w-full rounded-lg shadow bg-dark-600 relative overflow-hidden grid grid-cols-none lg:grid-cols-3'}>
@@ -166,18 +153,47 @@ function	StrategyCard({strategy}) {
 						</div>
 						<div className={'col-span-1 flex flex-row space-x-2 justify-end'}>
 							<div className={'bg-dark-900 rounded-full p-2 flex justify-center items-center w-10'}>
-								<Image
+								{strategy.list === 'ape.tax' ? <Image
 									src={'/protocols/ape.svg'}
 									loading={'eager'}
 									width={24}
-									height={24} />
-							</div>
-							<div className={'bg-dark-900 rounded-full p-2 flex justify-center items-center w-10'}>
-								<Image
-									src={'/chains/fantom.svg'}
+									height={24} /> : null}
+								{strategy.list === 'yearn' ? <Image
+									src={'/protocols/yearn.svg'}
 									loading={'eager'}
 									width={24}
-									height={24} />
+									height={24} /> : null}
+								{strategy.list === 'yearn-crv' ? <Image
+									src={'/protocols/yearn.svg'}
+									loading={'eager'}
+									width={24}
+									height={24} /> : null}
+							</div>
+							<div className={'bg-dark-900 rounded-full p-2 flex justify-center items-center w-10'}>
+								{strategy.network === 'ethereum' ? <Image
+									src={'/chains/ethereum.png'}
+									loading={'eager'}
+									objectFit={'contain'}
+									width={24}
+									height={24} /> : null}
+								{strategy.network === 'polygon' ? <Image
+									src={'/chains/polygon.svg'}
+									loading={'eager'}
+									objectFit={'contain'}
+									width={24}
+									height={24} /> : null}
+								{strategy.network === 'fantom' ? <Image
+									src={'/chains/fantom.svg'}
+									loading={'eager'}
+									objectFit={'contain'}
+									width={24}
+									height={24} /> : null}
+								{strategy.network === 'bsc' ? <Image
+									src={'/chains/bsc.svg'}
+									loading={'eager'}
+									objectFit={'contain'}
+									width={24}
+									height={24} /> : null}
 							</div>
 						</div>
 					</div>
@@ -188,19 +204,19 @@ function	StrategyCard({strategy}) {
 							</label>
 							<div className={'pt-1 flex flex-row items-center'}>
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Total Supply: '}</p>
-								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{renderAmount(vaultInformations?.totalAssets || 0)}</p>
+								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{formatAmount(vaultInformations?.totalAssets || 0, baseCurrency)}</p>
 							</div>
 							<div className={'pt-2 flex flex-row items-center'}>
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Deposit Limit: '}</p>
-								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{renderAmount(vaultInformations?.depositLimit || 1)}</p>
+								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{formatAmount(vaultInformations?.depositLimit || 0, baseCurrency)}</p>
 							</div>
 							<div className={'pt-2 flex flex-row items-center'}>
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Total Value: '}</p>
-								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{renderValue(vaultInformations?.totalValue || vaultInformations?.totalAssets || 0)}</p>
+								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{formatValue(vaultInformations?.totalValue || vaultInformations?.totalAssets || 0, baseCurrency)}</p>
 							</div>
 							<div className={'pt-1 flex flex-row items-center'}>
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Share Price: '}</p>
-								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{renderAmount(vaultInformations?.pricePerShare || 1)}</p>
+								<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>{formatAmount(vaultInformations?.pricePerShare || 0, baseCurrency)}</p>
 							</div>
 							<div className={'pt-1 flex flex-row items-center text-white'}>
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Performance Fees: '}</p>
@@ -232,9 +248,9 @@ function	StrategyCard({strategy}) {
 								<p className={'inline text-sm text-white text-opacity-50 w-2/5'}>{'Total Gas Fees: '}</p>
 								<div className={'inline w-3/5'}>
 									<p className={'inline text-base font-medium text-white text-opacity-90 w-3/5'}>
-										{`${renderValue(vaultInteractions?.totalGasUsed * tokenPrices[getSymbol(strategy.network)]?.price)}`}
+										{`${formatValue(vaultInteractions?.totalGasUsed * tokenPrices[getSymbol(strategy.network)]?.price, baseCurrency)}`}
 									</p>
-									<p className={'inline text-sm text-white text-opacity-50'}>{` ${renderAmount(vaultInteractions?.totalGasUsed || 0)}`}</p>
+									<p className={'inline text-sm text-white text-opacity-50'}>{` ${formatAmount(vaultInteractions?.totalGasUsed || 0, baseCurrency)}`}</p>
 								</div>
 							</div>
 							<div className={'pt-1 flex flex-row items-center'}>
@@ -290,7 +306,7 @@ function	StrategyCard({strategy}) {
 									<div className={'flex flex-col lg:col-span-1 md:mr-12 lg:mr-0 sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'Date'}</p>
 										<p className={'flex items-center text-sm text-white'} style={{lineBreak: 'anywhere'}}>
-											{renderDate(tx.timeStamp * 1000)}
+											{formatDate(tx.timeStamp * 1000, baseCurrency)}
 										</p>
 									</div>
 									<div className={'flex flex-col lg:col-span-4 lg:flex md:hidden sm:row-span-1'}>
@@ -321,13 +337,13 @@ function	StrategyCard({strategy}) {
 									</div> : <div className={'flex flex-col lg:col-span-2 md:mr-12 lg:mr-0 sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'Amount'}</p>
 										<p className={'flex items-center text-sm text-white'}>
-											{`${renderAmount(Number(ethers.utils.formatUnits(tx.value, tx.tokenDecimal)))} ${tx.tokenSymbol}`}
+											{`${formatAmount(Number(ethers.utils.formatUnits(tx.value, tx.tokenDecimal)), baseCurrency)} ${tx.tokenSymbol}`}
 										</p>
 									</div>}
 									<div className={'flex flex-col lg:col-span-1 md:mr-12 lg:mr-0 sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'Fees'}</p>
 										<p className={'flex items-center text-sm text-white'}>
-											{renderAmount(Number(ethers.utils.formatUnits(bigNumber.from(tx.gasUsed).mul(tx.gasPrice), 18)))}
+											{formatAmount(Number(ethers.utils.formatUnits(bigNumber.from(tx.gasUsed).mul(tx.gasPrice), 18)), baseCurrency)}
 										</p>
 									</div>
 
@@ -368,6 +384,17 @@ function	Index({strategy}) {
 			<TopBar set_strategyModal={() => null} />
 
 			<div className={'w-full space-y-6 mt-12 max-w-screen-2xl mx-auto flex flex-col'}>
+				<Link passHref href={'/app'}>
+					<div className={'flex flex-row items-center -mt-4 mb-4 text-gray-400 cursor-pointer space-x-2 hover:text-accent-900 hover:underline transition-colors'}>
+						<svg xmlns={'http://www.w3.org/2000/svg'} className={'h-4 w-4'} fill={'none'} viewBox={'0 0 24 24'} stroke={'currentColor'}><path strokeLinecap={'round'} strokeLinejoin={'round'} strokeWidth={2} d={'M15 19l-7-7 7-7'} /></svg>
+						<p className={'text-base font-medium'}>
+							{'Back to your farm'}
+						</p>
+					</div>
+				</Link>
+			</div>
+
+			<div className={'w-full space-y-6 mt-4 max-w-screen-2xl mx-auto flex flex-col'}>
 				{strategy ? <StrategyCard strategy={strategy} /> : null}
 			</div>
 
@@ -377,8 +404,6 @@ function	Index({strategy}) {
 
 export async function getStaticPaths() {
 	const	slug = Object.values(STRATEGIES).map((strat) => ({params: {slug: strat?.parameters?.slug}})) || []
-
-	console.log(slug)
 
 	return	{paths: slug, fallback: false}
 }
