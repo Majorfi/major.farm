@@ -196,7 +196,7 @@ function	Index() {
 					bannerID={'newsBanner-4'}
 					short={'✨🍣 & 👻🪙 from ape.tax is now available'}
 					long={'Intergalactic Sushi ✨🍣 & Fantom Bitcoin 👻🪙 from ape.tax are now available for tracking !'}
-					uri={'https://ape.tax/daihard2'} />
+					uri={'https://ape.tax'} />
 			</div>
 			<Stats />
 
