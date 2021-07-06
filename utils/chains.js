@@ -13,7 +13,7 @@ export function getProvider(chain = 'ethereum') {
 	} else if (chain === 'polygon') {
 		return new ethers.providers.JsonRpcProvider(`https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`);
 	} else if (chain === 'fantom') {
-		return new ethers.providers.JsonRpcProvider('https://rpcapi.fantom.network');
+		return new ethers.providers.JsonRpcProvider('https://rpcapi.fantom.network/');
 	} else if (chain === 'bsc') {
 		return new ethers.providers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
 	}

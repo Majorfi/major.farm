@@ -73,6 +73,20 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-07-06'}
+					version={'0.1.3'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/intergalacticsushi'} target={'_blank'} rel={'noreferrer'}>{'Intergalactic Sushi ✨🍣'}</a>{' on Mainnet.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/ftmbtccrv'} target={'_blank'} rel={'noreferrer'}>{'Fantom Bitcoin 👻🪙'}</a>{' on Fantom.'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-06-26'}
 					version={'0.1.2'}
 					content={

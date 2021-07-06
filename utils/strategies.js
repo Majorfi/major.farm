@@ -89,6 +89,25 @@ const	STRATEGIES_APE_TAX_POLYGON = {
 	},
 }
 const	STRATEGIES_APE_TAX_FANTOM = {
+	'Fantom Bitcoin 👻🪙': {
+		parameters: {
+			title: 'Fantom Bitcoin 👻🪙',
+			slug: 'fantom-bitcoin',
+			href: 'https://ape.tax/ftmbtccrv',
+			contractAddress: '0x0FCDAeDFb8A7DfDa2e9838564c5A1665d856AFDF',
+			underlyingTokenAddress: '0x5B5CFE992AdAC0C9D48E05854B2d91C73a003858',
+			underlyingTokenDecimal: 18,
+			underlyingTokenSymbol: 'btcCRV',
+			underlyingTokenCgID: 'btc',
+			underlyingTokenIcon: '/tokens/btc.svg',
+			author: '0xorb',
+		},
+		network: 'fantom',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'Tied Tyler 🕴🪢': {
 		parameters: {
 			title: 'Tied Tyler 🕴🪢',
@@ -360,6 +379,25 @@ const	STRATEGIES_APE_TAX_BSC = {
 	}
 }
 const	STRATEGIES_APE_TAX = {
+	'Intergalactic Sushi ✨🍣': {
+		parameters: {
+			title: 'Intergalactic Sushi ✨🍣',
+			slug: 'intergalactic-sushi',
+			href: 'https://ape.tax/intergalacticsushi',
+			contractAddress: '0x497590d2d57f05cf8B42A36062fA53eBAe283498',
+			underlyingTokenAddress: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
+			underlyingTokenSymbol: 'SUSHI',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'sushi',
+			underlyingTokenIcon: '/tokens/sushi.png',
+			author: 'dudesahn',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'DAI Hard 2 💪💪': {
 		parameters: {
 			title: 'DAI Hard 2 💪💪',
