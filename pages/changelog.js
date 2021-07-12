@@ -73,6 +73,20 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-07-12'}
+					version={'0.1.4'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/curvedaave'} target={'_blank'} rel={'noreferrer'}>{'Curved aave 🧬🐑'}</a>{' on Polygon.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/wether'} target={'_blank'} rel={'noreferrer'}>{'Wether 🧬🐑'}</a>{' on Polygon.'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-07-06'}
 					version={'0.1.3'}
 					content={
