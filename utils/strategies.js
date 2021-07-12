@@ -11,6 +11,42 @@ import	StrategyYVaultV2, {PrepareStrategyYVaultV2, DetectStrategyYVaultV2}				fr
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/Strategies/StrategyYearnCrvV2';
 
 const	STRATEGIES_APE_TAX_POLYGON = {
+	'Curved aave 🧬🐑': {
+		parameters: {
+			title: 'Curved aave 🧬🐑',
+			slug: 'curvedaave',
+			href: 'https://ape.tax/curvedaave',
+			contractAddress: '0xccaC4F77f6984C989cc38EdED99e1c7A83a9c7f4',
+			underlyingTokenAddress: '0xe7a24ef0c5e95ffb0f6684b813a78f2a3ad7d171',
+			underlyingTokenSymbol: 'am3CRV',
+			underlyingTokenCgID: 'dai',
+			underlyingTokenIcon: '/tokens/dai.svg',
+			author: '0xorb',
+		},
+		network: 'polygon',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'Wether 🧬🐑': {
+		parameters: {
+			title: 'Wether 🧬🐑',
+			slug: 'wether',
+			href: 'https://ape.tax/wether',
+			contractAddress: '0x9ecE944BBcd320F224293117E2780259411D34A3',
+			underlyingTokenAddress: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619',
+			underlyingTokenSymbol: 'WETH',
+			underlyingTokenCgID: 'eth',
+			underlyingTokenIcon: '/tokens/weth.png',
+			author: 'therealmonoloco',
+		},
+		network: 'polygon',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'Dollar Store Bento 💵🍱': {
 		parameters: {
 			title: 'Dollar Store Bento 💵🍱',
