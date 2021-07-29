@@ -311,23 +311,23 @@ function	StrategyCard({strategy}) {
 									</div>
 									<div className={'flex flex-col lg:col-span-4 lg:flex md:hidden sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'From'}</p>
-										<a
+										<p
 											href={`https://${getExplorer(strategy?.network).explorer}/address/${tx.from}`}
 											target={'_blank'}
 											rel={'noreferrer'}
 											className={'flex items-center text-sm text-white hover:text-accent-900 cursor-pointer hover:underline'} style={{lineBreak: 'anywhere'}}>
 											{tx.from}
-										</a>
+										</p>
 									</div>
 									<div className={'flex flex-col lg:col-span-4 lg:flex md:hidden sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'To'}</p>
-										<a
+										<p
 											href={`https://${getExplorer(strategy?.network).explorer}/address/${tx.to}`}
 											target={'_blank'}
 											rel={'noreferrer'}
 											className={'flex items-center text-sm text-white hover:text-accent-900 cursor-pointer hover:underline'} style={{lineBreak: 'anywhere'}}>
 											{tx.to}
-										</a>
+										</p>
 									</div>
 									{actionType === 'MANAGEMENT' || actionType === 'APPROVE' ? <div className={'flex flex-col lg:col-span-2 md:mr-12 lg:mr-0 sm:row-span-1'}>
 										<p className={'flex items-center text-xs text-gray-400'}>{'Action'}</p>

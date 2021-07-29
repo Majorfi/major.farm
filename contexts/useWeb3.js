@@ -111,8 +111,12 @@ export const Web3ContextApp = ({children}) => {
 				qrcodeModal: QRCodeModal,
 				qrcode: true,
 			});
-			activate(walletconnect, undefined, true);
-			set_lastWallet(walletType.WALLET_CONNECT);
+			try {
+				await activate(walletconnect, () => set_lastWallet(walletType.NONE), true);
+				set_lastWallet(walletType.WALLET_CONNECT);
+			} catch (error) {
+				set_lastWallet(walletType.NONE);
+			}
 		}
 	}, [activate, active, deactivate, set_lastWallet]);
 
