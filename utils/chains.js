@@ -7,6 +7,20 @@
 
 import	{ethers}			from	'ethers';
 
+
+export function getRPC(chain = 'ethereum') {
+	if (chain === 'ethereum') {
+		return `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`;
+	} else if (chain === 'polygon') {
+		return `https://rpc-mainnet.maticvigil.com/v1/${process.env.POLYGON_MATIC_VIRGIL}`;
+	} else if (chain === 'fantom') {
+		return 'https://rpc.ftm.tools/';
+	} else if (chain === 'bsc') {
+		return 'https://bsc-dataseed.binance.org/';
+	}
+	return (`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`);
+}
+
 export function getProvider(chain = 'ethereum') {
 	if (chain === 'ethereum') {
 		return new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_KEY);

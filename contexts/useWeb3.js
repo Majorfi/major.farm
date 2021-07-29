@@ -13,7 +13,7 @@ import	{ConnectorEvent}										from	'@web3-react-fork/types';
 import	{WalletConnectConnector}								from	'@web3-react-fork/walletconnect-connector';
 import	useLocalStorage											from	'hook/useLocalStorage';
 import	{toAddress}												from	'utils';
-import	{getProvider}											from	'utils/chains';
+import	{getProvider, getRPC}									from	'utils/chains';
 
 const walletType = {NONE: -1, METAMASK: 0, WALLET_CONNECT: 1};
 const Web3Context = createContext();
@@ -100,10 +100,10 @@ export const Web3ContextApp = ({children}) => {
 			}
 			const walletconnect = new WalletConnectConnector({
 				rpc: {
-					1: getProvider('ethereum'),
-					56: getProvider('bsc'),
-					137: getProvider('polygon'),
-					250: getProvider('fantom')
+					1: getRPC('ethereum'),
+					56: getRPC('bsc'),
+					137: getRPC('polygon'),
+					250: getRPC('fantom')
 				},
 				chainId: 1,
 				bridge: 'https://bridge.walletconnect.org',
@@ -125,7 +125,8 @@ export const Web3ContextApp = ({children}) => {
 		if (!active && lastWallet !== walletType.NONE) {
 			connect(lastWallet);
 		}
-	}, [active, connect, lastWallet])
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [active])
 
 	return (
 		<Web3Context.Provider
