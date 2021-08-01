@@ -194,8 +194,8 @@ function	Index() {
 			<div id={'newsbanner'} className={'space-y-0.5'}>
 				<NewsBanner
 					bannerID={'newsBanner-5'}
-					short={'🧬🐑 from ape.tax are now available'}
-					long={'Curved aave 🧬🐑 & Wether 🧬🐑 from ape.tax are now available for tracking !'}
+					short={'Bitcoin wAAVE ₿👋 from ape.tax is now available'}
+					long={'Bitcoin wAAVE ₿👋 from ape.tax is now available for tracking !'}
 					uri={'https://ape.tax'} />
 			</div>
 			<Stats />

@@ -73,6 +73,17 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-08-01'}
+					version={'0.1.5'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/bitcoinwave'} target={'_blank'} rel={'noreferrer'}>{'Bitcoin wAAVE ₿👋'}</a>{'.'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-07-12'}
 					version={'0.1.4'}
 					content={
