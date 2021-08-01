@@ -9,7 +9,6 @@ import	React, {useState, useEffect}								from	'react';
 import	Link														from	'next/link';
 import	{ethers}													from	'ethers';
 import	useCurrencies												from	'contexts/useCurrencies';
-import	TopBar														from	'components/TopBar';
 import	STRATEGIES													from	'utils/strategies';
 import	Image														from	'next/image';
 import	{Line}														from	'react-chartjs-2';

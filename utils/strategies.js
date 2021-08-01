@@ -5,8 +5,6 @@
 **	@Filename:				strategies.js
 ******************************************************************************/
 
-import	StrategyBadgerWBTC, {PrepareStrategyBadgerWBTC}	from	'components/Strategies/StrategyBadgerWBTC';
-import	StrategyYVBoost, {PrepareStrategyYVBoost}		from	'components/Strategies/StrategyYVBoost';
 import	StrategyYVaultV2, {PrepareStrategyYVaultV2, DetectStrategyYVaultV2}				from	'components/Strategies/StrategyYVaultV2';
 import	StrategyYearnCrvV2, {PrepareStrategyYearnCrvV2}	from	'components/Strategies/StrategyYearnCrvV2';
 
@@ -415,6 +413,25 @@ const	STRATEGIES_APE_TAX_BSC = {
 	}
 }
 const	STRATEGIES_APE_TAX = {
+	'Bitcoin wAAVE ₿👋': {
+		parameters: {
+			title: 'Bitcoin wAAVE ₿👋',
+			slug: 'bitcoinwave',
+			href: 'https://ape.tax/bitcoinwave',
+			contractAddress: '0xf11b141be4d1985e41c3aea99417e27603f67c4c',
+			underlyingTokenAddress: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+			underlyingTokenSymbol: 'WBTC',
+			underlyingTokenDecimal: 8,
+			underlyingTokenCgID: 'btc',
+			underlyingTokenIcon: 'https://raw.githack.com/yearn/yearn-assets/master/icons/tokens/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo-128.png',
+			author: 'GalloDaSballo',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'Intergalactic Sushi ✨🍣': {
 		parameters: {
 			title: 'Intergalactic Sushi ✨🍣',
