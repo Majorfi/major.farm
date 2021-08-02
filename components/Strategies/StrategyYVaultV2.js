@@ -260,7 +260,7 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 						image={parameters.tokenIcon || '/tokens/yGeneric.svg'}
 						label={`yv${parameters.underlyingTokenSymbol}`}
 						address={parameters.contractAddress}
-						amount={parseFloat(shares.toFixed(10))}
+						amount={parseFloat(shares?.toFixed(10) || 0)}
 						value={(underlyingEarned * underlyingToBaseCurrency).toFixed(2)} />
 				</Group>
 
@@ -291,7 +291,7 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 							address={parameters.contractAddress}
 							amount={cropsYielded.toFixed(10)}
 							value={cropsYielded * underlyingToBaseCurrency.toFixed(2)} />
-						{harvest.toFixed(10) > 0 ? <GroupElement
+						{typeof(harvest) === 'string' && (harvest?.toFixed(10) || 0) > 0 ? <GroupElement
 							network={network}
 							image={parameters.underlyingTokenIcon}
 							label={`Harvested ${parameters.underlyingTokenSymbol}`}
@@ -302,7 +302,7 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 							network={network}
 							image={'⛽️'}
 							label={'Fees'}
-							amount={parseFloat(totalFees.toFixed(10))}
+							amount={parseFloat(totalFees?.toFixed(10) || 0)}
 							value={-(totalFees * symbolToBaseCurrency).toFixed(2)} />
 					</Group>
 				}

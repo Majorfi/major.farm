@@ -1117,6 +1117,10 @@ const	STRATEGIES_YEARN_V2_CRV = {
 		list: 'yearn-crv',
 		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
 		Strategy: StrategyYearnCrvV2
+		// detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		// Strategy: StrategyYVaultV2
+
+
 	}
 }
 
