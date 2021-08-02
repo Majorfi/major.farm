@@ -180,7 +180,7 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 		} else {
 			set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
 		}
-	}, [network, parameters.crv.minter, parameters.isCRV, parameters.underlyingTokenCgID, tokenPrices]);
+	}, [network, parameters.isCRV, parameters.underlyingTokenCgID, tokenPrices]);
 
 	const prepareData = useCallback(async () => {
 		if (underlyingToBaseCurrency === 0) {
