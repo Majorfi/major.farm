@@ -1109,9 +1109,14 @@ const	STRATEGIES_YEARN_V2_CRV = {
 			underlyingTokenSymbol: 'steCRV',
 			underlyingTokenName: 'Curve.fi ETH/stETH',
 			underlyingTokenDecimal: 18,
-			underlyingTokenCgID: 'steCRV',
+			underlyingTokenCgID: 'eth',
 			underlyingTokenIcon: '/tokens/curve.png',
 			author: 'iearnfinance',
+			isCRV: true,
+			crv: {
+				minter: '0xdc24316b9ae028f1497c275eb9192a3ea0f67022',
+				token: '0x06325440d014e39736583c165c2963ba99faf14e',
+			}
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',

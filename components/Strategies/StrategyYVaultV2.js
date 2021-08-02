@@ -155,7 +155,6 @@ async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = 
 	}
 }
 
-
 function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeeds, initialCrops, harvest, date}) {
 	const	{strategies} = useStrategies();
 	const	{tokenPrices, currencyNonce} = useCurrencies();
@@ -165,21 +164,33 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 	const	[totalFees] = useState(fees);
 	const	[cropsYielded, set_cropsYielded] = useState(1);
 	const	[symbolToBaseCurrency, set_symbolToBaseCurrency] = useState(tokenPrices[getSymbol(network)]?.price || 0);
-	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
+	const	[underlyingToBaseCurrency, set_underlyingToBaseCurrency] = useState(0);
+	const	[shares, set_shares] = useState(initialCrops); //Number of share in the vault
+	const	[underlyingEarned, set_underlyingEarned] = useState(0); //Values of the shares in the vault (shareValue - shares)
 
-	//Number of share in the vault
-	const	[shares, set_shares] = useState(initialCrops);
-	//Values of the shares in the vault (shareValue - shares)
-	const	[underlyingEarned, set_underlyingEarned] = useState(0);
+	const computeCRVPrice = useCallback(async () => {
+		if (parameters.isCRV) {
+			const	provider = getProvider(network);
+			const	crvMinter = parameters.crv.minter;
+			const	crvPoolContract = new ethers.Contract(crvMinter, ['function get_virtual_price() public view returns (uint256)'], provider);
+			const	virtualPrice = await crvPoolContract.get_virtual_price();
+			const	crvTokenValue = bigNumber.from(ethers.constants.WeiPerEther).mul(virtualPrice).div(bigNumber.from(10).pow(18));
+			const	underlying = tokenPrices[parameters.underlyingTokenCgID]?.price || 0;
+			set_underlyingToBaseCurrency(underlying * ethers.utils.formatUnits(crvTokenValue, 18));
+		} else {
+			set_underlyingToBaseCurrency(tokenPrices[parameters.underlyingTokenCgID]?.price || 0);
+		}
+	}, [network, parameters.crv.minter, parameters.isCRV, parameters.underlyingTokenCgID, tokenPrices]);
 
 	const prepareData = useCallback(async () => {
+		if (underlyingToBaseCurrency === 0) {
+			return;
+		}
 		/**********************************************************************
 		**	Retrieving the base prices
 		**********************************************************************/
 		const	_symbolToBaseCurrency = tokenPrices[getSymbol(network)]?.price || 0;
-		const	_underlyingToBaseCurrency = tokenPrices[parameters.underlyingTokenCgID]?.price || 0;
 		set_symbolToBaseCurrency(_symbolToBaseCurrency);
-		set_underlyingToBaseCurrency(_underlyingToBaseCurrency);
 
 		/**********************************************************************
 		**	Querying the smartContract to know if the strategy is still in use
@@ -213,25 +224,26 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 		/**********************************************************************
 		**	Computing the result
 		**********************************************************************/
-		const	_initialSeedValue = initialSeeds * _underlyingToBaseCurrency;
-		const	_harvestValue = harvest * _underlyingToBaseCurrency;
+		const	_initialSeedValue = initialSeeds * underlyingToBaseCurrency;
+		const	_harvestValue = harvest * underlyingToBaseCurrency;
 		const	_gasValue = totalFees * _symbolToBaseCurrency;
-		const	_yieldValue = _cropsYielded * _underlyingToBaseCurrency;
+		const	_yieldValue = _cropsYielded * underlyingToBaseCurrency;
 		const	_result = (_harvestValue + _yieldValue) - (_gasValue);
 		set_result(_result);
 		set_APY((_harvestValue + _yieldValue) / _initialSeedValue * 100);
 
 		strategies.set(uuid, 'lastShares', _shares, true);
-		strategies.set(uuid, 'lastSharesValue', _underlyingEarned * _underlyingToBaseCurrency, true);
+		strategies.set(uuid, 'lastSharesValue', _underlyingEarned * underlyingToBaseCurrency, true);
 		strategies.set(uuid, 'lastResult', _result, true);
 		strategies.set(uuid, 'lastGasValue', _gasValue, true);
 		strategies.set(uuid, 'lastHarvestValue', _harvestValue, true);
-	}, [tokenPrices, network, parameters.underlyingTokenCgID, parameters.contractAddress, parameters.underlyingTokenDecimal, address, strategies, uuid, initialSeeds, harvest, totalFees]);
+	}, [tokenPrices, network, parameters.contractAddress, parameters.underlyingTokenDecimal, address, strategies, uuid, initialSeeds, harvest, totalFees, underlyingToBaseCurrency]);
 
 
 	useEffect(() => {
-		prepareData()
-	}, [currencyNonce, prepareData])
+		computeCRVPrice();
+		prepareData();
+	}, [computeCRVPrice, currencyNonce, prepareData])
 
 	return (
 		<div className={'flex flex-col col-span-1 rounded-lg shadow bg-dark-600 p-6 relative overflow-hidden'}>
