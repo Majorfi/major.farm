@@ -44,7 +44,7 @@ function	SectionHead({network, address, parameters, date, APY}) {
 								</a>
 								&nbsp; &ndash;	&nbsp;
 								<p className={'inline mb-1'}>{`For ${datediff(date)} days, earning `}</p>
-								<p className={`inline font-medium mb-1 ${APY > 0 ? 'text-green-400' : APY < 0 ? 'text-red-400' : 'text-white'}`}>{`${(APY).toFixed(2)}%`}</p>
+								<p className={`inline font-medium mb-1 ${APY > 0 ? 'text-green-400' : APY < 0 ? 'text-red-400' : 'text-white'}`}>{`${APY ? APY.toFixed(2) : '⏤'}%`}</p>
 							</div>
 						</div>
 					</div>

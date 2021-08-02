@@ -1115,10 +1115,11 @@ const	STRATEGIES_YEARN_V2_CRV = {
 		},
 		network: 'ethereum',
 		list: 'yearn-crv',
-		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
-		Strategy: StrategyYearnCrvV2
-		// detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
-		// Strategy: StrategyYVaultV2
+		// prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYearnCrvV2(p, a, n, normalTx, erc20Tx),
+		// Strategy: StrategyYearnCrvV2
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
 
 
 	}
