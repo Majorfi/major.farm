@@ -73,6 +73,32 @@ function	Changelog() {
 					} />
 
 				<ChangeItem
+					date={'2021-08-03'}
+					version={'0.1.6'}
+					content={
+						<ul>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/truecereal'} target={'_blank'} rel={'noreferrer'}>{'True Cereal 🔵🥣'}</a>{'.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/spookystars'} target={'_blank'} rel={'noreferrer'}>{'Spooky Stars 👻✨'}</a>{'.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/compoundingcosmos'} target={'_blank'} rel={'noreferrer'}>{'Compounding Cosmos 📈✨'}</a>{'.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating the ape.tax strategies with '}<a href={'https://ape.tax/interstellarsushi'} target={'_blank'} rel={'noreferrer'}>{'Interstellar Sushi ✨🍣'}</a>{'.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Fixing issue with CRV strategy builder.'}
+							</li>
+							<li className={'text-base text-gray-200'}>
+								{'Updating yVault strategy builder with ZAPIN & ZAPOUT'}
+							</li>
+						</ul>
+					} />
+
+				<ChangeItem
 					date={'2021-08-01'}
 					version={'0.1.5'}
 					content={

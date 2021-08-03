@@ -413,6 +413,82 @@ const	STRATEGIES_APE_TAX_BSC = {
 	}
 }
 const	STRATEGIES_APE_TAX = {
+	'True Cereal 🔵🥣': {
+		parameters: {
+			title: 'True Cereal 🔵🥣',
+			slug: 'truecereal',
+			href: 'https://ape.tax/truecereal',
+			contractAddress: '0xFD0877d9095789cAF24c98F7CCe092fa8E120775',
+			underlyingTokenAddress: '0x0000000000085d4780b73119b644ae5ecd22b376',
+			underlyingTokenSymbol: 'TUSD',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'true-usd',
+			underlyingTokenIcon: '/tokens/tusd.svg',
+			author: 'fp_crypto',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'Spooky Stars 👻✨': {
+		parameters: {
+			title: 'Spooky Stars 👻✨',
+			slug: 'spookystars',
+			href: 'https://ape.tax/spookystars',
+			contractAddress: '0xd9788f3931Ede4D5018184E198699dC6d66C1915',
+			underlyingTokenAddress: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
+			underlyingTokenSymbol: 'AAVE',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'aave',
+			underlyingTokenIcon: '/tokens/aave.svg',
+			author: 'dudesahn',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'Compounding Cosmos 📈✨': {
+		parameters: {
+			title: 'Compounding Cosmos 📈✨',
+			slug: 'compoundingcosmos',
+			href: 'https://ape.tax/compoundingcosmos',
+			contractAddress: '0x4A3FE75762017DB0eD73a71C9A06db7768DB5e66',
+			underlyingTokenAddress: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
+			underlyingTokenSymbol: 'COMP',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'compound-governance-token',
+			underlyingTokenIcon: '/tokens/comp.svg',
+			author: 'dudesahn',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
+	'Interstellar Sushi ✨🍣': {
+		parameters: {
+			title: 'Interstellar Sushi ✨🍣',
+			slug: 'interstellarsushi',
+			href: 'https://ape.tax/interstellarsushi',
+			contractAddress: '0x6d765CbE5bC922694afE112C140b8878b9FB0390',
+			underlyingTokenAddress: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
+			underlyingTokenSymbol: 'SUSHI',
+			underlyingTokenDecimal: 18,
+			underlyingTokenCgID: 'sushi',
+			underlyingTokenIcon: '/tokens/sushi.png',
+			author: 'dudesahn',
+		},
+		network: 'ethereum',
+		list: 'ape.tax',
+		prepare: (p, a, n, normalTx, erc20Tx) => PrepareStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		detect: (p, a, n, normalTx, erc20Tx) => DetectStrategyYVaultV2(p, a, n, normalTx, erc20Tx),
+		Strategy: StrategyYVaultV2
+	},
 	'Bitcoin wAAVE ₿👋': {
 		parameters: {
 			title: 'Bitcoin wAAVE ₿👋',
