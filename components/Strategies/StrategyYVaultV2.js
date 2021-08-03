@@ -17,6 +17,7 @@ import	Group, {GroupElement}						from	'components/StrategyCard/Group'
 import	* as api									from	'utils/API';
 import	methods										from	'utils/methodsSignatures';
 import	{getProvider, getSymbol}					from	'utils/chains';
+import	{analyzeZapIn, analyzeZapOut}				from	'utils/txHelpers';
 
 async function	DetectStrategyYVaultV2(parameters, address, network, normalTx = undefined) {
 	if (!normalTx)
@@ -29,16 +30,13 @@ async function	DetectStrategyYVaultV2(parameters, address, network, normalTx = u
 					(
 						toAddress(tx.from) === toAddress(address) &&
 						toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					(
-						tx.input.startsWith(methods.YV_DEPOSIT) ||
-						tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
-					)
+						methods.DEPOSITS.includes(tx.input.slice(0, 10))
 					)
 				||
 				(
 					toAddress(tx.from) === toAddress(address) &&
 					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YV_WITHDRAW)
+						methods.WITHDRAWS.includes(tx.input.slice(0, 10))
 				)
 				))
 		);
@@ -51,6 +49,10 @@ async function	DetectStrategyYVaultV2(parameters, address, network, normalTx = u
 }
 
 async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = undefined, erc20Tx = undefined) {
+	let		fees;
+	let		initialCrops;
+	let		initialSeeds;
+	let		harvest;
 	let		timestamp = undefined;
 	if (!normalTx)
 		normalTx = await api.retreiveTxFrom(network, address);
@@ -64,28 +66,25 @@ async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = 
 					(
 						toAddress(tx.from) === toAddress(address) &&
 						toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-						(
-							tx.input.startsWith(methods.YV_DEPOSIT) ||
-							tx.input.startsWith(methods.YV_DEPOSIT_VOWID)
-						)
+						methods.DEPOSITS.includes(tx.input.slice(0, 10))
+					) || (
+						toAddress(tx.from) === toAddress(address) &&
+						toAddress(tx.to) === toAddress(parameters.contractAddress) &&
+						methods.WITHDRAWS.includes(tx.input.slice(0, 10))
+					) || (
+						toAddress(tx.from) === toAddress(address) &&
+						toAddress(tx.to) === toAddress(parameters.contractAddress) &&
+						methods.TRANSFERS.includes(tx.input.slice(0, 10))
+					) || (
+						methods.APPROVES.includes(tx.input.slice(0, 10)) &&
+						(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
+					) || (
+						methods.ZAP_INS.includes(tx.input.slice(0, 10)) &&
+						(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
+					) || (
+						methods.ZAP_OUTS.includes(tx.input.slice(0, 10)) &&
+						(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
 					)
-				||
-				(
-					toAddress(tx.from) === toAddress(address) &&
-					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YV_WITHDRAW)
-				)
-				||
-				(
-					toAddress(tx.from) === toAddress(address) &&
-					toAddress(tx.to) === toAddress(parameters.contractAddress) &&
-					tx.input.startsWith(methods.YV_TRANSFER)
-				)
-				||
-				(
-					tx.input.startsWith(methods.STANDARD_APPROVE) &&
-					(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
-				)
 				)).reduce((accumulator, tx) => {
 					const	gasUsed = bigNumber.from(tx.gasUsed);
 					const	gasPrice = bigNumber.from(tx.gasPrice);
@@ -101,8 +100,7 @@ async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = 
 			erc20Tx
 				.filter(tx => (
 					(
-						(toAddress(tx.to) === toAddress(parameters.contractAddress))
-						&&
+						(toAddress(tx.to) === toAddress(parameters.contractAddress)) &&
 						(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 					)
 				)
@@ -129,9 +127,8 @@ async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = 
 		const	cumulativeHarvest = (
 			erc20Tx
 				.filter(tx => (
-					(toAddress(tx.from) === toAddress(parameters.contractAddress)) && (toAddress(tx.to) === toAddress(address))
-				&&
-				(tx.tokenSymbol === parameters.underlyingTokenSymbol)
+					(toAddress(tx.from) === toAddress(parameters.contractAddress)) && (toAddress(tx.to) === toAddress(address)) &&
+					(tx.tokenSymbol === parameters.underlyingTokenSymbol)
 				)).reduce((accumulator, tx) => {
 					return bigNumber.from(accumulator).add(tx.value);
 				}, bigNumber.from(0))
@@ -139,11 +136,57 @@ async function	PrepareStrategyYVaultV2(parameters, address, network, normalTx = 
 		return Number(ethers.utils.formatUnits(cumulativeHarvest, parameters.underlyingTokenDecimal || 18));
 	}
 
+	async function	computeZapIn() {
+		const	filtered = normalTx.filter(tx => (
+			methods.ZAP_INS.includes(tx.input.slice(0, 10)) &&
+			(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
+		))
+		await Promise.all(filtered.map(async (tx) => {
+			if (timestamp === undefined || timestamp > tx.timeStamp) {
+				timestamp = tx.timeStamp;
+			}
+			const	{dataIn, dataOut} = await analyzeZapIn(address, toAddress(tx.to), toAddress(parameters.contractAddress), tx.hash, network);
+			if (dataIn && dataIn?.valueRaw) {
+				initialSeeds += Number(ethers.utils.formatUnits(bigNumber.from(dataIn?.valueRaw), dataIn?.decimals || 18));
+				// console.log({dataIn: Number(ethers.utils.formatUnits(bigNumber.from(dataIn?.valueRaw), dataIn?.decimals || 18))})
+			}
+			if (dataOut && dataOut?.valueRaw) {
+				// initialSeeds += Number(Number(ethers.utils.formatUnits(bigNumber.from(dataOut?.valueRaw), dataOut?.decimals || 18)));
+				// console.log({dataOut: Number(ethers.utils.formatUnits(bigNumber.from(dataOut?.valueRaw), dataOut?.decimals || 18))})
+			}
+		}));
+	}
+	async function	computeZapOut() {
+		const	filtered = normalTx.filter(tx => (
+			methods.ZAP_OUTS.includes(tx.input.slice(0, 10)) &&
+			(tx.input.toLowerCase()).includes((parameters.contractAddress.slice(2)).toLowerCase())
+		))
+		await Promise.all(filtered.map(async (tx) => {
+			if (timestamp === undefined || timestamp > tx.timeStamp) {
+				timestamp = tx.timeStamp;
+			}
+			const	{dataIn, dataOut} = await analyzeZapOut(address, toAddress(tx.to), toAddress(parameters.contractAddress), tx.hash, network);
+			if (dataIn && dataIn?.valueRaw) {
+				// initialSeeds -= Number(ethers.utils.formatUnits(bigNumber.from(dataIn?.valueRaw), dataIn?.decimals || 18));
+				// console.log({dataIn: Number(ethers.utils.formatUnits(bigNumber.from(dataIn?.valueRaw), dataIn?.decimals || 18))})
+			}
+			if (dataOut && dataOut?.valueRaw) {
+				// initialSeeds -= Number(ethers.utils.formatUnits(bigNumber.from(dataOut?.valueRaw), dataOut?.decimals || 18));
+				harvest += Number(ethers.utils.formatUnits(bigNumber.from(dataOut?.valueRaw), dataOut?.decimals || 18));
+				// console.log({dataOut: Number(ethers.utils.formatUnits(bigNumber.from(dataOut?.valueRaw), dataOut?.decimals || 18))})
+			}
+		}));
+	}
 
-	const	fees = await computeFees();
-	const	initialCrops = await computeCrops();
-	const	initialSeeds = await computeSeeds();
-	const	harvest = await computeHarvest();
+
+	fees = await computeFees();
+	initialCrops = await computeCrops();
+	initialSeeds = await computeSeeds();
+	harvest = await computeHarvest();
+
+
+	await computeZapIn()
+	await computeZapOut()
 
 	return {
 		status: initialCrops === 0 ? 'KO' : 'OK',
@@ -303,7 +346,7 @@ function	StrategyYVaultV2({parameters, network, address, uuid, fees, initialSeed
 							address={parameters.contractAddress}
 							amount={cropsYielded.toFixed(10)}
 							value={cropsYielded * underlyingToBaseCurrency.toFixed(2)} />
-						{typeof(harvest) === 'string' && (harvest?.toFixed(10) || 0) > 0 ? <GroupElement
+						{(typeof(harvest) === 'string' || typeof(harvest) === 'number') && (harvest?.toFixed(10) || 0) > 0 ? <GroupElement
 							network={network}
 							image={parameters.underlyingTokenIcon}
 							label={`Harvested ${parameters.underlyingTokenSymbol}`}

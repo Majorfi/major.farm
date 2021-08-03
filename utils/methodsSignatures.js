@@ -22,6 +22,13 @@ const	SIGNATURES = {
 	YV_WITHDRAW_AMOUNT: '0x2e1a7d4d',
 	YV_TRANSFER: '0xa9059cbb',
 	ZAP_IN: '0x82650b10',
+
+	DEPOSITS: ['0xd0e30db0', '0xb6b55f25', '0x6e553f65'],
+	WITHDRAWS: ['0x3ccfd60b', '0x2e1a7d4d', '0xf714ce', '0xe63697c8'],
+	TRANSFERS: ['0xa9059cbb'],
+	APPROVES: ['0x095ea7b3'],
+	ZAP_INS: ['0x82650b10', '0x38b32e68'],
+	ZAP_OUTS: ['0xf6216495']
 }
 const	SIGNATURES_EXPLAIN = {
 	'0x095ea7b3': 'Approve',

@@ -241,6 +241,9 @@ function	StrategySelectorModal({strategyModal, set_strategyModal}) {
 												timestamp: populator.timestamp,
 												date: populator.date,
 												address: populator.address,
+			
+												seeds: populator.seeds,
+												crops: populator.crops,
 											})
 											addToast('Strategy available', {appearance: 'success'});
 											set_strategyModal(false);

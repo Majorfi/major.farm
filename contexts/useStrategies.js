@@ -65,6 +65,9 @@ export const StrategiesContextApp = ({children}) => {
 			timestamp: newStrategy.timestamp,
 			date: newStrategy.date,
 			address: newStrategy.address,
+			
+			seeds: newStrategy.seeds,
+			crops: newStrategy.crops,
 		})
 	}
 
